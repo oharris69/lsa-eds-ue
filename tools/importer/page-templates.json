@@ -1,0 +1,124 @@
+{
+  "metadata": {
+    "projectType": "xwalk"
+  },
+  "templates": [
+    {
+      "name": "homepage",
+      "urls": [
+        "https://lsa.umich.edu/"
+      ],
+      "coverageGaps": [],
+      "description": "College homepage — top-level landing page for the LSA site. Hero, featured news, CTA banners, magazine features.",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "#gridparlsa_gridwrapper_1456_379967915_gridclass",
+            "#gridparlsa_gridwrapper_1742_gridclass"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "#gridparlsa_gridwrapper_1456_162245604_gridclass .lsa-news-wrap",
+            "#gridparlsa_gridwrapper_1286_gridclass .hoverShine",
+            "#gridparlsa_gridwrapper_4264_1137812086_gridclass .lsa_tile"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "#gridparlsa_gridwrapper_5488_gridclass"
+          ]
+        },
+        {
+          "name": "section-student-experience",
+          "instances": [
+            "#gridparlsa_gridwrapper_5488_gridclass"
+          ],
+          "section": "dark"
+        },
+        {
+          "name": "section-more-from-lsa-magazine",
+          "instances": [
+            "#gridparlsa_gridwrapper_4264_1137812086_gridclass"
+          ],
+          "section": "light-blue-bg"
+        }
+      ]
+    },
+    {
+      "name": "audience-landing",
+      "urls": [
+        "https://lsa.umich.edu/lsa/prospective-students.html",
+        "https://lsa.umich.edu/transfer",
+        "https://lsa.umich.edu/urop/prospective-students.html",
+        "https://lsa.umich.edu/psych/prospective-students/undergraduate.html",
+        "https://lsa.umich.edu/english/undergraduate.html"
+      ],
+      "coverageGaps": [],
+      "description": "Audience/program landing pages (prospective students, transfer, undergraduate). Interior-page shell (breadcrumb + h1 + section-nav dropped as chrome) plus hero banners, image-tile cards, student-profile heroes, and story-tile cards.",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "#gridparlsa_gridwrapper_copy_868376211_gridclass",
+            "#gridparlsa_gridwrapper_719363065_gridclass",
+            "#gridparlsa_gridwrapper_1904_1991551209_gridclass",
+            "#gridparlsa_gridwrapper_1373_238990270_gridclass",
+            "#gridparlsa_gridwrapper_1373_1439544965_gridclass",
+            "#gridparlsa_gridwrapper_1772_gridclass"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "#gridparlsa_gridwrapper_gridclass .hoverShine",
+            "#gridparlsa_gridwrapper_1697763167_gridclass .lsa_tile"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "#gridparlsa_gridwrapper_1526_gridclass"
+          ]
+        },
+        {
+          "name": "section-career-wheel",
+          "instances": [
+            "#gridparlsa_gridwrapper_1772_gridclass"
+          ],
+          "section": "career-wheel-bg"
+        },
+        {
+          "name": "section-business-umblue",
+          "instances": [
+            "#gridparlsa_gridwrapper_1526_gridclass"
+          ],
+          "section": "umblue"
+        }
+      ]
+    },
+    {
+      "name": "academics-listing",
+      "urls": [
+        "https://lsa.umich.edu/lsa/academics/majors-minors.html",
+        "https://lsa.umich.edu/lsa/academics/departments-and-units.html"
+      ],
+      "coverageGaps": [],
+      "description": "Academics directory pages under /lsa/academics/ — a filterable program/department widget (data-lsa-dept-programs-mode: 'programs' for majors-minors, 'departms' for departments-and-units). Default-content-only: intro rich text + a directory table. No hero/cards/columns blocks. Interior-page shell (breadcrumb + h1 + section-nav) handled by cleanup transformer. Per-row detail is AJAX on the source; migrated as a static directory table.",
+      "blocks": []
+    },
+    {
+      "name": "unit-home",
+      "urls": [
+        "https://lsa.umich.edu/rc",
+        "https://lsa.umich.edu/cgis"
+      ],
+      "coverageGaps": [],
+      "description": "Top-level unit / program home pages (Residential College, CGIS). Provisional grouping from URL pattern; blocks to be mapped once HTML is supplied.",
+      "blocks": []
+    }
+  ]
+}

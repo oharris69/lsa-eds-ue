@@ -1,0 +1,9 @@
+{
+  "status": "success",
+  "url": "http://localhost:8082/lsa/academics/majors-minors.html",
+  "path": "lsa/academics/majors-minors",
+  "timestamp": "2026-08-13T18:48:55.438Z",
+  "title": "Majors and Minors | U-M LSA U-M College of LSA",
+  "template": "academics-listing",
+  "blocks": []
+}

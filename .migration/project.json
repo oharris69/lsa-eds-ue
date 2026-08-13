@@ -1,0 +1,14 @@
+{
+  "type": "xwalk",
+  "sites": {
+    "lsa-eds-ue": {
+      "previewOrg": "oharris69",
+      "previewSite": "lsa-eds-ue",
+      "aemSitePath": "/content/lsa-eds-ue",
+      "aemAssetsFolderPath": "/content/dam/lsa-eds-ue",
+      "aemSiteName": "lsa-eds-ue",
+      "aemSiteTitle": "LSA",
+      "libraryUrl": "https://main--sta-xwalk-boilerplate--aemysites.aem.page/tools/sidekick/library.json"
+    }
+  }
+}

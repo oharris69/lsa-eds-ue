@@ -1,0 +1,24 @@
+{
+  "status": "success",
+  "url": "http://localhost:8082/lsa/prospective-students.html",
+  "path": "lsa/prospective-students",
+  "timestamp": "2026-08-13T18:37:51.030Z",
+  "title": "Prospective Students | U-M LSA U-M College of LSA",
+  "template": "audience-landing",
+  "blocks": [
+    "hero",
+    "hero",
+    "hero",
+    "hero",
+    "hero",
+    "hero",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "columns"
+  ]
+}
