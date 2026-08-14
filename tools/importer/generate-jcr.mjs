@@ -110,67 +110,68 @@ function loadBundle(file) {
 
 // Each page: served URL + canonical originalURL (drives document path) + bundle + jcr node path.
 // jcrPath uses the SITE_STAGE placeholder on disk; remapped to content/lsa-eds-ue in the zip.
+// Language root, matching the working Love's migration on the same AEM instance:
+// /content/{site}/language-masters/en. This is the boilerplate's own convention
+// (utils.js PATH_PREFIX = '/language-masters'; getPathDetails() reads the language
+// at path index 4 = /content/{site}/language-masters/{lang}/...). The `en` node
+// ITSELF is the homepage (like Love's "en" = "Love's Travel Stops"); nav, footer,
+// and all interior pages are its children.
+const LANG_ROOT = `${SITE_STAGE}/language-masters/en`;
 const PAGES = [
-  // All pages live under the single language root /content/lsa-eds-ue/en/,
-  // alongside the nav + footer fragments. This matches the xwalk convention and
-  // is required for delivery: the block JS derives langCode from the path and
-  // resolves fragments at /{lang}/nav|footer, so pages MUST sit under /en/ for
-  // the header/footer to load and for blocks to decorate (otherwise the hero,
-  // etc. render as raw stacked field text).
   {
-    fetch: `${BASE}/`, originalURL: 'https://lsa.umich.edu/en/index',
+    fetch: `${BASE}/`, originalURL: 'https://lsa.umich.edu/language-masters/en',
     bundle: 'tools/importer/import-homepage.bundle.js',
-    jcrPath: `${SITE_STAGE}/en/index`,
+    jcrPath: `${LANG_ROOT}`, // the en node IS the homepage
   },
   {
-    fetch: `${BASE}/lsa/prospective-students.html`, originalURL: 'https://lsa.umich.edu/en/lsa/prospective-students',
+    fetch: `${BASE}/lsa/prospective-students.html`, originalURL: 'https://lsa.umich.edu/language-masters/en/lsa/prospective-students',
     bundle: 'tools/importer/import-audience-landing.bundle.js',
-    jcrPath: `${SITE_STAGE}/en/lsa/prospective-students`,
+    jcrPath: `${LANG_ROOT}/lsa/prospective-students`,
   },
   {
-    fetch: `${BASE}/lsa/academics/majors-minors.html`, originalURL: 'https://lsa.umich.edu/en/lsa/academics/majors-minors',
+    fetch: `${BASE}/lsa/academics/majors-minors.html`, originalURL: 'https://lsa.umich.edu/language-masters/en/lsa/academics/majors-minors',
     bundle: 'tools/importer/import-academics-directory.bundle.js',
-    jcrPath: `${SITE_STAGE}/en/lsa/academics/majors-minors`,
+    jcrPath: `${LANG_ROOT}/lsa/academics/majors-minors`,
   },
   {
-    fetch: `${BASE}/lsa/academics/departments-and-units.html`, originalURL: 'https://lsa.umich.edu/en/lsa/academics/departments-and-units',
+    fetch: `${BASE}/lsa/academics/departments-and-units.html`, originalURL: 'https://lsa.umich.edu/language-masters/en/lsa/academics/departments-and-units',
     bundle: 'tools/importer/import-academics-directory.bundle.js',
-    jcrPath: `${SITE_STAGE}/en/lsa/academics/departments-and-units`,
+    jcrPath: `${LANG_ROOT}/lsa/academics/departments-and-units`,
   },
   {
-    fetch: `${BASE}/rc.html`, originalURL: 'https://lsa.umich.edu/en/rc',
+    fetch: `${BASE}/rc.html`, originalURL: 'https://lsa.umich.edu/language-masters/en/rc',
     bundle: 'tools/importer/import-unit-home.bundle.js',
-    jcrPath: `${SITE_STAGE}/en/rc`,
+    jcrPath: `${LANG_ROOT}/rc`,
   },
   {
-    fetch: `${BASE}/english/undergraduate.html`, originalURL: 'https://lsa.umich.edu/en/english/undergraduate',
+    fetch: `${BASE}/english/undergraduate.html`, originalURL: 'https://lsa.umich.edu/language-masters/en/english/undergraduate',
     bundle: 'tools/importer/import-department-landing.bundle.js',
-    jcrPath: `${SITE_STAGE}/en/english/undergraduate`,
+    jcrPath: `${LANG_ROOT}/english/undergraduate`,
   },
   {
-    fetch: `${BASE}/urop/prospective-students.html`, originalURL: 'https://lsa.umich.edu/en/urop/prospective-students',
+    fetch: `${BASE}/urop/prospective-students.html`, originalURL: 'https://lsa.umich.edu/language-masters/en/urop/prospective-students',
     bundle: 'tools/importer/import-department-landing.bundle.js',
-    jcrPath: `${SITE_STAGE}/en/urop/prospective-students`,
+    jcrPath: `${LANG_ROOT}/urop/prospective-students`,
   },
   {
-    fetch: `${BASE}/psych/prospective-students/undergraduate.html`, originalURL: 'https://lsa.umich.edu/en/psych/prospective-students/undergraduate',
+    fetch: `${BASE}/psych/prospective-students/undergraduate.html`, originalURL: 'https://lsa.umich.edu/language-masters/en/psych/prospective-students/undergraduate',
     bundle: 'tools/importer/import-department-landing.bundle.js',
-    jcrPath: `${SITE_STAGE}/en/psych/prospective-students/undergraduate`,
+    jcrPath: `${LANG_ROOT}/psych/prospective-students/undergraduate`,
   },
   {
-    fetch: `${BASE}/cgis.html`, originalURL: 'https://lsa.umich.edu/en/cgis',
+    fetch: `${BASE}/cgis.html`, originalURL: 'https://lsa.umich.edu/language-masters/en/cgis',
     bundle: 'tools/importer/import-department-landing.bundle.js',
-    jcrPath: `${SITE_STAGE}/en/cgis`,
+    jcrPath: `${LANG_ROOT}/cgis`,
   },
   {
-    fetch: `${BASE}/header-footer-source.html`, originalURL: 'https://lsa.umich.edu/en/nav',
+    fetch: `${BASE}/header-footer-source.html`, originalURL: 'https://lsa.umich.edu/language-masters/en/nav',
     bundle: 'tools/importer/import-nav.bundle.js',
-    jcrPath: `${SITE_STAGE}/en/nav`,
+    jcrPath: `${LANG_ROOT}/nav`,
   },
   {
-    fetch: `${BASE}/header-footer-source.html`, originalURL: 'https://lsa.umich.edu/en/footer',
+    fetch: `${BASE}/header-footer-source.html`, originalURL: 'https://lsa.umich.edu/language-masters/en/footer',
     bundle: 'tools/importer/import-footer.bundle.js',
-    jcrPath: `${SITE_STAGE}/en/footer`,
+    jcrPath: `${LANG_ROOT}/footer`,
   },
 ];
 
@@ -227,25 +228,22 @@ for (const page of PAGES) {
 const META = `${OUT_ROOT}/META-INF/vault`;
 ensureDir(META);
 
-// Build the workspace filter so installing this package also CLEANS UP the old
-// scattered layout. All real content now lives under /content/lsa-eds-ue/en, so:
-//   1. A filter root on /en replaces our whole language tree wholesale.
-//   2. For each stale top-level node the OLD package created at the SITE ROOT
-//      (index, rc, cgis, lsa, english, psych, urop — i.e. the first path segment
-//      of each page below /en, excluding nav/footer which already lived under
-//      /en), add a bare filter root. The package contains NO content at those
-//      paths, so FileVault deletes those repo subtrees on install.
-// The site root node /content/lsa-eds-ue itself is never a filter root, so its
-// cq:Page / site config is preserved.
-const staleRoots = [...new Set(
-  PAGES
-    .map((p) => p.jcrPath.replace(`${SITE_STAGE}/`, '')) // e.g. en/lsa/academics/majors-minors
-    .filter((p) => p.startsWith('en/'))
-    .map((p) => p.slice(3).split('/')[0]) // first segment below en/: lsa, rc, cgis, ...
-    .filter((seg) => seg && seg !== 'nav' && seg !== 'footer'),
-)];
+// Build the workspace filter so installing this package also CLEANS UP the two
+// earlier (wrong) layouts. Real content now lives under the Love's-style root
+// /content/lsa-eds-ue/language-masters/en, so:
+//   1. A filter root on /language-masters/en installs our whole tree wholesale.
+//   2. Bare filter roots for the stale nodes the earlier packages created —
+//      the flat site-root nodes (index, lsa, rc, english, urop, psych, cgis) and
+//      the interim /en language root — get NO content from this package, so
+//      FileVault deletes those subtrees on install.
+// The site root node /content/lsa-eds-ue is never a filter root, so its site
+// config (cq:Page, cloudservice, etc.) is preserved.
+const staleRoots = [
+  'index', 'lsa', 'rc', 'english', 'urop', 'psych', 'cgis', // old flat site-root pages
+  'en', // interim consolidated root (now superseded by language-masters/en)
+];
 const filterEntries = [
-  '  <filter root="/content/lsa-eds-ue/en"/>',
+  '  <filter root="/content/lsa-eds-ue/language-masters/en"/>',
   ...staleRoots.map((seg) => `  <filter root="/content/lsa-eds-ue/${seg}"/>`),
 ].join('\n');
 fs.writeFileSync(`${META}/filter.xml`, `<?xml version="1.0" encoding="UTF-8"?>
