@@ -20,6 +20,29 @@ import { isAuthorEnvironment } from '../../scripts/scripts.js';
 const isDesktop = window.matchMedia('(min-width: 900px)');
 const siteName = await getSiteName();
 
+/**
+ * Resolve a top-level fragment (nav/footer) beside the current page's language
+ * root, keeping the site segment intact instead of hardcoding a root.
+ *
+ * Finds the first `/{lang}/` segment in the current pathname and rebuilds the
+ * path up to and including it, then appends the fragment name. Works for every
+ * host shape our content is served under:
+ *   /content/lsa-eds-ue/en/lsa/academics/majors-minors  -> /content/lsa-eds-ue/en/nav
+ *   /content/en/index                                    -> /content/en/nav
+ *   /en/rc                                               -> /en/nav
+ * Falls back to `/{lang}/{name}` if no language segment is found.
+ * @param {string} name fragment name ('nav' | 'footer')
+ * @param {string} lang language code
+ */
+function fragmentPath(name, lang) {
+  const segments = window.location.pathname.split('/');
+  const langIdx = segments.indexOf(lang);
+  if (langIdx > -1) {
+    return `${segments.slice(0, langIdx + 1).join('/')}/${name}`;
+  }
+  return `/${lang}/${name}`;
+}
+
 function closeOnEscape(e) {
   if (e.code === 'Escape') {
     const nav = document.getElementById('nav');
@@ -419,12 +442,17 @@ export default async function decorate(block) {
   const langCode = getLanguage();
 
   const isAuthor = isAuthorEnvironment();
-  let navPath = `/${langCode}/nav`;
-
-  if (isAuthor) {
-    navPath = navMeta ? new URL(navMeta, window.location).pathname : `/content/${siteName}${PATH_PREFIX}/${langCode}/nav`;
-  } else if (window.location.pathname.startsWith('/content/')) {
-    navPath = navMeta ? new URL(navMeta, window.location).pathname : `/content/${langCode}/nav`;
+  let navPath;
+  if (navMeta) {
+    navPath = new URL(navMeta, window.location).pathname;
+  } else if (isAuthor) {
+    navPath = `/content/${siteName}${PATH_PREFIX}/${langCode}/nav`;
+  } else {
+    // Resolve the nav fragment relative to the current page's own language root,
+    // so it works whether content is served at /content/{site}/{lang}/... (AEM
+    // preview/publish) or /{lang}/... (EDS delivery). Hardcoding a root drops the
+    // site segment and 404s the fragment (empty header).
+    navPath = fragmentPath('nav', langCode);
   }
 
   const fragment = await loadFragment(navPath);
