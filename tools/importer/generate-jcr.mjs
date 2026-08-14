@@ -226,9 +226,31 @@ for (const page of PAGES) {
 // FileVault metadata.
 const META = `${OUT_ROOT}/META-INF/vault`;
 ensureDir(META);
+
+// Build the workspace filter so installing this package also CLEANS UP the old
+// scattered layout. All real content now lives under /content/lsa-eds-ue/en, so:
+//   1. A filter root on /en replaces our whole language tree wholesale.
+//   2. For each stale top-level node the OLD package created at the SITE ROOT
+//      (index, rc, cgis, lsa, english, psych, urop — i.e. the first path segment
+//      of each page below /en, excluding nav/footer which already lived under
+//      /en), add a bare filter root. The package contains NO content at those
+//      paths, so FileVault deletes those repo subtrees on install.
+// The site root node /content/lsa-eds-ue itself is never a filter root, so its
+// cq:Page / site config is preserved.
+const staleRoots = [...new Set(
+  PAGES
+    .map((p) => p.jcrPath.replace(`${SITE_STAGE}/`, '')) // e.g. en/lsa/academics/majors-minors
+    .filter((p) => p.startsWith('en/'))
+    .map((p) => p.slice(3).split('/')[0]) // first segment below en/: lsa, rc, cgis, ...
+    .filter((seg) => seg && seg !== 'nav' && seg !== 'footer'),
+)];
+const filterEntries = [
+  '  <filter root="/content/lsa-eds-ue/en"/>',
+  ...staleRoots.map((seg) => `  <filter root="/content/lsa-eds-ue/${seg}"/>`),
+].join('\n');
 fs.writeFileSync(`${META}/filter.xml`, `<?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-  <filter root="/content/lsa-eds-ue"/>
+${filterEntries}
 </workspaceFilter>
 `, 'utf8');
 fs.writeFileSync(`${META}/properties.xml`, `<?xml version="1.0" encoding="UTF-8"?>
