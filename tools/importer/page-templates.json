@@ -111,6 +111,22 @@
       "blocks": []
     },
     {
+      "name": "department-landing",
+      "urls": [
+        "https://lsa.umich.edu/english/undergraduate.html"
+      ],
+      "coverageGaps": [],
+      "description": "Department-scoped interior landing pages (e.g. /english/undergraduate). No full-bleed gridwrapper sections; interior-page shell (breadcrumb + h1 + left section-nav + department footer) dropped as chrome. #page-content holds a four-button promo grid (Major/Minor/First-Year Writing/Creative Writing) mapped to the cards block (four-button branch), plus default content: a pull-quote (office hours), a text+image welcome/programs block, and a Contact Information block. Decorative '. . .' divider tables dropped.",
+      "blocks": [
+        {
+          "name": "cards",
+          "instances": [
+            ".four_button .four-button-wrap"
+          ]
+        }
+      ]
+    },
+    {
       "name": "unit-home",
       "urls": [
         "https://lsa.umich.edu/rc",

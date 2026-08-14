@@ -76,10 +76,14 @@ function buildCta(label, href, document) {
 export default function parse(element, { document }) {
   // --- Determine the list of card source elements + their type ---
   // Featured News: the matched element is a wrapper containing multiple `.story` cards.
+  // Four-button grid: the matched element (`.four-button-wrap`) contains multiple `.fourBtn` tiles.
   const stories = Array.from(element.querySelectorAll('.story'));
+  const fourBtns = Array.from(element.querySelectorAll('.fourBtn'));
   let cardEls;
   if (stories.length) {
     cardEls = stories;
+  } else if (fourBtns.length) {
+    cardEls = fourBtns;
   } else {
     // Magazine grid (`.hoverShine`) and rollover tiles (`.lsa_tile`) match a single card each.
     cardEls = [element];
@@ -90,6 +94,7 @@ export default function parse(element, { document }) {
   cardEls.forEach((card) => {
     const isStory = card.matches('.story') || !!card.querySelector('.lead-image');
     const isTile = card.matches('.lsa_tile') || !!card.querySelector('.tile-item, .tile-title');
+    const isFourBtn = card.matches('.fourBtn') || !!card.querySelector('.button > .title');
     // else: image-only card (hoverShine / plain linked image)
 
     const imgEl = card.querySelector('img');
@@ -142,6 +147,25 @@ export default function parse(element, { document }) {
       if (ctaLabel) {
         const cta = buildCta(ctaLabel, linkHref, document);
         if (cta) textNodes.push(cta);
+      }
+    } else if (isFourBtn) {
+      // Four-button promo grid: a linked tile with a stacked title
+      // (e.g. "MAJOR" / "In English"). The title text is the card label/CTA;
+      // the whole tile links to the destination. Emit the title as a linked
+      // heading so the card carries its label + destination.
+      const titleEl = card.querySelector('.title');
+      const label = titleEl ? titleEl.textContent.replace(/\s+/g, ' ').trim() : '';
+      if (label) {
+        const h = document.createElement('h3');
+        if (linkHref) {
+          const a = document.createElement('a');
+          a.setAttribute('href', linkHref);
+          a.textContent = label;
+          h.appendChild(a);
+        } else {
+          h.textContent = label;
+        }
+        textNodes.push(h);
       }
     }
     // image-only cards (hoverShine): no text nodes → empty text cell (no hint).

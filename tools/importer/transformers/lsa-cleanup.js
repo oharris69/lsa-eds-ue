@@ -52,8 +52,11 @@ const HEADER_SELECTORS = [
 ];
 
 // Site footer (verified in cleaned.html as sibling after #content).
+// `.department-footer-wrap` is the unit-specific footer band (dept name / address /
+// phone / social) present on department pages (e.g. /english/*) above the global footer.
 const FOOTER_SELECTORS = [
   '.footer-wrap',
+  '.department-footer-wrap',
 ];
 
 // Skip-to-content links (verified: <a class="skipToContent" href="#content">).
@@ -73,7 +76,8 @@ const INTERIOR_SHELL_SELECTORS = [
   '.breadcrumb-wrap',      // Home / <page> breadcrumb (auto nav)
   '.sideNavBurger',        // mobile section-nav toggle inside .pageTitle (keep the h1)
   '.phone-sidenav',        // wrapper around the left section-nav sidebar
-  '.lsa-sidenav-wrap',     // left section-nav sidebar (Undergraduate, Graduate, ...)
+  '.lsa-sidenav-wrap',     // left section-nav sidebar (homepage variant: .lsa-sidenav-wrap.sidenav-wrap)
+  '.sidenav-wrap',         // left section-nav sidebar (interior pages: bare .sidenav-wrap, e.g. /english/*, departments-and-units)
   '.lsa_policy_notice-wrap', // empty policy-notice shell region
 ];
 

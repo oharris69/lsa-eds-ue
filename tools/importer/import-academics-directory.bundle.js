@@ -66,7 +66,8 @@ var CustomImportScript = (() => {
     // decorative spacer bars before/after #content
   ];
   var FOOTER_SELECTORS = [
-    ".footer-wrap"
+    ".footer-wrap",
+    ".department-footer-wrap"
   ];
   var SKIP_LINK_SELECTORS = [
     ".skipToContent",
@@ -82,7 +83,9 @@ var CustomImportScript = (() => {
     ".phone-sidenav",
     // wrapper around the left section-nav sidebar
     ".lsa-sidenav-wrap",
-    // left section-nav sidebar (Undergraduate, Graduate, ...)
+    // left section-nav sidebar (homepage variant: .lsa-sidenav-wrap.sidenav-wrap)
+    ".sidenav-wrap",
+    // left section-nav sidebar (interior pages: bare .sidenav-wrap, e.g. /english/*, departments-and-units)
     ".lsa_policy_notice-wrap"
     // empty policy-notice shell region
   ];
