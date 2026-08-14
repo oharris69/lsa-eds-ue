@@ -97,6 +97,12 @@ var CustomImportScript = (() => {
     }
     {
       const frag = document2.createDocumentFragment();
+      frag.appendChild(document2.createComment(" field:enableunderline "));
+      frag.appendChild(document2.createTextNode("false"));
+      cells.push([frag]);
+    }
+    {
+      const frag = document2.createDocumentFragment();
       frag.appendChild(document2.createComment(" field:herolayout "));
       frag.appendChild(document2.createTextNode(herolayout));
       cells.push([frag]);

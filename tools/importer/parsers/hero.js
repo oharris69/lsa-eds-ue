@@ -107,6 +107,18 @@ export default function parse(element, { document }) {
     cells.push([frag]);
   }
 
+  // Row: enableunderline (field:enableunderline) — boolean field that sits BETWEEN
+  // text and herolayout in the hero model. md2jcr maps simple-block rows positionally
+  // against the model's field groups, so this row MUST be emitted to keep every
+  // subsequent field (herolayout, backgroundstyle, cta*) aligned. Neutral default:
+  // false (no forced title underline); authors can toggle it in Universal Editor.
+  {
+    const frag = document.createDocumentFragment();
+    frag.appendChild(document.createComment(' field:enableunderline '));
+    frag.appendChild(document.createTextNode('false'));
+    cells.push([frag]);
+  }
+
   // Row: herolayout (field:herolayout)
   {
     const frag = document.createDocumentFragment();
