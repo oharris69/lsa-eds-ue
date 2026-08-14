@@ -111,50 +111,56 @@ function loadBundle(file) {
 // Each page: served URL + canonical originalURL (drives document path) + bundle + jcr node path.
 // jcrPath uses the SITE_STAGE placeholder on disk; remapped to content/lsa-eds-ue in the zip.
 const PAGES = [
+  // All pages live under the single language root /content/lsa-eds-ue/en/,
+  // alongside the nav + footer fragments. This matches the xwalk convention and
+  // is required for delivery: the block JS derives langCode from the path and
+  // resolves fragments at /{lang}/nav|footer, so pages MUST sit under /en/ for
+  // the header/footer to load and for blocks to decorate (otherwise the hero,
+  // etc. render as raw stacked field text).
   {
-    fetch: `${BASE}/`, originalURL: 'https://lsa.umich.edu/',
+    fetch: `${BASE}/`, originalURL: 'https://lsa.umich.edu/en/index',
     bundle: 'tools/importer/import-homepage.bundle.js',
-    jcrPath: `${SITE_STAGE}/index`,
+    jcrPath: `${SITE_STAGE}/en/index`,
   },
   {
-    fetch: `${BASE}/lsa/prospective-students.html`, originalURL: 'https://lsa.umich.edu/lsa/prospective-students.html',
+    fetch: `${BASE}/lsa/prospective-students.html`, originalURL: 'https://lsa.umich.edu/en/lsa/prospective-students',
     bundle: 'tools/importer/import-audience-landing.bundle.js',
-    jcrPath: `${SITE_STAGE}/lsa/prospective-students`,
+    jcrPath: `${SITE_STAGE}/en/lsa/prospective-students`,
   },
   {
-    fetch: `${BASE}/lsa/academics/majors-minors.html`, originalURL: 'https://lsa.umich.edu/lsa/academics/majors-minors.html',
+    fetch: `${BASE}/lsa/academics/majors-minors.html`, originalURL: 'https://lsa.umich.edu/en/lsa/academics/majors-minors',
     bundle: 'tools/importer/import-academics-directory.bundle.js',
-    jcrPath: `${SITE_STAGE}/lsa/academics/majors-minors`,
+    jcrPath: `${SITE_STAGE}/en/lsa/academics/majors-minors`,
   },
   {
-    fetch: `${BASE}/lsa/academics/departments-and-units.html`, originalURL: 'https://lsa.umich.edu/lsa/academics/departments-and-units.html',
+    fetch: `${BASE}/lsa/academics/departments-and-units.html`, originalURL: 'https://lsa.umich.edu/en/lsa/academics/departments-and-units',
     bundle: 'tools/importer/import-academics-directory.bundle.js',
-    jcrPath: `${SITE_STAGE}/lsa/academics/departments-and-units`,
+    jcrPath: `${SITE_STAGE}/en/lsa/academics/departments-and-units`,
   },
   {
-    fetch: `${BASE}/rc.html`, originalURL: 'https://lsa.umich.edu/rc',
+    fetch: `${BASE}/rc.html`, originalURL: 'https://lsa.umich.edu/en/rc',
     bundle: 'tools/importer/import-unit-home.bundle.js',
-    jcrPath: `${SITE_STAGE}/rc`,
+    jcrPath: `${SITE_STAGE}/en/rc`,
   },
   {
-    fetch: `${BASE}/english/undergraduate.html`, originalURL: 'https://lsa.umich.edu/english/undergraduate.html',
+    fetch: `${BASE}/english/undergraduate.html`, originalURL: 'https://lsa.umich.edu/en/english/undergraduate',
     bundle: 'tools/importer/import-department-landing.bundle.js',
-    jcrPath: `${SITE_STAGE}/english/undergraduate`,
+    jcrPath: `${SITE_STAGE}/en/english/undergraduate`,
   },
   {
-    fetch: `${BASE}/urop/prospective-students.html`, originalURL: 'https://lsa.umich.edu/urop/prospective-students.html',
+    fetch: `${BASE}/urop/prospective-students.html`, originalURL: 'https://lsa.umich.edu/en/urop/prospective-students',
     bundle: 'tools/importer/import-department-landing.bundle.js',
-    jcrPath: `${SITE_STAGE}/urop/prospective-students`,
+    jcrPath: `${SITE_STAGE}/en/urop/prospective-students`,
   },
   {
-    fetch: `${BASE}/psych/prospective-students/undergraduate.html`, originalURL: 'https://lsa.umich.edu/psych/prospective-students/undergraduate.html',
+    fetch: `${BASE}/psych/prospective-students/undergraduate.html`, originalURL: 'https://lsa.umich.edu/en/psych/prospective-students/undergraduate',
     bundle: 'tools/importer/import-department-landing.bundle.js',
-    jcrPath: `${SITE_STAGE}/psych/prospective-students/undergraduate`,
+    jcrPath: `${SITE_STAGE}/en/psych/prospective-students/undergraduate`,
   },
   {
-    fetch: `${BASE}/cgis.html`, originalURL: 'https://lsa.umich.edu/cgis',
+    fetch: `${BASE}/cgis.html`, originalURL: 'https://lsa.umich.edu/en/cgis',
     bundle: 'tools/importer/import-department-landing.bundle.js',
-    jcrPath: `${SITE_STAGE}/cgis`,
+    jcrPath: `${SITE_STAGE}/en/cgis`,
   },
   {
     fetch: `${BASE}/header-footer-source.html`, originalURL: 'https://lsa.umich.edu/en/nav',
