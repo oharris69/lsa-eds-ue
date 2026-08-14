@@ -114,7 +114,8 @@
       "name": "department-landing",
       "urls": [
         "https://lsa.umich.edu/english/undergraduate.html",
-        "https://lsa.umich.edu/urop/prospective-students.html"
+        "https://lsa.umich.edu/urop/prospective-students.html",
+        "https://lsa.umich.edu/psych/prospective-students/undergraduate.html"
       ],
       "coverageGaps": [],
       "description": "Department-scoped interior landing pages (e.g. /english/undergraduate, /urop/prospective-students). No full-bleed gridwrapper sections; interior-page shell (breadcrumb + h1 + left section-nav + department footer) dropped as chrome. #page-content holds default content plus (optionally) a four-button promo grid mapped to the cards block (four-button branch). Content seen: four-button grid, pull-quote, text+image welcome, Contact Information (english/undergraduate); YouTube video (iframe→link), intro text, and a stack of full-width CTA buttons (urop/prospective-students). Decorative '. . .' divider tables and raw iframes dropped.",

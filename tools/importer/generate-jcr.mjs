@@ -147,6 +147,11 @@ const PAGES = [
     jcrPath: `${SITE_STAGE}/urop/prospective-students`,
   },
   {
+    fetch: `${BASE}/psych/prospective-students/undergraduate.html`, originalURL: 'https://lsa.umich.edu/psych/prospective-students/undergraduate.html',
+    bundle: 'tools/importer/import-department-landing.bundle.js',
+    jcrPath: `${SITE_STAGE}/psych/prospective-students/undergraduate`,
+  },
+  {
     fetch: `${BASE}/header-footer-source.html`, originalURL: 'https://lsa.umich.edu/en/nav',
     bundle: 'tools/importer/import-nav.bundle.js',
     jcrPath: `${SITE_STAGE}/en/nav`,
