@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "http://localhost:8082/rc.html",
+  "path": "rc",
+  "timestamp": "2026-08-14T14:54:44.130Z",
+  "title": "Residential College | U-M LSA",
+  "template": "unit-home",
+  "blocks": [
+    "hero",
+    "cards"
+  ]
+}

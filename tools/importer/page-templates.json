@@ -117,8 +117,35 @@
         "https://lsa.umich.edu/cgis"
       ],
       "coverageGaps": [],
-      "description": "Top-level unit / program home pages (Residential College, CGIS). Provisional grouping from URL pattern; blocks to be mapped once HTML is supplied.",
-      "blocks": []
+      "description": "Top-level unit / program home pages (Residential College, CGIS). A stack of full-bleed gridwrapper sections inside #content: a pull-quote hero over a full-bleed unit banner (+ CTA buttons); a mission text column beside an image slideshow with promo tiles (default content); dark image-gallery sections; a Featured News cards block with an Instagram embed; and a support-CTA banner. Reuses existing hero + cards blocks; gallery/mission/CTA sections are default content. Header/footer/audience-nav chrome dropped by cleanup transformer.",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "#gridparlsa_gridwrapper_copy_gridclass"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "#gridparlsa_gridwrapper_1416_gridclass .lsa-news-wrap"
+          ]
+        },
+        {
+          "name": "section-keene-theater",
+          "instances": [
+            "#gridparlsa_gridwrapper_3050_gridclass"
+          ],
+          "section": "dark"
+        },
+        {
+          "name": "section-art-gallery",
+          "instances": [
+            "#gridparlsa_gridwrapper_3050_237596116_gridclass"
+          ],
+          "section": "dark"
+        }
+      ]
     }
   ]
 }

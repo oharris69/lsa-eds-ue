@@ -132,6 +132,11 @@ const PAGES = [
     jcrPath: `${SITE_STAGE}/lsa/academics/departments-and-units`,
   },
   {
+    fetch: `${BASE}/rc.html`, originalURL: 'https://lsa.umich.edu/rc',
+    bundle: 'tools/importer/import-unit-home.bundle.js',
+    jcrPath: `${SITE_STAGE}/rc`,
+  },
+  {
     fetch: `${BASE}/header-footer-source.html`, originalURL: 'https://lsa.umich.edu/en/nav',
     bundle: 'tools/importer/import-nav.bundle.js',
     jcrPath: `${SITE_STAGE}/en/nav`,
