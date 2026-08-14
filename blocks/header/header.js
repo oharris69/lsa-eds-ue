@@ -447,9 +447,13 @@ export default async function decorate(block) {
 
    const isAuthor = isAuthorEnvironment();
     let navPath =`/${langCode}/nav`;
-  
+
     if(isAuthor){
       navPath = navMeta ? new URL(navMeta, window.location).pathname : `/content/${siteName}${PATH_PREFIX}/${langCode}/nav`;
+    } else if (window.location.pathname.startsWith('/content/')) {
+      // Preview/rendered content served under /content/... (not the author origin):
+      // the nav fragment lives at /content/{lang}/nav.
+      navPath = navMeta ? new URL(navMeta, window.location).pathname : `/content/${langCode}/nav`;
     }
    
 

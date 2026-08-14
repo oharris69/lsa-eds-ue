@@ -152,6 +152,11 @@ const PAGES = [
     jcrPath: `${SITE_STAGE}/psych/prospective-students/undergraduate`,
   },
   {
+    fetch: `${BASE}/cgis.html`, originalURL: 'https://lsa.umich.edu/cgis',
+    bundle: 'tools/importer/import-department-landing.bundle.js',
+    jcrPath: `${SITE_STAGE}/cgis`,
+  },
+  {
     fetch: `${BASE}/header-footer-source.html`, originalURL: 'https://lsa.umich.edu/en/nav',
     bundle: 'tools/importer/import-nav.bundle.js',
     jcrPath: `${SITE_STAGE}/en/nav`,

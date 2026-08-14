@@ -9,17 +9,23 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-/*
- :root {
-  --brand-theme-color: #ff0000;
-  --brand-dark-color: #131313;
-  --brand-light-color: #dcdcdc;
-  --brand-link-color: #131313;
-  --brand-link-hover-color: #ff0000;
+/* LSA / University of Michigan brand palette.
+   Michigan Blue #00274C + Maize #FFCB05 (official U-M colors). */
+:root {
+  --brand-theme-color: #ffcb05;            /* Maize — accent/hover */
+  --brand-dark-color: #00274c;             /* Michigan Blue — nav/footer bg, headings */
+  --brand-light-color: #eef2f6;            /* light blue-grey surface */
+  --brand-link-color: #00274c;             /* body links in Michigan Blue */
+  --brand-link-hover-color: #ffcb05;       /* maize hover */
   --brand-text-color: #131313;
   --brand-light-text-color: #ffffff;
+
+  /* Header/footer band styling (consumed by the block CSS variables below) */
+  --brand-nav-background-color: #00274c;   /* solid Michigan Blue nav bar */
+  --brand-nav-text-color: #ffffff;
+  --brand-footer-background-color: #00274c;
+  --brand-footer-text-color: #ffffff;
 }
-*/
 
 :root {
   /* colors */

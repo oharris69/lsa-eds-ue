@@ -21,6 +21,12 @@ export default async function decorate(block) {
     footerPath = footerMeta
     ? new URL(footerMeta, window.location).pathname
     : `/content/${siteName}${PATH_PREFIX}/${langCode}/footer`;
+  } else if (window.location.pathname.startsWith('/content/')) {
+    // Preview/rendered content served under /content/... (not the author origin):
+    // the footer fragment lives at /content/{lang}/footer.
+    footerPath = footerMeta
+    ? new URL(footerMeta, window.location).pathname
+    : `/content/${langCode}/footer`;
   }
 
   /*

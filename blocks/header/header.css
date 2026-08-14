@@ -1,9 +1,20 @@
 /* header and nav layout */
 header .nav-wrapper {
-  background-color: var(--dark-color-opacity);
+  background-color: var(--nav-background-color);
+  color: var(--nav-text-color);
   width: 100%;
   z-index: 2;
   position: fixed;
+}
+
+/* Nav links use the LSA nav text color (white on Michigan Blue); maize on hover. */
+header nav a {
+  color: var(--nav-text-color);
+  text-decoration: none;
+}
+
+header nav a:hover {
+  color: var(--main-accent-color);
 }
 
 header nav {

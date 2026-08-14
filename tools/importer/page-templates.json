@@ -115,7 +115,8 @@
       "urls": [
         "https://lsa.umich.edu/english/undergraduate.html",
         "https://lsa.umich.edu/urop/prospective-students.html",
-        "https://lsa.umich.edu/psych/prospective-students/undergraduate.html"
+        "https://lsa.umich.edu/psych/prospective-students/undergraduate.html",
+        "https://lsa.umich.edu/cgis"
       ],
       "coverageGaps": [],
       "description": "Department-scoped interior landing pages (e.g. /english/undergraduate, /urop/prospective-students). No full-bleed gridwrapper sections; interior-page shell (breadcrumb + h1 + left section-nav + department footer) dropped as chrome. #page-content holds default content plus (optionally) a four-button promo grid mapped to the cards block (four-button branch). Content seen: four-button grid, pull-quote, text+image welcome, Contact Information (english/undergraduate); YouTube video (iframe→link), intro text, and a stack of full-width CTA buttons (urop/prospective-students). Decorative '. . .' divider tables and raw iframes dropped.",
@@ -131,8 +132,7 @@
     {
       "name": "unit-home",
       "urls": [
-        "https://lsa.umich.edu/rc",
-        "https://lsa.umich.edu/cgis"
+        "https://lsa.umich.edu/rc"
       ],
       "coverageGaps": [],
       "description": "Top-level unit / program home pages (Residential College, CGIS). A stack of full-bleed gridwrapper sections inside #content: a pull-quote hero over a full-bleed unit banner (+ CTA buttons); a mission text column beside an image slideshow with promo tiles (default content); dark image-gallery sections; a Featured News cards block with an Instagram embed; and a support-CTA banner. Reuses existing hero + cards blocks; gallery/mission/CTA sections are default content. Header/footer/audience-nav chrome dropped by cleanup transformer.",
