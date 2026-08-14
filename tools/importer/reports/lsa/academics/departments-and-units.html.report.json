@@ -1,0 +1,8 @@
+{
+  "status": "failed",
+  "url": "http://localhost:8082/lsa/academics/departments-and-units.html",
+  "path": "lsa/academics/departments-and-units.html",
+  "timestamp": "2026-08-14T14:25:12.612Z",
+  "error": "page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8082/lsa/academics/departments-and-units.html\nCall log:\n  - navigating to \"http://localhost:8082/lsa/academics/departments-and-units.html\", waiting until \"domcontentloaded\"\n",
+  "errorStack": "page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8082/lsa/academics/departments-and-units.html\nCall log:\n  - navigating to \"http://localhost:8082/lsa/academics/departments-and-units.html\", waiting until \"domcontentloaded\"\n\n    at processUrl (/home/node/.excat-marketplaces/excat-marketplace/excat/skills/excat-content-import/scripts/run-bulk-import.js:469:18)\n    at async main (/home/node/.excat-marketplaces/excat-marketplace/excat/skills/excat-content-import/scripts/run-bulk-import.js:696:22)"
+}

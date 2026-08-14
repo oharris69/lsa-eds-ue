@@ -127,6 +127,11 @@ const PAGES = [
     jcrPath: `${SITE_STAGE}/lsa/academics/majors-minors`,
   },
   {
+    fetch: `${BASE}/lsa/academics/departments-and-units.html`, originalURL: 'https://lsa.umich.edu/lsa/academics/departments-and-units.html',
+    bundle: 'tools/importer/import-academics-directory.bundle.js',
+    jcrPath: `${SITE_STAGE}/lsa/academics/departments-and-units`,
+  },
+  {
     fetch: `${BASE}/header-footer-source.html`, originalURL: 'https://lsa.umich.edu/en/nav',
     bundle: 'tools/importer/import-nav.bundle.js',
     jcrPath: `${SITE_STAGE}/en/nav`,
