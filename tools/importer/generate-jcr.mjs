@@ -99,6 +99,12 @@ globalThis.WebImporter = helixImporter;
 // guardrail that blocks deleting build artifacts under any content/ path.
 const SITE_STAGE = '__SITEROOT__';
 
+// Package identity — single source of truth for name + version. Bump PKG_VERSION
+// on each meaningful content/structure change; the zip filename embeds it
+// (e.g. lsa-eds-ue-content-1.3.0.zip) so installs are unambiguous.
+const PKG_NAME = 'lsa-eds-ue-content';
+const PKG_VERSION = '1.3.0';
+
 // Load a bundle (IIFE assigning global CustomImportScript) and return its default config.
 function loadBundle(file) {
   const code = readFileSync(`${REPO}/${file}`, 'utf8');
@@ -255,9 +261,9 @@ fs.writeFileSync(`${META}/properties.xml`, `<?xml version="1.0" encoding="UTF-8"
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
   <comment>LSA EDS content migration package</comment>
-  <entry key="name">lsa-eds-ue-content</entry>
+  <entry key="name">${PKG_NAME}</entry>
   <entry key="group">lsa-eds-ue</entry>
-  <entry key="version">1.3.0</entry>
+  <entry key="version">${PKG_VERSION}</entry>
   <entry key="packageType">content</entry>
 </properties>
 `, 'utf8');
@@ -281,7 +287,7 @@ function addToZip(absDir, relDir) {
 addToZip(JCR_ROOT, 'jcr_root');
 addToZip(`${OUT_ROOT}/META-INF`, 'META-INF');
 const buf = await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' });
-const zipPath = `${REPO}/dist/lsa-eds-ue-content.zip`;
+const zipPath = `${REPO}/dist/${PKG_NAME}-${PKG_VERSION}.zip`;
 fs.writeFileSync(zipPath, buf);
 console.log(`\nPackage: ${zipPath} (${buf.length} bytes)`);
 const ok = results.filter((r) => r.status === 'ok').length;
