@@ -243,8 +243,8 @@ const staleRoots = [
   'en', // interim consolidated root (now superseded by language-masters/en)
 ];
 const filterEntries = [
-  '  <filter root="/content/lsa-eds-ue/language-masters/en"/>',
-  ...staleRoots.map((seg) => `  <filter root="/content/lsa-eds-ue/${seg}"/>`),
+  '  <filter root="/content/lsa-umich-eds/language-masters/en"/>',
+  ...staleRoots.map((seg) => `  <filter root="/content/lsa-umich-eds/${seg}"/>`),
 ].join('\n');
 fs.writeFileSync(`${META}/filter.xml`, `<?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
@@ -257,7 +257,7 @@ fs.writeFileSync(`${META}/properties.xml`, `<?xml version="1.0" encoding="UTF-8"
   <comment>LSA EDS content migration package</comment>
   <entry key="name">lsa-eds-ue-content</entry>
   <entry key="group">lsa-eds-ue</entry>
-  <entry key="version">1.2.0</entry>
+  <entry key="version">1.3.0</entry>
   <entry key="packageType">content</entry>
 </properties>
 `, 'utf8');
@@ -268,7 +268,7 @@ console.log('\nWrote META-INF/vault/{filter.xml,properties.xml}');
 // AEM path (jcr_root/content/lsa-eds-ue/...). Exclude .source.md audit files.
 const { default: JSZip } = await import(`${NM}/jszip/lib/index.js`);
 const zip = new JSZip();
-const remap = (rel) => rel.replace(`jcr_root/${SITE_STAGE}/`, 'jcr_root/content/lsa-eds-ue/');
+const remap = (rel) => rel.replace(`jcr_root/${SITE_STAGE}/`, 'jcr_root/content/lsa-umich-eds/');
 function addToZip(absDir, relDir) {
   for (const e of fs.readdirSync(absDir, { withFileTypes: true })) {
     if (e.name === '.source.md') continue;
