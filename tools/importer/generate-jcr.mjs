@@ -257,7 +257,7 @@ fs.writeFileSync(`${META}/properties.xml`, `<?xml version="1.0" encoding="UTF-8"
   <comment>LSA EDS content migration package</comment>
   <entry key="name">lsa-eds-ue-content</entry>
   <entry key="group">lsa-eds-ue</entry>
-  <entry key="version">1.1.0</entry>
+  <entry key="version">1.2.0</entry>
   <entry key="packageType">content</entry>
 </properties>
 `, 'utf8');
