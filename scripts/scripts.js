@@ -235,22 +235,8 @@ const experimentationConfig = {
   async function loadEager(doc) {
 		setPageLanguage();
 		decorateTemplateAndTheme();
-		// Guard the optional plugins so a failure (e.g. experimentation/data-layer
-		// trying to fetch config that 404s in the AEM author/UE canvas) can NEVER
-		// abort decoration — otherwise the whole page renders unstyled (raw block
-		// field text, default fonts). Decoration + `appear` must always run.
-		try {
-		  await runExperimentation(doc, experimentationConfig);
-		} catch (e) {
-		  // eslint-disable-next-line no-console
-		  console.warn('experimentation skipped', e);
-		}
-		try {
-		  renderWBDataLayer();
-		} catch (e) {
-		  // eslint-disable-next-line no-console
-		  console.warn('wb data layer skipped', e);
-		}
+		await runExperimentation(doc, experimentationConfig);
+		renderWBDataLayer();
 		const main = doc.querySelector('main');
 		if (main) {
 		  await decorateMain(main);
