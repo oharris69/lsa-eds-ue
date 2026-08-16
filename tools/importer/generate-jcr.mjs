@@ -87,6 +87,21 @@ async function md2jcrSafe(md, opts) {
   }
 }
 
+// md2jcr converts a brand image-link `[![alt](logo)](/)` into an EMPTY button
+// (linkText=""), dropping the logo entirely. The boilerplate header.js/footer.js
+// look for `.nav-brand img` / a picture in the brand, so a logo-less button makes
+// the nav/footer render broken. Repair it: swap the first empty brand button for a
+// proper franklin image component pointing at the source logo. `logo` and `alt`
+// come from the page's brandLogo config (parsed from the source markdown's image
+// reference definition). Returns the patched XML.
+function fixBrandLogo(xml, logo, alt) {
+  if (!logo) return xml;
+  const image = `<image sling:resourceType="core/franklin/components/image/v1/image" `
+    + `jcr:primaryType="nt:unstructured" image="${logo}" imageAlt="${(alt || '').replace(/"/g, '&quot;')}"/>`;
+  // Replace only the FIRST empty-linkText brand button (the logo slot).
+  return xml.replace(/<button\b[^>]*\blinkText=""[^>]*\/>/, image);
+}
+
 const models = JSON.parse(readFileSync(`${REPO}/component-models.json`, 'utf8'));
 const definition = JSON.parse(readFileSync(`${REPO}/component-definition.json`, 'utf8'));
 const filters = JSON.parse(readFileSync(`${REPO}/component-filters.json`, 'utf8'));
@@ -103,7 +118,7 @@ const SITE_STAGE = '__SITEROOT__';
 // on each meaningful content/structure change; the zip filename embeds it
 // (e.g. lsa-eds-ue-content-1.3.0.zip) so installs are unambiguous.
 const PKG_NAME = 'lsa-eds-ue-content';
-const PKG_VERSION = '1.3.0';
+const PKG_VERSION = '1.4.0';
 
 // Load a bundle (IIFE assigning global CustomImportScript) and return its default config.
 function loadBundle(file) {
@@ -173,11 +188,19 @@ const PAGES = [
     fetch: `${BASE}/header-footer-source.html`, originalURL: 'https://lsa.umich.edu/language-masters/en/nav',
     bundle: 'tools/importer/import-nav.bundle.js',
     jcrPath: `${LANG_ROOT}/nav`,
+    brandLogo: {
+      logo: 'https://lsa.umich.edu/content/dam/michigan-lsa/admin/logos/en-logo.png',
+      alt: 'U-M College of LSA',
+    },
   },
   {
     fetch: `${BASE}/header-footer-source.html`, originalURL: 'https://lsa.umich.edu/language-masters/en/footer',
     bundle: 'tools/importer/import-footer.bundle.js',
     jcrPath: `${LANG_ROOT}/footer`,
+    brandLogo: {
+      logo: 'https://lsa.umich.edu/content/dam/michigan-lsa/admin/logos/lsa-logo.png',
+      alt: 'LSA - College of Literature, Science, and The Arts - University of Michigan',
+    },
   },
 ];
 
@@ -213,6 +236,8 @@ for (const page of PAGES) {
     // malformed and breaks the FileVault install. Escape any '&' that is not
     // already the start of a valid XML entity.
     xml = xml.replace(/&(?!amp;|lt;|gt;|quot;|apos;|#x?[0-9A-Fa-f]+;)/g, '&amp;');
+    // Restore the brand logo md2jcr dropped (nav/footer only).
+    if (page.brandLogo) xml = fixBrandLogo(xml, page.brandLogo.logo, page.brandLogo.alt);
     const dir = `${JCR_ROOT}/${page.jcrPath}`;
     ensureDir(dir);
     fs.writeFileSync(`${dir}/.content.xml`, xml, 'utf8');
