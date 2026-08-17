@@ -89,17 +89,30 @@ async function md2jcrSafe(md, opts) {
 
 // md2jcr converts a brand image-link `[![alt](logo)](/)` into an EMPTY button
 // (linkText=""), dropping the logo entirely. The boilerplate header.js/footer.js
-// look for `.nav-brand img` / a picture in the brand, so a logo-less button makes
-// the nav/footer render broken. Repair it: swap the first empty brand button for a
-// proper franklin image component pointing at the source logo. `logo` and `alt`
-// come from the page's brandLogo config (parsed from the source markdown's image
-// reference definition). Returns the patched XML.
+// look for `.nav-brand img` / a picture inside `.nav-brand .default-content-wrapper`,
+// so a logo-less button makes the nav/footer render broken.
+//
+// We emit the logo as raw <img> HTML inside a TEXT (rich-text) component rather
+// than a franklin `image` component: the image/reference components are built for
+// DAM assets and do NOT render arbitrary external URLs (the same reason the hero's
+// external lsa.umich.edu image shows as a raw URL on the canvas). A rich-text <img>
+// passes the external src through untouched, and a text component renders into
+// `.default-content-wrapper` — satisfying every selector addLogoLink() relies on.
+// `logo`/`alt` come from the page's brandLogo config. Returns the patched XML.
 function fixBrandLogo(xml, logo, alt) {
   if (!logo) return xml;
-  const image = `<image sling:resourceType="core/franklin/components/image/v1/image" `
-    + `jcr:primaryType="nt:unstructured" image="${logo}" imageAlt="${(alt || '').replace(/"/g, '&quot;')}"/>`;
+  const safeAlt = (alt || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+  // Rich-text HTML, XML-attribute-escaped (matches how other text components store markup).
+  const html = `<p><a href="/"><img src="${logo}" alt="${safeAlt}"></a></p>`;
+  const escaped = html
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+  const text = `<text sling:resourceType="core/franklin/components/text/v1/text" `
+    + `jcr:primaryType="nt:unstructured" text="${escaped}"/>`;
   // Replace only the FIRST empty-linkText brand button (the logo slot).
-  return xml.replace(/<button\b[^>]*\blinkText=""[^>]*\/>/, image);
+  return xml.replace(/<button\b[^>]*\blinkText=""[^>]*\/>/, text);
 }
 
 const models = JSON.parse(readFileSync(`${REPO}/component-models.json`, 'utf8'));
@@ -118,7 +131,7 @@ const SITE_STAGE = '__SITEROOT__';
 // on each meaningful content/structure change; the zip filename embeds it
 // (e.g. lsa-eds-ue-content-1.3.0.zip) so installs are unambiguous.
 const PKG_NAME = 'lsa-eds-ue-content';
-const PKG_VERSION = '1.4.0';
+const PKG_VERSION = '1.5.0';
 
 // Load a bundle (IIFE assigning global CustomImportScript) and return its default config.
 function loadBundle(file) {
