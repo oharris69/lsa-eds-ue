@@ -32,7 +32,32 @@ footer .footer a {
 }
 
 footer .footer a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Column titles: maize Aleo, matching the live LSA footer. */
+footer .footer h1,
+footer .footer h2,
+footer .footer h3,
+footer .footer h4,
+footer .footer h5,
+footer .footer h6 {
   color: var(--main-accent-color);
+  font-family: var(--heading-font-family);
+  font-weight: 800;
+  font-size: 14px;
+  margin: 0 0 8px;
+  text-transform: none;
+}
+
+/* Footer body/link text: Roboto 12px like the actual. */
+footer .footer li,
+footer .footer p {
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.6;
 }
 
 @media (width >= 900px) {

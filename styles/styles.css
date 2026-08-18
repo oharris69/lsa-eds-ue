@@ -22,8 +22,8 @@
   --brand-light-text-color: #fff;
   --brand-nav-background-color: #00274c;   /* solid Michigan Blue nav bar */
   --brand-nav-text-color: #fff;
-  --brand-footer-background-color: #00274c;
-  --brand-footer-text-color: #fff;
+  --brand-footer-background-color: #030a0f;  /* near-black — matches live LSA footer */
+  --brand-footer-text-color: #fdfdfe;
 
   /* colors */
   --background-color: var(--brand-background-color, #fff);
@@ -516,6 +516,25 @@ button {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-decoration: none;
+}
+
+/*
+ * In-copy body links: Roboto with the signature LSA dotted underline that goes
+ * solid on hover. Scoped to main text so nav, buttons, hero and cards are
+ * untouched.
+ */
+main .default-content-wrapper a:not(.button):any-link {
+  display: inline;
+  font-family: var(--body-font-family);
+  font-weight: 500;
+  white-space: normal;
+  overflow: visible;
+  border-bottom: 1px dotted currentcolor;
+}
+
+main .default-content-wrapper a:not(.button):any-link:hover {
+  border-bottom-style: solid;
   text-decoration: none;
 }
 
