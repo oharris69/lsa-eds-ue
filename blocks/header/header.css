@@ -225,7 +225,7 @@ header nav .nav-sections ul > li {
   font-weight: 500;
 }
 
-header nav .nav-sections ul > li > a {  
+header nav .nav-sections ul > li > a {
   font-size: 18px;
   color: var(--nav-text-color);
   text-decoration: none;
@@ -234,6 +234,38 @@ header nav .nav-sections ul > li > a {
 
 header nav .nav-sections ul > li > a:hover {
   color: var(--nav-text-color);
+}
+
+/*
+ * md2jcr wraps each nav link as a .button inside a <p class="button-container">,
+ * so the structure is `li > p > a.button`, not `li > a`. The rules above (li > a)
+ * never match, and the links inherit the default navy link color — invisible on
+ * the navy nav. Match the real structure and force the nav text color, stripping
+ * the button chrome so they render as plain white nav links.
+ */
+header nav .nav-sections ul > li p,
+header nav .nav-sections ul > li .button-container {
+  margin: 0;
+  padding: 0;
+}
+
+header nav .nav-sections ul > li a,
+header nav .nav-sections ul > li a.button {
+  font-size: 18px;
+  color: var(--nav-text-color);
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: none;
+  font-family: var(--body-font-family);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+header nav .nav-sections ul > li a:hover,
+header nav .nav-sections ul > li a.button:hover {
+  color: var(--main-accent-color);
+  background: none;
 }
 
 header nav .nav-sections ul > li > a::before {
