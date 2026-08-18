@@ -137,6 +137,7 @@ video.hero-video-bg {
 
 .hero-wrapper .button-container.cta-button a.button::after {
   content: "\f105";
+  /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
   font-family: 'Font Awesome 5 Solid';
   font-size: 20px;
   margin-left: 8px;
@@ -145,10 +146,10 @@ video.hero-video-bg {
 }
 
 .hero-wrapper .button-container.cta-button a.button:hover {
-  background-color: rgba(255, 255, 255, 0.1) !important;
+  background-color: rgb(255 255 255 / 10%) !important;
   color: var(--text-light) !important;
   border-color: var(--text-light) !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 4px 8px rgb(0 0 0 / 30%) !important;
   transform: translateY(-1px);
 }
 
@@ -166,6 +167,7 @@ video.hero-video-bg {
 
 .hero-wrapper .button-container.cta-button-secondary a.button::after {
   content: "\f105";
+  /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
   font-family: 'Font Awesome 5 Solid';
   font-size: 20px;
   margin-left: 8px;
@@ -211,13 +213,16 @@ video.hero-video-bg {
   flex-direction: row;
   justify-content: flex-start;
 }
+
 .hero.image-right {
   flex-direction: row-reverse;
   justify-content: flex-start;
 }
+
 .hero.image-top {
   flex-direction: column;
 }
+
 .hero.image-bottom {
   flex-direction: column-reverse;
 }
@@ -296,14 +301,17 @@ video.hero-video-bg {
 picture {
     line-height: 0;
 }
+
 /* Box shadow for layout variations */
+/* stylelint-disable-next-line no-duplicate-selectors */
 .hero.image-left,
 .hero.image-right,
 .hero.image-top,
 .hero.image-bottom {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px rgb(0 0 0 / 15%);
   overflow: hidden;
 }
+
 .hero.image-left h2,
 .hero.image-left h3,
 .hero.image-left h4,
@@ -323,6 +331,7 @@ picture {
   color: var(--text-color);
     text-shadow: unset;
 }
+
 .hero.image-left h1,.hero.image-right h1{
   color: var(--text-color);
   text-shadow: unset;
@@ -340,7 +349,7 @@ picture {
 .hero.image-background-text-left h6,
 .hero.image-background-text-left p {
   text-align: left;
-  margin: 0 0 20px 0;
+  margin: 0 0 20px;
   width: 100%;
   max-width: none;
   color: var(--text-light);
@@ -359,7 +368,7 @@ picture {
 .hero.image-background-text-right h6,
 .hero.image-background-text-right p {
   text-align: left;
-  margin: 0 0 20px 0;
+  margin: 0 0 20px;
   width: 100%;
   max-width: none;
   color: var(--text-light);
@@ -389,12 +398,17 @@ picture {
   color: var(--text-color);
     text-shadow: unset;
 }
+
 /* --------------------------
    Responsive
 --------------------------- */
 @media (width >= 900px) {
   .hero { padding: 40px 32px; }
-  .hero-wrapper a.button { padding: 14px 28px; font-size: 18px; }
+
+  .hero-wrapper a.button {
+    padding: 14px 28px;
+    font-size: 18px;
+  }
 }
 
 @media (width < 1024px) {
@@ -603,18 +617,17 @@ picture {
   box-sizing: border-box;
   max-width: 100%;
   overflow-wrap: break-word;
-  word-break: break-word;
 }
 
 /* Default semi-transparent backdrop for the text box — only when no Text
    Background Style is chosen, so Theme Dark/Light can take over the box bg. */
-.hero.block.overlay:not(.theme-dark):not(.theme-light) .hero-text,
-.hero.image-background-text-left:not(.theme-dark):not(.theme-light) .hero-text,
-.hero.image-background-text-right:not(.theme-dark):not(.theme-light) .hero-text {
+.hero.block.overlay:not(.theme-dark, .theme-light) .hero-text,
+.hero.image-background-text-left:not(.theme-dark, .theme-light) .hero-text,
+.hero.image-background-text-right:not(.theme-dark, .theme-light) .hero-text {
   background: rgb(0 0 0 / 50%);
 }
 
-/*button theme hero specific*/
+/* button theme hero specific */
 .hero.block.overlay .button-container.cta-link a.button,.hero.image-background-text-left .button-container.cta-link a.button,.hero.image-background-text-right .button-container.cta-link a.button {
   color: var(--text-light);
 }
@@ -625,11 +638,14 @@ picture {
 
 /* --------------------------
    Badge / Highlight pill
+   (.hero__badge is a BEM class set by hero.js; keep the name.)
 --------------------------- */
+/* stylelint-disable selector-class-pattern */
 .hero .hero__badge {
   display: flex;
   align-items: center;
   width: fit-content;
+
   /* Centered by default so it matches the centered title in the overlay,
      asset-top and asset-bottom layouts. Auto side margins center a
      fit-content block; the left-aligned layouts override this below. */
@@ -640,9 +656,8 @@ picture {
   font-weight: 500;
   letter-spacing: 0.01em;
   color: var(--text-light);
-  background: rgba(255, 255, 255, 0.2);
+  background: rgb(255 255 255 / 20%);
   backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
 }
 
 /* Left-aligned layouts: the badge hugs the left edge like the title/text. */
@@ -661,8 +676,9 @@ picture {
 .hero.image-top .hero__badge,
 .hero.image-bottom .hero__badge {
   color: var(--text-color);
-  background: rgba(0, 0, 0, 0.08);
+  background: rgb(0 0 0 / 8%);
 }
+/* stylelint-enable selector-class-pattern */
 
 /* --------------------------
    LSA homepage hero — match the live lsa.umich.edu treatment:
@@ -691,9 +707,9 @@ picture {
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.55) 0%,
-    rgba(0, 0, 0, 0.25) 30%,
-    rgba(0, 0, 0, 0) 60%
+    rgb(0 0 0 / 55%) 0%,
+    rgb(0 0 0 / 25%) 30%,
+    rgb(0 0 0 / 0%) 60%
   );
   pointer-events: none;
 }
@@ -705,7 +721,7 @@ picture {
   text-align: left;
   margin: 0 0 12px;
   max-width: none;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 2px 8px rgb(0 0 0 / 40%);
 }
 
 .hero.block.overlay.theme-dark h1,
