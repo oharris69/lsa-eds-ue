@@ -585,6 +585,7 @@ header nav .nav-tools .search-wrapper {
   display: flex;
   align-items: center;
 }
+
 /* Single-language site: keep the switcher hidden (overrides the base rule). */
 header nav .nav-tools .lang-switcher { display: none; }
 
