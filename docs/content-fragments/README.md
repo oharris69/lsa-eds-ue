@@ -9,8 +9,8 @@ Surveying block usage across all 11 migrated pages:
 
 | Block | Instances | Where | CF candidate? |
 | --- | --- | --- | --- |
-| **card** (news / story) | 20+ | home, rc, english, urop, psych, prospective-students | ✅ **best** — identical shape everywhere; author once, reuse across pages |
-| **hero** (page banner) | 10 | home, rc, prospective-students | ✅ strong — structured banner reused at the top of key pages |
+| **card** (news / story) | 20+ | home, rc, english, urop, psych, prospective-students | ✅ **chosen** — identical shape everywhere; author once, reuse across pages |
+| hero (page banner) | 10 | home, rc, prospective-students | considered, deferred — page-specific banner, less reuse value |
 | table-row | 219 | majors-minors | ❌ tabular data, not a reusable unit |
 | section / columns | many | all | ❌ layout containers, not content |
 
@@ -19,8 +19,13 @@ summary + link structure repeats 20+ times. Modeling it as a CF lets an editor
 author a story once and surface it on the homepage, its department page, and any
 listing — a single source of truth, no copy/paste.
 
-The **Page Banner** (hero) is the second: a reusable, structured hero
-(image + eyebrow + headline + body + CTA) for the top of landing pages.
+### Repurpose existing content — no invented copy
+
+The migrated pages already contain real, well-formed News Story content. The
+homepage "Featured News" and "More from LSA Magazine" cards are genuine LSA
+Magazine stories (title + summary + image + link) that map 1:1 onto this model.
+`news-story-seed-data.json` extracts six of them ready to author as fragments —
+so the model is seeded with real content pulled straight from the migration.
 
 ## How to create them in AEM
 
@@ -41,8 +46,10 @@ they render with no further code.
 ## Files
 
 - `news-story-model.json` — the News Story / Card CF model (field definitions).
-- `page-banner-model.json` — the Page Banner / Hero CF model (field definitions).
+- `news-story-seed-data.json` — six real stories from the migrated pages,
+  ready to author as fragments once the model exists.
 
-These JSON files describe the fields to create in the CF Model editor; AEM CF
+The model JSON describes the fields to create in the CF Model editor; AEM CF
 models are authored in the UI (or via the Model API), not committed as repo
-source, so treat these as the build spec.
+source, so treat it as the build spec. The seed data is the content to populate
+it with.

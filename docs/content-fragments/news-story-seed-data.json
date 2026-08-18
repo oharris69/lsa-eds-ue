@@ -1,0 +1,61 @@
+{
+  "note": "Real News Story content repurposed from the migrated pages (homepage Featured News + More from LSA Magazine cards). Each object maps 1:1 onto the News Story CF model fields — author these as fragments under /content/dam/lsa-umich-eds/news-stories/ to seed the model with genuine content, no invented copy. Images currently point at original lsa.umich.edu URLs (upload to DAM and re-reference when ready).",
+  "model": "News Story",
+  "source": "migrated: /(home), /lsa/prospective-students",
+  "stories": [
+    {
+      "title": "Dean’s Note: Future-Proofing LSA Students",
+      "summary": "Dean Ceballo writes that our world is changing rapidly, and new careers are emerging in the blink of an eye. LSA graduates will always be ready.",
+      "featuredImage": "https://lsa.umich.edu/content/michigan-lsa/en/news-events/lsa-magazine/spring-2026/more-stories/Future-Proofing-LSA-Students/jcr:content/featuredImage.transform/big/image.jpg",
+      "imageAlt": "Dean Ceballo",
+      "link": "/lsa/news-events/lsa-magazine/spring-2026/more-stories/Future-Proofing-LSA-Students.html",
+      "linkText": "Read More",
+      "category": "LSA Magazine"
+    },
+    {
+      "title": "Less Waste, Zero Regrets",
+      "summary": "LSA professors, students, and staff are finding innovative ways to increase sustainability in classroom and lab practices, reduce waste, and impact science education’s environmental footprint. Where to begin? By looking at their own two feet.",
+      "featuredImage": "https://lsa.umich.edu/content/michigan-lsa/en/news-events/lsa-magazine/spring-2026/more-stories/Less-Waste--Zero-Regrets/jcr:content/featuredImage.transform/big/image.jpg",
+      "imageAlt": "Sustainability in science",
+      "link": "/lsa/news-events/lsa-magazine/spring-2026/more-stories/Less-Waste--Zero-Regrets.html",
+      "linkText": "Read More",
+      "category": "LSA Magazine"
+    },
+    {
+      "title": "A Living Language",
+      "summary": "The language of the Aztecs lives on in words you use every day, among more than a million speakers, and in a class at LSA that teaches far more than just grammar.",
+      "featuredImage": "https://lsa.umich.edu/content/michigan-lsa/en/news-events/lsa-magazine/spring-2026/more-stories/A-Living-Language/jcr:content/featuredImage.transform/xbig_square/image.jpg",
+      "imageAlt": "A Living Language",
+      "link": "/lsa/news-events/lsa-magazine/spring-2026/more-stories/A-Living-Language.html",
+      "linkText": "More Info",
+      "category": "LSA Magazine"
+    },
+    {
+      "title": "Seizing the Opportunity",
+      "summary": "A student finds her passion—and her major—through an Undergraduate Research Opportunity Program experience.",
+      "featuredImage": "https://lsa.umich.edu/content/michigan-lsa/en/news-events/lsa-magazine/spring-2026/more-stories/Seizing-the-Opportunity/jcr:content/featuredImage.transform/xbig_square/image.jpg",
+      "imageAlt": "Seizing the Opportunity",
+      "link": "/lsa/news-events/lsa-magazine/spring-2026/more-stories/Seizing-the-Opportunity.html",
+      "linkText": "More Info",
+      "category": "LSA Magazine"
+    },
+    {
+      "title": "The Visible World",
+      "summary": "Students learn to slow down in order to see clearly in an LSA history of art course.",
+      "featuredImage": "https://lsa.umich.edu/content/michigan-lsa/en/news-events/lsa-magazine/spring-2026/more-stories/The-Visible-World/jcr:content/featuredImage.transform/xbig_square/image.jpg",
+      "imageAlt": "The Visible World",
+      "link": "/lsa/news-events/lsa-magazine/spring-2026/more-stories/The-Visible-World.html",
+      "linkText": "More Info",
+      "category": "LSA Magazine"
+    },
+    {
+      "title": "Behind the Scenes at the Smithsonian",
+      "summary": "We dive into the inner workings of an American institution with an alum and two students, and look at how it’s transforming our understanding of the past.",
+      "featuredImage": "https://lsa.umich.edu/content/michigan-lsa/en/news-events/lsa-magazine/spring-2026/more-stories/Behind-the-Scenes-at-the-Smithsonian/jcr:content/featuredImage.transform/xbig_square/image.jpg",
+      "imageAlt": "Behind the Scenes at the Smithsonian",
+      "link": "/lsa/news-events/lsa-magazine/spring-2026/more-stories/Behind-the-Scenes-at-the-Smithsonian.html",
+      "linkText": "More Info",
+      "category": "LSA Magazine"
+    }
+  ]
+}
