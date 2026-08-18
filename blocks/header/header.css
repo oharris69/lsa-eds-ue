@@ -76,7 +76,7 @@ header nav p {
 }
 
 header nav a:any-link {
-  color: currentcolor;
+  color: var(--nav-text-color);
 }
 
 header nav a::after, header nav a:hover::after, header nav a.button::after {
@@ -250,7 +250,9 @@ header nav .nav-sections ul > li .button-container {
 }
 
 header nav .nav-sections ul > li a,
-header nav .nav-sections ul > li a.button {
+header nav .nav-sections ul > li a:any-link,
+header nav .nav-sections ul > li a.button,
+header nav .nav-sections ul > li a.button:any-link {
   font-size: 18px;
   color: var(--nav-text-color);
   background: none;
