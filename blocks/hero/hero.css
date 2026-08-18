@@ -663,3 +663,84 @@ picture {
   color: var(--text-color);
   background: rgba(0, 0, 0, 0.08);
 }
+
+/* --------------------------
+   LSA homepage hero — match the live lsa.umich.edu treatment:
+   text sits BOTTOM-LEFT directly on the image (no solid navy box),
+   left-aligned, with a soft dark scrim for legibility and a maize CTA.
+   Applies to the overlay + theme-dark combo the homepage hero uses.
+--------------------------- */
+.hero.block.overlay.theme-dark {
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 0;
+}
+
+.hero.block.overlay.theme-dark .hero-text {
+  background: none;                /* drop the solid navy box */
+  max-width: 640px;
+  margin: 0;
+  padding: 0 48px 56px;
+  text-align: left;
+}
+
+/* Legibility scrim: darken the lower-left of the image behind the text */
+.hero.block.overlay.theme-dark picture::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.25) 30%,
+    rgba(0, 0, 0, 0) 60%
+  );
+  pointer-events: none;
+}
+
+.hero.block.overlay.theme-dark h1,
+.hero.block.overlay.theme-dark h2,
+.hero.block.overlay.theme-dark h3,
+.hero.block.overlay.theme-dark p {
+  text-align: left;
+  margin: 0 0 12px;
+  max-width: none;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.hero.block.overlay.theme-dark h1,
+.hero.block.overlay.theme-dark h2 {
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  font-weight: 700;
+}
+
+/* Remove the centered underline accent under the heading */
+.hero.block.overlay.theme-dark h1::after,
+.hero.block.overlay.theme-dark h2::after {
+  display: none;
+}
+
+/* Maize CTA, left-aligned, squared like the actual site */
+.hero.block.overlay.theme-dark .button-container {
+  text-align: left;
+  margin-top: 20px;
+}
+
+.hero.block.overlay.theme-dark .button-container a.button {
+  background-color: var(--main-accent-color);
+  color: var(--brand-dark-color, #00274c);
+  border: none;
+  border-radius: 0;
+  font-weight: 700;
+  padding: 14px 28px;
+  text-transform: none;
+}
+
+.hero.block.overlay.theme-dark .button-container a.button::after {
+  color: var(--brand-dark-color, #00274c);
+}
+
+.hero.block.overlay.theme-dark .button-container a.button:hover {
+  background-color: #ffd633;
+  color: var(--brand-dark-color, #00274c);
+}
