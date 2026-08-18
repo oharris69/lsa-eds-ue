@@ -10,7 +10,7 @@
       "imageAlt": "Dean Ceballo",
       "link": "/lsa/news-events/lsa-magazine/spring-2026/more-stories/Future-Proofing-LSA-Students.html",
       "linkText": "Read More",
-      "category": "LSA Magazine"
+      "category": "lsa-magazine"
     },
     {
       "title": "Less Waste, Zero Regrets",
@@ -19,7 +19,7 @@
       "imageAlt": "Sustainability in science",
       "link": "/lsa/news-events/lsa-magazine/spring-2026/more-stories/Less-Waste--Zero-Regrets.html",
       "linkText": "Read More",
-      "category": "LSA Magazine"
+      "category": "lsa-magazine"
     },
     {
       "title": "A Living Language",
@@ -28,7 +28,7 @@
       "imageAlt": "A Living Language",
       "link": "/lsa/news-events/lsa-magazine/spring-2026/more-stories/A-Living-Language.html",
       "linkText": "More Info",
-      "category": "LSA Magazine"
+      "category": "lsa-magazine"
     },
     {
       "title": "Seizing the Opportunity",
@@ -37,7 +37,7 @@
       "imageAlt": "Seizing the Opportunity",
       "link": "/lsa/news-events/lsa-magazine/spring-2026/more-stories/Seizing-the-Opportunity.html",
       "linkText": "More Info",
-      "category": "LSA Magazine"
+      "category": "lsa-magazine"
     },
     {
       "title": "The Visible World",
@@ -46,7 +46,7 @@
       "imageAlt": "The Visible World",
       "link": "/lsa/news-events/lsa-magazine/spring-2026/more-stories/The-Visible-World.html",
       "linkText": "More Info",
-      "category": "LSA Magazine"
+      "category": "lsa-magazine"
     },
     {
       "title": "Behind the Scenes at the Smithsonian",
@@ -55,7 +55,7 @@
       "imageAlt": "Behind the Scenes at the Smithsonian",
       "link": "/lsa/news-events/lsa-magazine/spring-2026/more-stories/Behind-the-Scenes-at-the-Smithsonian.html",
       "linkText": "More Info",
-      "category": "LSA Magazine"
+      "category": "lsa-magazine"
     }
   ]
 }
