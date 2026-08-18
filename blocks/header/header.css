@@ -461,7 +461,9 @@ header nav .nav-tools ul li {
 header nav .nav-tools ul li a,
 header nav .nav-tools ul li a:any-link {
   color: var(--nav-text-color);
+  font-family: var(--body-font-family);
   font-size: 14px;
+  font-weight: 500;
   text-decoration: none;
   white-space: nowrap;
 }
