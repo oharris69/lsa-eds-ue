@@ -1,7 +1,29 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
+// md2jcr sometimes imports a card image as a bare link whose text is the image
+// URL (e.g. <a href="...image.jpg">...image.jpg</a>) instead of an <img>.
+// Convert any such image-link into a real picture so cards show the photo, not
+// a long raw URL.
+function fixImageLinks(scope) {
+  const IMG_EXT = /\.(jpe?g|png|gif|webp|svg)(?:[?#].*)?$/i;
+  scope.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href') || '';
+    const text = (a.textContent || '').trim();
+    if (IMG_EXT.test(href) && (text === '' || text === href || text === a.href)) {
+      const img = document.createElement('img');
+      img.src = href;
+      img.alt = '';
+      img.loading = 'lazy';
+      const picture = document.createElement('picture');
+      picture.append(img);
+      a.replaceWith(picture);
+    }
+  });
+}
+
 export default function decorate(block) {
+  fixImageLinks(block);
   const ul = document.createElement('ul');
   [...block.children].forEach((row) => {
     const li = document.createElement('li');
