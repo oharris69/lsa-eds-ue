@@ -73,6 +73,16 @@ export default function decorate(block) {
     ul.append(li);
   });
   ul.querySelectorAll('picture > img').forEach((img) => {
+    // Only run the EDS image optimizer on same-origin assets. Cross-origin
+    // images (e.g. cards whose photos live on lsa.umich.edu) must keep their
+    // absolute src — optimizing rewrites them to the EDS host and 404s.
+    let sameOrigin = true;
+    try {
+      sameOrigin = new URL(img.src, window.location.href).origin === window.location.origin;
+    } catch (e) {
+      sameOrigin = true;
+    }
+    if (!sameOrigin) return;
     const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
     moveInstrumentation(img, optimizedPic.querySelector('img'));
     img.closest('picture').replaceWith(optimizedPic);
