@@ -18,8 +18,9 @@ footer .footer p {
 }
 
 footer .footer img {
-  width: 100px;
-  height: auto;
+  width: auto;
+  height: 64px;
+  max-height: 64px;
   margin-bottom: 20px;
 }
 
