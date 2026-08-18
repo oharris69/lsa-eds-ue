@@ -470,8 +470,7 @@ header nav .nav-tools ul li a:hover {
   color: var(--main-accent-color);
 }
 
-/* language switcher */
-/* Single-language site — hide the EN language switcher (not on the live LSA header). */
+/* Language switcher — hidden: single-language site, not on the live LSA header. */
 .lang-switcher {
   display: none;
 }
