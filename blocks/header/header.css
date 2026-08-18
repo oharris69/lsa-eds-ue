@@ -43,18 +43,44 @@ header nav[aria-expanded='true'] {
 }
 
 @media (width >= 900px) {
+  /*
+   * Keep the boilerplate flex layout, but allow wrapping so the utility bar
+   * (.nav-tools) sits on its own full-width line at the TOP (order:-1), then
+   * brand + main menu share the line below. This matches the live LSA header
+   * (utility strip over logo+menu) without the ~290px-tall broken column that
+   * a squeezed right-hand .nav-tools produced.
+   */
   header nav {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
+    align-items: center;
     gap: 0 32px;
     max-width: 1264px;
-    padding: 0 32px;
+    padding: 6px 32px 12px;
+    min-height: 0;
+    height: auto;
+  }
+
+  header nav .nav-tools {
+    order: -1;
+    flex: 1 0 100%;
+    justify-content: flex-end;
+    margin: 0;
+    padding-bottom: 6px;
+  }
+
+  header nav .nav-brand { flex: 0 0 auto; }
+
+  header nav .nav-sections {
+    flex: 1 1 auto;
+    align-self: center;
   }
 
   header nav[aria-expanded='true'] {
     min-height: 0;
     overflow: visible;
-    padding: 22px 32px;
+    padding: 6px 32px 12px;
     height: auto;
   }
 }
