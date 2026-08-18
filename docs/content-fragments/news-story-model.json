@@ -1,0 +1,64 @@
+{
+  "modelTitle": "News Story",
+  "description": "A reusable LSA news / magazine story card: image + heading + summary + link. Derived from the 20+ card instances across the migrated pages (homepage Featured News, More from LSA Magazine, department landing cards).",
+  "suggestedPath": "/conf/lsa-umich-eds/settings/dam/cfm/models",
+  "fields": [
+    {
+      "name": "title",
+      "label": "Title",
+      "type": "single-line-text",
+      "required": true,
+      "description": "Story headline, e.g. \"Dean's Note: Future-Proofing LSA Students\"."
+    },
+    {
+      "name": "summary",
+      "label": "Summary",
+      "type": "multi-line-text",
+      "required": false,
+      "description": "Short teaser paragraph shown under the title."
+    },
+    {
+      "name": "featuredImage",
+      "label": "Featured Image",
+      "type": "content-reference",
+      "accepts": ["image/*"],
+      "required": false,
+      "description": "DAM asset for the card image. (Migrated cards currently point at external lsa.umich.edu URLs; upload to /content/dam/lsa-umich-eds and reference here.)"
+    },
+    {
+      "name": "imageAlt",
+      "label": "Image Alt Text",
+      "type": "single-line-text",
+      "required": false
+    },
+    {
+      "name": "link",
+      "label": "Story Link",
+      "type": "single-line-text",
+      "required": false,
+      "description": "URL the card links to (e.g. /lsa/news-events/lsa-magazine/spring-2026/...)."
+    },
+    {
+      "name": "linkText",
+      "label": "Link Text",
+      "type": "single-line-text",
+      "defaultValue": "Read More",
+      "required": false
+    },
+    {
+      "name": "category",
+      "label": "Category",
+      "type": "enumeration",
+      "options": ["News", "LSA Magazine", "Feature", "Announcement"],
+      "required": false,
+      "description": "Optional tag for filtering in listings (fragment-list block)."
+    }
+  ],
+  "variations": [
+    {
+      "name": "compact",
+      "title": "Compact",
+      "description": "Title + link only, no image/summary — for dense listings."
+    }
+  ]
+}
