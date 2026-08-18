@@ -6310,6 +6310,18 @@
     ]
   },
   {
+    "id": "news-story",
+    "fields": [
+      {
+        "component": "aem-content-fragment",
+        "name": "reference",
+        "label": "News Story Fragment",
+        "valueType": "string",
+        "required": true
+      }
+    ]
+  },
+  {
     "id": "promotion",
     "fields": [
       {
