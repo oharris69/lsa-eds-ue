@@ -272,22 +272,26 @@ for (const page of PAGES) {
 const META = `${OUT_ROOT}/META-INF/vault`;
 ensureDir(META);
 
-// Build the workspace filter so installing this package also CLEANS UP the two
-// earlier (wrong) layouts. Real content now lives under the Love's-style root
-// /content/lsa-eds-ue/language-masters/en, so:
-//   1. A filter root on /language-masters/en installs our whole tree wholesale.
-//   2. Bare filter roots for the stale nodes the earlier packages created —
-//      the flat site-root nodes (index, lsa, rc, english, urop, psych, cgis) and
-//      the interim /en language root — get NO content from this package, so
-//      FileVault deletes those subtrees on install.
-// The site root node /content/lsa-eds-ue is never a filter root, so its site
-// config (cq:Page, cloudservice, etc.) is preserved.
+// Build the workspace filter. Content lives under the Love's-style root
+// /content/lsa-umich-eds/language-masters/en.
+//
+// IMPORTANT: the homepage IS the `en` node itself, and it is now authored
+// directly in AEM (hero placed from Assets/DAM, UE edits). We must NOT let a
+// package re-install clobber that authored content. So the /language-masters/en
+// filter root carries an EXCLUDE for the en node's own jcr:content — child pages
+// (rc, cgis, nav, footer, …) still install/update, but the homepage's own
+// content is left untouched. Stale roots from earlier (wrong) layouts are listed
+// bare so FileVault removes them on install.
 const staleRoots = [
   'index', 'lsa', 'rc', 'english', 'urop', 'psych', 'cgis', // old flat site-root pages
   'en', // interim consolidated root (now superseded by language-masters/en)
 ];
 const filterEntries = [
-  '  <filter root="/content/lsa-umich-eds/language-masters/en"/>',
+  // Root covers children; exclude the homepage node's own content so authored
+  // homepage (hero from DAM, etc.) is never overwritten by a re-install.
+  '  <filter root="/content/lsa-umich-eds/language-masters/en">',
+  '    <exclude pattern="/content/lsa-umich-eds/language-masters/en/jcr:content(/.*)?"/>',
+  '  </filter>',
   ...staleRoots.map((seg) => `  <filter root="/content/lsa-umich-eds/${seg}"/>`),
 ].join('\n');
 fs.writeFileSync(`${META}/filter.xml`, `<?xml version="1.0" encoding="UTF-8"?>
