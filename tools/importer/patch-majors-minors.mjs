@@ -20,7 +20,7 @@ const REPO = '/workspace/current';
 const NM = '/home/node/.excat-marketplaces/excat-marketplace/excat/skills/excat-content-import/scripts/node_modules';
 const SITE_STAGE = '__SITEROOT__';
 const PKG_NAME = 'lsa-eds-ue-content';
-const PKG_VERSION = '1.6.0';
+const PKG_VERSION = '1.7.0';
 const PAGE_DIR = `${REPO}/dist/pkg/jcr_root/${SITE_STAGE}/language-masters/en/lsa/academics/majors-minors`;
 
 const xmlEsc = (s) => s
@@ -80,15 +80,23 @@ if (dMatch) {
     .replace(/\s+/g, ' ');
 }
 
-// --- Build the HTML program table ---
-const thead = header
-  ? `<thead><tr>${header.map((h) => `<th>${xmlEsc(h)}</th>`).join('')}</tr></thead>`
-  : '';
-const tbody = `<tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${mdInline(xmlEsc(c))}</td>`).join('')}</tr>`).join('')}</tbody>`;
-const tableHtml = `<table>${thead}${tbody}</table>`;
-
 const RT = (t, extra = '') => `sling:resourceType="core/franklin/components/${t}" jcr:primaryType="nt:unstructured"${extra}`;
 const introText = intro.join('');
+
+// --- Build the program list as an EDS Table BLOCK (block > row items > cells) ---
+// Raw HTML <table> is stripped by the EDS pipeline; a block survives and is
+// decorated into a real <table> by blocks/table/table.js. Row 0 = header.
+const allRows = header ? [header, ...rows] : rows;
+const rowItems = allRows.map((cells, idx) => {
+  const [c1 = '', c2 = '', c3 = ''] = cells.map((c) => `<p>${mdInline(xmlEsc(c))}</p>`);
+  return `        <item_${idx} ${RT('block/v1/block/item', ' name="Row" model="table-row"'
+    + ' modelFields="[col1,col2,col3]"'
+    + ` col1="${xmlEsc(c1)}" col2="${xmlEsc(c2)}" col3="${xmlEsc(c3)}"`)}/>`;
+}).join('\n');
+
+const tableBlock = `      <block ${RT('block/v1/block', ' filter="table" name="Table"')}>
+${rowItems}
+      </block>`;
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0" jcr:primaryType="cq:Page">
@@ -99,7 +107,7 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
         <text ${RT('text/v1/text', ` text="${xmlEsc(introText)}"`)}/>
       </section>
       <section_1 ${RT('section/v1/section', ' model="section" modelFields="[name,style]"')}>
-        <text ${RT('text/v1/text', ` text="${xmlEsc(tableHtml)}"`)}/>
+${tableBlock}
       </section_1>
     </root>
   </jcr:content>

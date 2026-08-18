@@ -30,6 +30,7 @@
       "quote",
       "search",
       "separator",
+      "table",
       "tabs",
       "teaser",
       "text",
@@ -42,6 +43,12 @@
     "id": "cards",
     "components": [
       "card"
+    ]
+  },
+  {
+    "id": "table",
+    "components": [
+      "table-row"
     ]
   },
   {

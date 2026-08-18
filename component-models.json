@@ -6464,6 +6464,32 @@
     ]
   },
   {
+    "id": "table-row",
+    "fields": [
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "col1",
+        "value": "",
+        "label": "Column 1"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "col2",
+        "value": "",
+        "label": "Column 2"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "col3",
+        "value": "",
+        "label": "Column 3"
+      }
+    ]
+  },
+  {
     "id": "tabs",
     "fields": [
       {
