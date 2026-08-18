@@ -1,10 +1,24 @@
 /* header and nav layout */
 header .nav-wrapper {
-  background-color: var(--nav-background-color);
   color: var(--nav-text-color);
   width: 100%;
   z-index: 2;
   position: fixed;
+
+  /*
+   * Match the live LSA header background: Michigan Blue with a subtle vertical
+   * gradient plus a faint diagonal-stripe texture, rather than a flat fill.
+   */
+  background-color: var(--nav-background-color);
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      rgb(255 255 255 / 3%) 0,
+      rgb(255 255 255 / 3%) 1px,
+      transparent 1px,
+      transparent 6px
+    ),
+    linear-gradient(180deg, #013a6b 0%, var(--nav-background-color) 100%);
 }
 
 /* Nav links use the LSA nav text color (white on Michigan Blue); maize on hover. */

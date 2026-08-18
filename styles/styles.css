@@ -45,12 +45,12 @@
   --footer-background-color: var(--brand-footer-background-color, #000);
   --footer-text-color: var(--brand-footer-text-color, #fff);
   
-  /* fonts */
-  --body-font-family: 'Adobe Clean', roboto, roboto-fallback, sans-serif;
-  --heading-font-family: 'Adobe Clean Bold', roboto-condensed, roboto-condensed-fallback, sans-serif;
-  --light-font-family: 'Adobe Clean Light', roboto, roboto-fallback, sans-serif;
-  --extra-font-family: 'Adobe Clean Extra Bold', roboto, roboto-fallback, sans-serif;
-  --black-font-family: 'Adobe Clean Black', roboto, roboto-fallback, sans-serif;
+  /* fonts — LSA brand: Aleo for headings, Roboto for body (matches lsa.umich.edu) */
+  --body-font-family: roboto, roboto-fallback, arial, sans-serif;
+  --heading-font-family: aleo, georgia, 'Times New Roman', serif;
+  --light-font-family: roboto, roboto-fallback, arial, sans-serif;
+  --extra-font-family: aleo, georgia, 'Times New Roman', serif;
+  --black-font-family: aleo, georgia, 'Times New Roman', serif;
 
   /* body sizes */
   --body-font-size-m: 22px;
