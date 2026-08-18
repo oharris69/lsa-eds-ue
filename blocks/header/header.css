@@ -170,7 +170,7 @@ header nav[aria-expanded='true'] .nav-hamburger-icon::after {
 /* brand */
 header .nav-brand {
   grid-area: brand;
-  flex-basis: 128px;
+  flex-basis: auto;
   font-size: var(--heading-font-size-s);
   font-weight: 700;
   line-height: 1;
@@ -180,10 +180,18 @@ header .nav-brand {
   flex-basis: unset;
 }
 
+/* LSA brand is a wide wordmark (M block + "LSA College of...") — size by height and
+   let width scale with the aspect ratio so it isn't squashed. */
 header nav .nav-brand img {
   width: auto;
-  height: 56px;
-  max-height: 56px;
+  height: 60px;
+  max-height: 60px;
+  max-width: none;
+  object-fit: contain;
+}
+
+header nav .nav-brand p {
+  margin: 0;
 }
 
 .wehealthcare-theme header nav .nav-brand img {

@@ -21,6 +21,8 @@ footer .footer img {
   width: auto;
   height: 64px;
   max-height: 64px;
+  max-width: none;
+  object-fit: contain;
   margin-bottom: 20px;
 }
 
