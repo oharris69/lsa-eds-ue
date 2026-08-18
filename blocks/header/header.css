@@ -398,6 +398,38 @@ header nav .nav-tools {
   gap: 10px;
 }
 
+/*
+ * Utility links (U-M // LSA // Departments … ) live in .nav-tools as a plain
+ * <ul> that defaults to display:block, stacking vertically in a narrow column
+ * and blowing the nav height up to ~315px. Lay them out horizontally and
+ * compact so the header reads like the live LSA utility bar.
+ */
+header nav .nav-tools ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 18px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+header nav .nav-tools ul li {
+  white-space: nowrap;
+}
+
+header nav .nav-tools ul li a,
+header nav .nav-tools ul li a:any-link {
+  color: var(--nav-text-color);
+  font-size: 14px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+header nav .nav-tools ul li a:hover {
+  color: var(--main-accent-color);
+}
+
 /* language switcher */
 .lang-switcher {
   position: relative;
