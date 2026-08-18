@@ -470,9 +470,11 @@ header nav .nav-tools ul li a:hover {
   color: var(--main-accent-color);
 }
 
-/* Language switcher — hidden: single-language site, not on the live LSA header. */
+/* language switcher (hidden for single-language site — see .nav-tools rule below) */
 .lang-switcher {
-  display: none;
+  position: relative;
+  display: inline-block;
+  margin-left: 16px;
 }
 
 .lang-switcher .lang-button {
@@ -583,7 +585,8 @@ header nav .nav-tools .search-wrapper {
   display: flex;
   align-items: center;
 }
-header nav .nav-tools .lang-switcher { display: inline-flex; }
+/* Single-language site: keep the switcher hidden (overrides the base rule). */
+header nav .nav-tools .lang-switcher { display: none; }
 
 /* Responsive Styles */
 @media (width < 900px) {
