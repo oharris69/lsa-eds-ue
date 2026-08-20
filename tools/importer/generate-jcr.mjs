@@ -131,7 +131,7 @@ const SITE_STAGE = '__SITEROOT__';
 // on each meaningful content/structure change; the zip filename embeds it
 // (e.g. lsa-eds-ue-content-1.3.0.zip) so installs are unambiguous.
 const PKG_NAME = 'lsa-eds-ue-content';
-const PKG_VERSION = '1.5.0';
+const PKG_VERSION = '1.9.0';
 
 // Load a bundle (IIFE assigning global CustomImportScript) and return its default config.
 function loadBundle(file) {
@@ -161,6 +161,11 @@ const PAGES = [
     fetch: `${BASE}/lsa/prospective-students.html`, originalURL: 'https://lsa.umich.edu/language-masters/en/lsa/prospective-students',
     bundle: 'tools/importer/import-audience-landing.bundle.js',
     jcrPath: `${LANG_ROOT}/lsa/prospective-students`,
+  },
+  {
+    fetch: `${BASE}/lsa/about.html`, originalURL: 'https://lsa.umich.edu/language-masters/en/lsa/about',
+    bundle: 'tools/importer/import-about.bundle.js',
+    jcrPath: `${LANG_ROOT}/lsa/about`,
   },
   {
     fetch: `${BASE}/lsa/academics/majors-minors.html`, originalURL: 'https://lsa.umich.edu/language-masters/en/lsa/academics/majors-minors',
