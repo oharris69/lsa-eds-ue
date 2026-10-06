@@ -2,12 +2,8 @@
   "mappings": [
     "/content/lsa-umich-eds/language-masters/en:/",
     "/content/lsa-umich-eds/language-masters/en/:/en/",
-    "/content/lsa-umich-eds/language-masters/fr/:/fr/",
-    "/content/lsa-umich-eds/language-masters/fr:/fr",
     "/content/lsa-umich-eds/language-masters/es/:/es/",
     "/content/lsa-umich-eds/language-masters/es:/es",
-    "/content/lsa-umich-eds/language-masters/ja/:/ja/",
-    "/content/lsa-umich-eds/language-masters/ja:/ja",
     "/content/lsa-umich-eds/configuration:/.helix/config.json",
     "/content/lsa-umich-eds/metadata:/metadata.json",
     "/content/lsa-umich-eds/redirects:/redirects.json",
