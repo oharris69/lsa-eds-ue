@@ -13,7 +13,8 @@
  *   - strips the trailing .html from internal page links (EDS URLs are extensionless)
  *   - resolves internal links to migrated pages (normalized like the importer's
  *     document paths); in the nav/footer fragments, links to pages that are not
- *     migrated become placeholders to the homepage (report: {out}/nav-links.txt)
+ *     migrated become placeholders to the homepage (report: {out}/nav-links.txt);
+ *     in page content they point at the live LSA site (report: {out}/live-links.txt)
  *
  * Output: {out}/<path>.html for each page, plus {out}/manifest.json
  *   { pages: [{ path, file }], media: [file] }
@@ -70,12 +71,18 @@ const normalizePath = (p) => {
   return clean === '' || clean === '/lsa' || clean === '/index' ? '/' : clean;
 };
 
+const LIVE_ORIGIN = 'https://lsa.umich.edu';
 const linkReport = [];
+const liveLinks = new Set();
 /**
- * Resolve internal links (relative, or absolute lsa.umich.edu): a link to a
- * migrated page points at its EDS path; in nav/footer fragments a link to a page
- * that isn't migrated becomes a placeholder to the homepage (/). Other hosts
- * (umich.edu, giving, Course Guide, Gateway), anchors and mailto are untouched.
+ * Resolve internal links (relative, or absolute lsa.umich.edu):
+ *   - a link to a migrated page points at its EDS path;
+ *   - in nav/footer fragments, a link to a page that isn't migrated becomes a
+ *     placeholder to the homepage (/);
+ *   - in page content, a link to a page or file that isn't migrated points at
+ *     the live LSA site (https://lsa.umich.edu + the path as authored).
+ * Other hosts (umich.edu, giving, Course Guide, Gateway), anchors and mailto are
+ * untouched. Runs before the .html stripping, so live links keep their .html.
  */
 function resolveLinks(html, docPath) {
   const isFragment = FRAGMENTS.has(docPath);
@@ -83,12 +90,16 @@ function resolveLinks(html, docPath) {
     const abs = /^https?:\/\/lsa\.umich\.edu(\/[^"]*)?$/i.exec(href);
     if (!href.startsWith('/') && !abs) return m;
     if (href.startsWith('/media-da/')) return m;
-    const url = new URL(abs ? (abs[1] || '/') : href, 'https://x.invalid');
+    const rel = abs ? (abs[1] || '/') : href;
+    const url = new URL(rel.replace(/&amp;/g, '&'), 'https://x.invalid');
     const target = normalizePath(url.pathname);
-    let out = null;
+    let out;
     if (migrated.has(target)) out = target + url.hash;
     else if (isFragment) out = '/';
-    if (!out) return m;
+    else {
+      out = `${LIVE_ORIGIN}${rel}`;
+      liveLinks.add(`${LIVE_ORIGIN}${rel}`);
+    }
     if (isFragment) linkReport.push(`${docPath}: ${href} → ${out}${migrated.has(target) ? '' : '  (placeholder)'}`);
     return `href="${out}"`;
   });
@@ -105,11 +116,10 @@ files.forEach(({ file, docPath }) => {
     (row, src) => (src.startsWith(BLOCKED_ORIGIN) ? '' : row),
   );
 
-  // Internal page links: Edge Delivery URLs are extensionless (/lsa/about, not
-  // /lsa/about.html). Only a trailing .html is stripped (before ?/#), so
-  // servlet-style paths like /events.detail.html/123.html keep their inner segment.
-  html = html.replace(/href="(\/(?!media-da\/)[^"?#]*?)\.html([?#][^"]*)?"/g, (m, p, rest) => `href="${p}${rest || ''}"`);
   html = resolveLinks(html, docPath);
+  // Any remaining relative page link: Edge Delivery URLs are extensionless
+  // (/lsa/about, not /lsa/about.html). Only a trailing .html is stripped (before ?/#).
+  html = html.replace(/href="(\/(?!media-da\/)[^"?#]*?)\.html([?#][^"]*)?"/g, (m, p, rest) => `href="${p}${rest || ''}"`);
 
   html = html.replace(/(src|href)="\/media-da\/([^"]+)"/g, (m, attr, name) => {
     media.add(name);
@@ -130,6 +140,8 @@ fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify({
 }, null, 2));
 
 fs.writeFileSync(path.join(OUT, 'nav-links.txt'), `${linkReport.join('\n')}\n`);
+fs.writeFileSync(path.join(OUT, 'live-links.txt'), `${[...liveLinks].sort().join('\n')}\n`);
+console.log(`in-page links to unmigrated LSA pages: ${liveLinks.size} unique → live site (${OUT}/live-links.txt)`);
 console.log(`Built ${pages.length} DA documents in ${OUT}; ${mediaList.length} media files referenced.`);
 console.log(`nav/footer links: ${linkReport.length} resolved (${linkReport.filter((l) => l.includes('placeholder')).length} placeholders) — see ${OUT}/nav-links.txt`);
 if (missing.length) {
