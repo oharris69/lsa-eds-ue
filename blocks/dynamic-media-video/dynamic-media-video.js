@@ -1,7 +1,5 @@
 import { loadScript } from '../../scripts/aem.js';
 
-let dmViewerPromise;
-
 // DM video viewer, loaded on demand (it used to be a parser-blocking script in
 // head.html on every page).
 const DM_VIEWER_SRC = 'https://delivery-p153659-e1620914.adobeaemcloud.com/adobe/assets/urn:aaid:aem:dmviewers-html5/as/DMVideoViewer.js';
@@ -20,24 +18,25 @@ export default async function decorate(block) {
   }
 
   const videolinks = block.querySelectorAll('a[href]');
-  //https://delivery-p153659-e1620914.adobeaemcloud.com/adobe/assets/urn:aaid:aem:20bd71c3-a5a1-4b9e-833e-42e5cd028c3c/renditions/original/as/SampleVideo1mb.mp4?assetname=SampleVideo1mb.mp4
+  // https://delivery-p153659-e1620914.adobeaemcloud.com/adobe/assets/urn:aaid:aem:20bd71c3-a5a1-4b9e-833e-42e5cd028c3c/renditions/original/as/SampleVideo1mb.mp4?assetname=SampleVideo1mb.mp4
 
-  if(videolinks.length != 0){
-    let videoUrl = videolinks[0].href;
+  if (videolinks.length !== 0) {
+    const videoUrl = videolinks[0].href;
 
-    const urnPattern = /(\/adobe\/assets\/urn:[^\/]+)/i;
+    const urnPattern = /(\/adobe\/assets\/urn:[^/]+)/i;
     const match = videoUrl.match(urnPattern);
 
     if (!match) {
       console.error('Invalid Dynamic Media video URL format');
-      return null;
+      return;
     }
 
     // Extract the base URL (protocol + hostname)
     const videoURLObj = new URL(videoUrl);
     const baseUrl = `${videoURLObj.protocol}//${videoURLObj.hostname}`;
 
-    // Extract the asset ID path (e.g., /adobe/assets/urn:aaid:aem:20bd71c3-a5a1-4b9e-833e-42e5cd028c3c)
+    // Extract the asset ID path
+    // (e.g. /adobe/assets/urn:aaid:aem:20bd71c3-a5a1-4b9e-833e-42e5cd028c3c)
     const assetIdPath = match[1];
 
     // Construct the URLs
@@ -46,10 +45,8 @@ export default async function decorate(block) {
     const hlsUrl = `${baseUrl}${assetIdPath}/manifest.m3u8`;
 
     // Create a container for the DM viewer
-   // const playerContainer = block.querySelector('.dynamic-media-video');
+    // const playerContainer = block.querySelector('.dynamic-media-video');
 
-
-    
     block.id = `dm-video-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
 
     const params = {
@@ -78,8 +75,8 @@ export default async function decorate(block) {
     const muted = getTextFromChild(4)?.toLowerCase() === 'true';
 
     Array.from(block.children).forEach((child) => {
-				child.style.display = 'none';
-		});
+      child.style.display = 'none';
+    });
 
     if (autoplay) {
       params.autoplay = '1';
@@ -88,7 +85,7 @@ export default async function decorate(block) {
       params.loop = '1';
     }
     if (muted) {
-      params.muted = '1';  // or params.playback = 'muted';
+      params.muted = '1'; // or params.playback = 'muted';
     }
 
     // Controls behavior depends on the viewer version; simplest pattern:
@@ -104,8 +101,8 @@ export default async function decorate(block) {
       params,
     });
     s7videoviewer.init();
-  } else{
-     Array.from(block.children).forEach((child) => {
+  } else {
+    Array.from(block.children).forEach((child) => {
       child.style.display = 'none';
     });
   }
