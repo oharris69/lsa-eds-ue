@@ -14,6 +14,13 @@
  *   3. "#gridparlsa_gridwrapper_4264_1137812086_gridclass .lsa_tile"
  *        → element IS a SINGLE rollover card (More from LSA Magazine, 6 matches):
  *          square image + <h3>title</h3> + <p>hover description</p> + More Info CTA.
+ *   4. "#gridparlsa_gridwrapper_copy_553291602_gridclass .stat-row"
+ *        → element is a CONTAINER holding 3 text-only `.stat-block` tiles
+ *          (/lsa/prospective-students/undergraduate): big stat + label + optional citation.
+ *   5. "#gridparlsa_gridwrapper_418777680_gridclass" (About page)
+ *        → element is a SECTION holding several linked `.cmp-image` figures (promo
+ *          image-link grid, no .story / .lsa_tile): one card per image-link, with the
+ *          image alt reused as a linked h3 so the card isn't blank.
  * Generated: 2026-08-13
  *
  * Project (xwalk) card model (blocks/cards/_cards.json): image (reference), text (richtext),
@@ -73,17 +80,72 @@ function buildCta(label, href, document) {
   return p;
 }
 
+// Build an <img> from a data-picture container when no real <img> exists
+// (JSDOM hides <noscript> fallbacks). Used by the promo-image-link cards.
+function cardImg(container, element, document) {
+  const real = container.querySelector('img');
+  if (real && real.getAttribute('src')) return buildImg(real, element, document);
+  const ds = container.querySelector('[data-src]');
+  const raw = ds && ds.getAttribute('data-src');
+  if (!raw) return null;
+  const img = document.createElement('img');
+  img.setAttribute('src', toAbsolute(raw, element));
+  const alt = (ds.getAttribute('data-alt') || '').trim();
+  if (alt) img.setAttribute('alt', alt);
+  return img;
+}
+
+/** Promo image-link grid (About page). Returns true when it handled the element. */
+function parsePromoImages(element, document) {
+  const promoImages = Array.from(element.querySelectorAll('.cmp-image'));
+  if (promoImages.length < 2) return false;
+  const cells = [];
+  promoImages.forEach((cmp) => {
+    const linkEl = cmp.querySelector('a[href]');
+    const href = linkEl ? linkEl.getAttribute('href') : '';
+    const img = cardImg(cmp, element, document);
+    if (!img) return;
+    const imageFrag = document.createDocumentFragment();
+    imageFrag.appendChild(document.createComment(' field:image '));
+    imageFrag.appendChild(maybeLink(img, href, element, document));
+    const textFrag = document.createDocumentFragment();
+    const label = img.getAttribute('alt');
+    if (label) {
+      textFrag.appendChild(document.createComment(' field:text '));
+      const h = document.createElement('h3');
+      if (href) {
+        const a = document.createElement('a');
+        a.setAttribute('href', href);
+        a.textContent = label;
+        h.appendChild(a);
+      } else {
+        h.textContent = label;
+      }
+      textFrag.appendChild(h);
+    }
+    cells.push([imageFrag, textFrag]);
+  });
+  if (!cells.length) return false;
+  element.replaceWith(WebImporter.Blocks.createBlock(document, { name: 'cards', cells }));
+  return true;
+}
+
 export default function parse(element, { document }) {
   // --- Determine the list of card source elements + their type ---
   // Featured News: the matched element is a wrapper containing multiple `.story` cards.
   // Four-button grid: the matched element (`.four-button-wrap`) contains multiple `.fourBtn` tiles.
   const stories = Array.from(element.querySelectorAll('.story'));
   const fourBtns = Array.from(element.querySelectorAll('.fourBtn'));
+  const statBlocks = Array.from(element.querySelectorAll('.stat-block'));
   let cardEls;
   if (stories.length) {
     cardEls = stories;
   } else if (fourBtns.length) {
     cardEls = fourBtns;
+  } else if (statBlocks.length) {
+    cardEls = statBlocks;
+  } else if (parsePromoImages(element, document)) {
+    return;
   } else {
     // Magazine grid (`.hoverShine`) and rollover tiles (`.lsa_tile`) match a single card each.
     cardEls = [element];
@@ -95,6 +157,7 @@ export default function parse(element, { document }) {
     const isStory = card.matches('.story') || !!card.querySelector('.lead-image');
     const isTile = card.matches('.lsa_tile') || !!card.querySelector('.tile-item, .tile-title');
     const isFourBtn = card.matches('.fourBtn') || !!card.querySelector('.button > .title');
+    const isStat = card.matches('.stat-block');
     // else: image-only card (hoverShine / plain linked image)
 
     const imgEl = card.querySelector('img');
@@ -147,6 +210,30 @@ export default function parse(element, { document }) {
       if (ctaLabel) {
         const cta = buildCta(ctaLabel, linkHref, document);
         if (cta) textNodes.push(cta);
+      }
+    } else if (isStat) {
+      // Stat tile: large figure (keeps <sup> for "#"/"%"), label, optional citation.
+      const big = card.querySelector('.stat-lrg');
+      if (big) {
+        const p = document.createElement('p');
+        const strong = document.createElement('strong');
+        strong.innerHTML = big.innerHTML.trim();
+        p.appendChild(strong);
+        textNodes.push(p);
+      }
+      const label = card.querySelector('.stat-text');
+      if (label) {
+        const p = document.createElement('p');
+        p.textContent = label.textContent.replace(/\s+/g, ' ').trim();
+        textNodes.push(p);
+      }
+      const cite = card.querySelector('.stat-cite');
+      if (cite) {
+        const p = document.createElement('p');
+        const em = document.createElement('em');
+        em.textContent = cite.textContent.replace(/\s+/g, ' ').trim();
+        p.appendChild(em);
+        textNodes.push(p);
       }
     } else if (isFourBtn) {
       // Four-button promo grid: a linked tile with a stacked title

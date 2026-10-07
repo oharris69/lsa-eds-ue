@@ -12,9 +12,10 @@
  * DOM (kept here for correctness at import time and cross-template reuse). Missing
  * selectors are no-ops in WebImporter.DOMUtils.remove.
  *
- * IMPORTANT: This transformer never touches <img> tags or their src attributes —
- * image URLs must remain the original absolute https://lsa.umich.edu paths so the
- * assets can be uploaded to AEM later.
+ * IMPORTANT: This transformer never rewrites <img> src attributes — image URLs must
+ * remain the original absolute https://lsa.umich.edu paths so the assets can be
+ * uploaded later. It only REMOVES third-party tracking pixels (Twitter/X ads etc.
+ * injected into the live DOM) and the events feed's decorative footline image.
  *
  * Structure preserved: the main #content region and its 6 top-level
  * .lsa_gridwrapper sections (hero, featured-news, look-to-michigan CTA,
@@ -87,6 +88,55 @@ const RESIDUAL_SELECTORS = [
   'iframe',
 ];
 
+// Third-party tracking pixels injected at runtime (appear as bare <img> under <body>).
+const TRACKING_PIXEL_RE = /(\/\/(t\.co|analytics\.twitter\.com|bat\.bing\.com|www\.facebook\.com\/tr|[a-z.]*doubleclick\.net)\/)|\/adsct\b/i;
+
+function removeTrackingPixels(element) {
+  element.querySelectorAll('img').forEach((img) => {
+    if (TRACKING_PIXEL_RE.test(img.getAttribute('src') || '')) img.remove();
+  });
+}
+
+const clean = (el) => (el ? el.textContent.replace(/\s+/g, ' ').trim() : '');
+
+// The "Current LSA Events" widget (.events .events-wrap) is a live feed of dated
+// event cards. Flatten it into an authorable list: one linked item per event
+// ("Oct 07 — Title: subtitle, 6:00 PM, Room Place") plus the "All Events" link.
+// The feed's own "Events" heading duplicates the section title and is dropped.
+function flattenEventsFeed(element, document) {
+  element.querySelectorAll('.events-wrap').forEach((wrap) => {
+    const events = Array.from(wrap.querySelectorAll('a.event'));
+    if (!events.length) return;
+    const ul = document.createElement('ul');
+    events.forEach((ev) => {
+      const date = [clean(ev.querySelector('.month')), clean(ev.querySelector('.day'))].filter(Boolean).join(' ');
+      const title = clean(ev.querySelector('.details .title'));
+      const subtitle = clean(ev.querySelector('.details .subtitle'));
+      const where = [clean(ev.querySelector('.event_room')), clean(ev.querySelector('.place'))].filter(Boolean).join(' ');
+      const when = [clean(ev.querySelector('.time')), where].filter(Boolean).join(', ');
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.setAttribute('href', ev.getAttribute('href'));
+      a.textContent = [date, [title, subtitle].filter(Boolean).join(': ')].filter(Boolean).join(' — ')
+        + (when ? `, ${when}` : '');
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+    const out = document.createElement('div');
+    out.appendChild(ul);
+    const all = wrap.querySelector('.footline a[href]');
+    if (all) {
+      const p = document.createElement('p');
+      const a = document.createElement('a');
+      a.setAttribute('href', all.getAttribute('href'));
+      a.textContent = clean(all);
+      p.appendChild(a);
+      out.appendChild(p);
+    }
+    wrap.replaceWith(out);
+  });
+}
+
 // Layout wrappers that may be left empty after chrome/block extraction (AEM grid noise).
 const WRAPPER_SELECTOR = '.lsa_gridwrapper, .responsivegrid, .parbase, .aem-Grid';
 
@@ -97,6 +147,8 @@ export default function transform(hookName, element, payload) {
     WebImporter.DOMUtils.remove(element, SEARCH_VUE_SELECTORS);
     // Remove inline scripts/styles carried by the raw import DOM.
     WebImporter.DOMUtils.remove(element, INLINE_SCRIPT_STYLE_SELECTORS);
+    removeTrackingPixels(element);
+    flattenEventsFeed(element, (payload && payload.document) || element.ownerDocument);
   }
 
   if (hookName === TransformHook.afterTransform) {

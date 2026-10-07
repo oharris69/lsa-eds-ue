@@ -93,11 +93,52 @@ var CustomImportScript = (() => {
     "link",
     "iframe"
   ];
+  var TRACKING_PIXEL_RE = /(\/\/(t\.co|analytics\.twitter\.com|bat\.bing\.com|www\.facebook\.com\/tr|[a-z.]*doubleclick\.net)\/)|\/adsct\b/i;
+  function removeTrackingPixels(element) {
+    element.querySelectorAll("img").forEach((img) => {
+      if (TRACKING_PIXEL_RE.test(img.getAttribute("src") || "")) img.remove();
+    });
+  }
+  var clean = (el) => el ? el.textContent.replace(/\s+/g, " ").trim() : "";
+  function flattenEventsFeed(element, document2) {
+    element.querySelectorAll(".events-wrap").forEach((wrap) => {
+      const events = Array.from(wrap.querySelectorAll("a.event"));
+      if (!events.length) return;
+      const ul = document2.createElement("ul");
+      events.forEach((ev) => {
+        const date = [clean(ev.querySelector(".month")), clean(ev.querySelector(".day"))].filter(Boolean).join(" ");
+        const title = clean(ev.querySelector(".details .title"));
+        const subtitle = clean(ev.querySelector(".details .subtitle"));
+        const where = [clean(ev.querySelector(".event_room")), clean(ev.querySelector(".place"))].filter(Boolean).join(" ");
+        const when = [clean(ev.querySelector(".time")), where].filter(Boolean).join(", ");
+        const li = document2.createElement("li");
+        const a = document2.createElement("a");
+        a.setAttribute("href", ev.getAttribute("href"));
+        a.textContent = [date, [title, subtitle].filter(Boolean).join(": ")].filter(Boolean).join(" \u2014 ") + (when ? `, ${when}` : "");
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+      const out = document2.createElement("div");
+      out.appendChild(ul);
+      const all = wrap.querySelector(".footline a[href]");
+      if (all) {
+        const p = document2.createElement("p");
+        const a = document2.createElement("a");
+        a.setAttribute("href", all.getAttribute("href"));
+        a.textContent = clean(all);
+        p.appendChild(a);
+        out.appendChild(p);
+      }
+      wrap.replaceWith(out);
+    });
+  }
   var WRAPPER_SELECTOR = ".lsa_gridwrapper, .responsivegrid, .parbase, .aem-Grid";
   function transform(hookName, element, payload) {
     if (hookName === TransformHook.beforeTransform) {
       WebImporter.DOMUtils.remove(element, SEARCH_VUE_SELECTORS);
       WebImporter.DOMUtils.remove(element, INLINE_SCRIPT_STYLE_SELECTORS);
+      removeTrackingPixels(element);
+      flattenEventsFeed(element, payload && payload.document || element.ownerDocument);
     }
     if (hookName === TransformHook.afterTransform) {
       WebImporter.DOMUtils.remove(element, [
@@ -212,6 +253,28 @@ var CustomImportScript = (() => {
       }
     });
   }
+  var TYPE_FILTERS = [".isMajor", ".isMinor", ".isSubMajor", ".isSPS"];
+  var CATEGORY_FILTERS = [".isHUM", ".isNAT", ".isSOC", ".isINT"];
+  var filterLabels = (row, selectors) => selectors.map((sel) => row.querySelector(`.visible-xs ${sel} button`)).filter(Boolean).map((b) => (b.getAttribute("title") || b.textContent).trim()).join(", ");
+  function rebuildProgramTable(main, document2) {
+    const rows = Array.from(main.querySelectorAll("table tr.has-program-detail"));
+    if (!rows.length) return;
+    const table = rows[0].closest("table");
+    const cells = [["Program", "Type", "Category"]];
+    rows.forEach((row) => {
+      const name = row.querySelector(".dept-name > a");
+      cells.push([
+        name ? name.textContent.replace(/\s+/g, " ").trim() : "",
+        filterLabels(row, TYPE_FILTERS),
+        filterLabels(row, CATEGORY_FILTERS)
+      ]);
+    });
+    table.replaceWith(WebImporter.Blocks.createBlock(document2, { name: "table", cells }));
+    main.querySelectorAll('a[href="#"]').forEach((a) => a.replaceWith(document2.createTextNode(a.textContent)));
+    main.querySelectorAll("p").forEach((p) => {
+      if (/^filtered by:?$/i.test(p.textContent.trim())) p.remove();
+    });
+  }
   var import_academics_directory_default = {
     transform: (payload) => {
       const {
@@ -222,6 +285,7 @@ var CustomImportScript = (() => {
       } = payload;
       const main = document2.body;
       executeTransformers("beforeTransform", main, payload);
+      rebuildProgramTable(main, document2);
       executeTransformers("afterTransform", main, payload);
       const hr = document2.createElement("hr");
       main.appendChild(hr);

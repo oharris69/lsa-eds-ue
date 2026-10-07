@@ -24,6 +24,11 @@
  * grid 2 = second collage), so we DON'T map responsivegrids to columns directly; we pull the
  * semantic pieces (images, title, text, button) and lay them out as the intended 3 columns.
  *
+ * Two-column text | image variant (/lsa/prospective-students/undergraduate):
+ *   instance "#gridparlsa_gridwrapper_copy_553291602_gridclass .text.parbase.aem-GridColumn--default--5"
+ *   matches the TEXT column only — the source has no wrapper around the pair, so the
+ *   adjacent .cmp-image sibling is pulled in as column 2 and removed from the flow.
+ *
  * Image URLs are kept as their ORIGINAL absolute https://lsa.umich.edu/... paths (no rewriting).
  * Link hrefs are preserved exactly as authored.
  */
@@ -52,7 +57,33 @@ function buildImg(srcImg, element, document) {
   return img;
 }
 
+function parseTextImagePair(element, document) {
+  const imgCol = element.nextElementSibling;
+  const imgEl = imgCol && imgCol.matches('.cmp-image') ? imgCol.querySelector('img') : null;
+
+  const textWrap = element.querySelector('.text-wrap') || element;
+  const col1 = Array.from(textWrap.children)
+    .filter((c) => !c.classList.contains('clearfix'))
+    .map((c) => c.cloneNode(true));
+  const img = buildImg(imgEl, element, document);
+
+  if (!col1.length && !img) {
+    element.replaceWith(...element.childNodes);
+    return;
+  }
+  if (imgCol && imgEl) imgCol.remove();
+
+  const cells = [[col1.length ? col1 : [''], img ? [img] : ['']]];
+  const block = WebImporter.Blocks.createBlock(document, { name: 'columns', cells });
+  element.replaceWith(block);
+}
+
 export default function parse(element, { document }) {
+  if (element.matches('.text.parbase')) {
+    parseTextImagePair(element, document);
+    return;
+  }
+
   // Collect all collage images in document order.
   const imgs = Array.from(element.querySelectorAll('.cmp-image img, figure img, img'));
   // De-dupe by src (querySelector union could otherwise repeat).

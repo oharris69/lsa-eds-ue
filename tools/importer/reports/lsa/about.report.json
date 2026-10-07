@@ -1,0 +1,17 @@
+{
+  "status": "success",
+  "url": "https://lsa.umich.edu/lsa/about.html",
+  "path": "lsa/about",
+  "timestamp": "2026-10-07T15:55:26.327Z",
+  "title": "About | U-M LSA U-M College of LSA",
+  "template": "about",
+  "blocks": [
+    "hero",
+    "columns",
+    "columns",
+    "columns",
+    "columns",
+    "columns",
+    "cards"
+  ]
+}

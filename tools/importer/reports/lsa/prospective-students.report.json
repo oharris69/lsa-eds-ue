@@ -1,8 +1,8 @@
 {
   "status": "success",
-  "url": "http://localhost:8082/lsa/prospective-students.html",
+  "url": "https://lsa.umich.edu/lsa/prospective-students.html",
   "path": "lsa/prospective-students",
-  "timestamp": "2026-08-13T19:09:54.180Z",
+  "timestamp": "2026-10-07T15:55:17.283Z",
   "title": "Prospective Students | U-M LSA U-M College of LSA",
   "template": "audience-landing",
   "blocks": [

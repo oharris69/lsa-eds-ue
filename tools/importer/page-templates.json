@@ -15,6 +15,7 @@
           "name": "hero",
           "instances": [
             "#gridparlsa_gridwrapper_1456_379967915_gridclass",
+            "#gridparlsa_gridwrapper_1456_1440974871_gridclass",
             "#gridparlsa_gridwrapper_1742_gridclass"
           ]
         },
@@ -52,13 +53,14 @@
       "name": "audience-landing",
       "urls": [
         "https://lsa.umich.edu/lsa/prospective-students.html",
+        "https://lsa.umich.edu/lsa/prospective-students/undergraduate.html",
         "https://lsa.umich.edu/transfer",
         "https://lsa.umich.edu/urop/prospective-students.html",
         "https://lsa.umich.edu/psych/prospective-students/undergraduate.html",
         "https://lsa.umich.edu/english/undergraduate.html"
       ],
       "coverageGaps": [],
-      "description": "Audience/program landing pages (prospective students, transfer, undergraduate). Interior-page shell (breadcrumb + h1 + section-nav dropped as chrome) plus hero banners, image-tile cards, student-profile heroes, and story-tile cards.",
+      "description": "Audience/program landing pages (prospective students, transfer, undergraduate). Interior-page shell (breadcrumb + h1 + section-nav dropped as chrome) plus hero banners, image-tile cards, student-profile heroes, and story-tile cards. Undergraduate page adds stat-tile cards (.stat-row), a two-column text|image columns block, a foreground-portrait hero (image-left) and a text-right background hero.",
       "blocks": [
         {
           "name": "hero",
@@ -68,20 +70,24 @@
             "#gridparlsa_gridwrapper_1904_1991551209_gridclass",
             "#gridparlsa_gridwrapper_1373_238990270_gridclass",
             "#gridparlsa_gridwrapper_1373_1439544965_gridclass",
-            "#gridparlsa_gridwrapper_1772_gridclass"
+            "#gridparlsa_gridwrapper_1772_gridclass",
+            "#gridparlsa_gridwrapper_9189_gridclass",
+            "#gridparlsa_gridwrapper_copy_gridclass"
           ]
         },
         {
           "name": "cards",
           "instances": [
             "#gridparlsa_gridwrapper_gridclass .hoverShine",
-            "#gridparlsa_gridwrapper_1697763167_gridclass .lsa_tile"
+            "#gridparlsa_gridwrapper_1697763167_gridclass .lsa_tile",
+            "#gridparlsa_gridwrapper_copy_553291602_gridclass .stat-row"
           ]
         },
         {
           "name": "columns",
           "instances": [
-            "#gridparlsa_gridwrapper_1526_gridclass"
+            "#gridparlsa_gridwrapper_1526_gridclass",
+            "#gridparlsa_gridwrapper_copy_553291602_gridclass .text.parbase.aem-GridColumn--default--5"
           ]
         },
         {
@@ -97,6 +103,38 @@
             "#gridparlsa_gridwrapper_1526_gridclass"
           ],
           "section": "umblue"
+        }
+      ]
+    },
+    {
+      "name": "about",
+      "urls": [
+        "https://lsa.umich.edu/lsa/about.html"
+      ],
+      "coverageGaps": [],
+      "description": "LSA About page: image+pull-quote hero, five image+text+button columns sections (columns-about parser), and a promo image-link cards grid.",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "#gridparlsa_gridwrapper_copy_1064718945_gridclass"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "#gridparlsa_gridwrapper_1033507225_gridclass",
+            "#gridparlsa_gridwrapper_1163586397_gridclass",
+            "#gridparlsa_gridwrapper_1750984253_gridclass",
+            "#gridparlsa_gridwrapper_934011541_gridclass",
+            "#gridparlsa_gridwrapper_72192711_gridclass"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "#gridparlsa_gridwrapper_418777680_gridclass"
+          ]
         }
       ]
     },

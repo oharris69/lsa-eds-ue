@@ -36,6 +36,42 @@ function executeTransformers(hookName, element, payload) {
   });
 }
 
+const TYPE_FILTERS = ['.isMajor', '.isMinor', '.isSubMajor', '.isSPS'];
+const CATEGORY_FILTERS = ['.isHUM', '.isNAT', '.isSOC', '.isINT'];
+
+const filterLabels = (row, selectors) => selectors
+  .map((sel) => row.querySelector(`.visible-xs ${sel} button`))
+  .filter(Boolean)
+  .map((b) => (b.getAttribute('title') || b.textContent).trim())
+  .join(', ');
+
+// The majors-minors program list is a frozen snapshot of an AJAX filter widget:
+// each program row repeats filter buttons and is followed by an empty
+// "loading" detail row. Rebuild it as a clean `table` block
+// (Program | Type | Category) and turn the widget's "#" filter-legend links into
+// plain text. In document authoring every table is a block, so leaving the raw
+// table would produce an unknown "program-name" block.
+function rebuildProgramTable(main, document) {
+  const rows = Array.from(main.querySelectorAll('table tr.has-program-detail'));
+  if (!rows.length) return;
+  const table = rows[0].closest('table');
+  const cells = [['Program', 'Type', 'Category']];
+  rows.forEach((row) => {
+    const name = row.querySelector('.dept-name > a');
+    cells.push([
+      name ? name.textContent.replace(/\s+/g, ' ').trim() : '',
+      filterLabels(row, TYPE_FILTERS),
+      filterLabels(row, CATEGORY_FILTERS),
+    ]);
+  });
+  table.replaceWith(WebImporter.Blocks.createBlock(document, { name: 'table', cells }));
+
+  main.querySelectorAll('a[href="#"]').forEach((a) => a.replaceWith(document.createTextNode(a.textContent)));
+  main.querySelectorAll('p').forEach((p) => {
+    if (/^filtered by:?$/i.test(p.textContent.trim())) p.remove();
+  });
+}
+
 export default {
   transform: (payload) => {
     const {
@@ -44,8 +80,10 @@ export default {
 
     const main = document.body;
 
-    // No block parsers for this template — just DOM cleanup + section handling.
+    // No block parsers for this template — just DOM cleanup + section handling,
+    // plus the program-directory table rebuild (majors-minors only).
     executeTransformers('beforeTransform', main, payload);
+    rebuildProgramTable(main, document);
     executeTransformers('afterTransform', main, payload);
 
     const hr = document.createElement('hr');

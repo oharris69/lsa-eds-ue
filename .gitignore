@@ -8,3 +8,6 @@ helix-importer-ui
 *.bak
 .idea
 dist/
+
+# raw source-page snapshots saved by the importer's bot-protection fallback
+tools/importer/bd-snapshots/

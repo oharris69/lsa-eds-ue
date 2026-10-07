@@ -42,8 +42,22 @@ var CustomImportScript = (() => {
   });
 
   // tools/importer/parsers/hero.js
+  function findForegroundImage(element) {
+    if (element.querySelector(".pull-quote-wrapper")) return null;
+    if (!element.querySelector(".lsa-accssibility-text-color-dark-override")) return null;
+    return Array.from(element.querySelectorAll(".cmp-image img")).find((img) => !img.closest('[class*="GridColumn--"][class*="--hide"]')) || null;
+  }
+  function toAbsolute(src, element) {
+    try {
+      const base = element.ownerDocument && element.ownerDocument.defaultView && element.ownerDocument.defaultView.location && element.ownerDocument.defaultView.location.href || "https://lsa.umich.edu/";
+      return new URL(src, base).href;
+    } catch (e) {
+      return src;
+    }
+  }
   function parse(element, { document: document2 }) {
     var _a, _b;
+    const fgImgEl = findForegroundImage(element);
     let bgSrc = element.getAttribute("data-image-src") || ((_b = (_a = element.querySelector("[data-image-src]") || {}).getAttribute) == null ? void 0 : _b.call(_a, "data-image-src")) || "";
     if (!bgSrc) {
       const styled = element.querySelector('[style*="background-image"]') || element;
@@ -51,7 +65,11 @@ var CustomImportScript = (() => {
       if (m) bgSrc = m[2];
     }
     let bgImg = null;
-    if (bgSrc) {
+    if (fgImgEl) {
+      bgImg = document2.createElement("img");
+      bgImg.setAttribute("src", toAbsolute(fgImgEl.getAttribute("src"), element));
+      bgImg.setAttribute("alt", (fgImgEl.getAttribute("alt") || "").trim());
+    } else if (bgSrc) {
       let absSrc = bgSrc;
       try {
         const base = element.ownerDocument && element.ownerDocument.defaultView && element.ownerDocument.defaultView.location && element.ownerDocument.defaultView.location.href || "https://lsa.umich.edu/";
@@ -73,8 +91,20 @@ var CustomImportScript = (() => {
         }
       });
     });
-    const herolayout = element.querySelector(".pull-quote-wrapper") ? "overlay" : "image-background-text-left";
-    const backgroundstyle = "theme-dark";
+    const textCol = element.querySelector(".text.parbase, .title");
+    let herolayout = "image-background-text-left";
+    if (element.querySelector(".pull-quote-wrapper")) {
+      herolayout = "overlay";
+    } else if (fgImgEl) {
+      const imgFirst = textCol && fgImgEl.compareDocumentPosition(textCol) & 4;
+      herolayout = !textCol || imgFirst ? "image-left" : "image-right";
+    } else {
+      const offset = /aem-GridColumn--offset--default--(\d+)/.exec(
+        (element.querySelector(".text.parbase") || {}).className || ""
+      );
+      if (offset && parseInt(offset[1], 10) >= 4) herolayout = "image-background-text-right";
+    }
+    const backgroundstyle = fgImgEl ? "theme-light" : "theme-dark";
     const ctaAnchor = element.querySelector("a.btn, a.lsa-button-click, .button a[href]");
     const ctaLabel = ctaAnchor ? ctaAnchor.textContent.trim() : "";
     const ctaHref = ctaAnchor ? ctaAnchor.getAttribute("href") : "";
@@ -83,16 +113,20 @@ var CustomImportScript = (() => {
       return;
     }
     const cells = [];
-    if (bgImg) {
+    {
       const frag = document2.createDocumentFragment();
-      frag.appendChild(document2.createComment(" field:image "));
-      frag.appendChild(bgImg);
+      if (bgImg) {
+        frag.appendChild(document2.createComment(" field:image "));
+        frag.appendChild(bgImg);
+      }
       cells.push([frag]);
     }
-    if (textNodes.length) {
+    {
       const frag = document2.createDocumentFragment();
-      frag.appendChild(document2.createComment(" field:text "));
-      textNodes.forEach((n) => frag.appendChild(n));
+      if (textNodes.length) {
+        frag.appendChild(document2.createComment(" field:text "));
+        textNodes.forEach((n) => frag.appendChild(n));
+      }
       cells.push([frag]);
     }
     {
@@ -134,7 +168,7 @@ var CustomImportScript = (() => {
 
   // tools/importer/parsers/cards.js
   var HERO_BASE = "https://lsa.umich.edu/";
-  function toAbsolute(url, element) {
+  function toAbsolute2(url, element) {
     if (!url) return url;
     try {
       const base = element && element.ownerDocument && element.ownerDocument.defaultView && element.ownerDocument.defaultView.location && element.ownerDocument.defaultView.location.href || HERO_BASE;
@@ -146,7 +180,7 @@ var CustomImportScript = (() => {
   function buildImg(srcImg, element, document2) {
     if (!srcImg) return null;
     const img = document2.createElement("img");
-    img.setAttribute("src", toAbsolute(srcImg.getAttribute("src"), element));
+    img.setAttribute("src", toAbsolute2(srcImg.getAttribute("src"), element));
     const alt = srcImg.getAttribute("alt");
     if (alt) img.setAttribute("alt", alt);
     return img;
@@ -168,11 +202,64 @@ var CustomImportScript = (() => {
     p.appendChild(a);
     return p;
   }
+  function cardImg(container, element, document2) {
+    const real = container.querySelector("img");
+    if (real && real.getAttribute("src")) return buildImg(real, element, document2);
+    const ds = container.querySelector("[data-src]");
+    const raw = ds && ds.getAttribute("data-src");
+    if (!raw) return null;
+    const img = document2.createElement("img");
+    img.setAttribute("src", toAbsolute2(raw, element));
+    const alt = (ds.getAttribute("data-alt") || "").trim();
+    if (alt) img.setAttribute("alt", alt);
+    return img;
+  }
+  function parsePromoImages(element, document2) {
+    const promoImages = Array.from(element.querySelectorAll(".cmp-image"));
+    if (promoImages.length < 2) return false;
+    const cells = [];
+    promoImages.forEach((cmp) => {
+      const linkEl = cmp.querySelector("a[href]");
+      const href = linkEl ? linkEl.getAttribute("href") : "";
+      const img = cardImg(cmp, element, document2);
+      if (!img) return;
+      const imageFrag = document2.createDocumentFragment();
+      imageFrag.appendChild(document2.createComment(" field:image "));
+      imageFrag.appendChild(maybeLink(img, href, element, document2));
+      const textFrag = document2.createDocumentFragment();
+      const label = img.getAttribute("alt");
+      if (label) {
+        textFrag.appendChild(document2.createComment(" field:text "));
+        const h = document2.createElement("h3");
+        if (href) {
+          const a = document2.createElement("a");
+          a.setAttribute("href", href);
+          a.textContent = label;
+          h.appendChild(a);
+        } else {
+          h.textContent = label;
+        }
+        textFrag.appendChild(h);
+      }
+      cells.push([imageFrag, textFrag]);
+    });
+    if (!cells.length) return false;
+    element.replaceWith(WebImporter.Blocks.createBlock(document2, { name: "cards", cells }));
+    return true;
+  }
   function parse2(element, { document: document2 }) {
     const stories = Array.from(element.querySelectorAll(".story"));
+    const fourBtns = Array.from(element.querySelectorAll(".fourBtn"));
+    const statBlocks = Array.from(element.querySelectorAll(".stat-block"));
     let cardEls;
     if (stories.length) {
       cardEls = stories;
+    } else if (fourBtns.length) {
+      cardEls = fourBtns;
+    } else if (statBlocks.length) {
+      cardEls = statBlocks;
+    } else if (parsePromoImages(element, document2)) {
+      return;
     } else {
       cardEls = [element];
     }
@@ -180,6 +267,8 @@ var CustomImportScript = (() => {
     cardEls.forEach((card) => {
       const isStory = card.matches(".story") || !!card.querySelector(".lead-image");
       const isTile = card.matches(".lsa_tile") || !!card.querySelector(".tile-item, .tile-title");
+      const isFourBtn = card.matches(".fourBtn") || !!card.querySelector(".button > .title");
+      const isStat = card.matches(".stat-block");
       const imgEl = card.querySelector("img");
       const linkEl = card.querySelector("a[href]") || card.closest("a[href]");
       const linkHref = linkEl ? linkEl.getAttribute("href") : "";
@@ -220,6 +309,44 @@ var CustomImportScript = (() => {
           const cta = buildCta(ctaLabel, linkHref, document2);
           if (cta) textNodes.push(cta);
         }
+      } else if (isStat) {
+        const big = card.querySelector(".stat-lrg");
+        if (big) {
+          const p = document2.createElement("p");
+          const strong = document2.createElement("strong");
+          strong.innerHTML = big.innerHTML.trim();
+          p.appendChild(strong);
+          textNodes.push(p);
+        }
+        const label = card.querySelector(".stat-text");
+        if (label) {
+          const p = document2.createElement("p");
+          p.textContent = label.textContent.replace(/\s+/g, " ").trim();
+          textNodes.push(p);
+        }
+        const cite = card.querySelector(".stat-cite");
+        if (cite) {
+          const p = document2.createElement("p");
+          const em = document2.createElement("em");
+          em.textContent = cite.textContent.replace(/\s+/g, " ").trim();
+          p.appendChild(em);
+          textNodes.push(p);
+        }
+      } else if (isFourBtn) {
+        const titleEl = card.querySelector(".title");
+        const label = titleEl ? titleEl.textContent.replace(/\s+/g, " ").trim() : "";
+        if (label) {
+          const h = document2.createElement("h3");
+          if (linkHref) {
+            const a = document2.createElement("a");
+            a.setAttribute("href", linkHref);
+            a.textContent = label;
+            h.appendChild(a);
+          } else {
+            h.textContent = label;
+          }
+          textNodes.push(h);
+        }
       }
       if (textNodes.length) {
         textFrag.appendChild(document2.createComment(" field:text "));
@@ -237,7 +364,7 @@ var CustomImportScript = (() => {
 
   // tools/importer/parsers/columns.js
   var SITE_BASE = "https://lsa.umich.edu/";
-  function toAbsolute2(url, element) {
+  function toAbsolute3(url, element) {
     if (!url) return url;
     try {
       const base = element && element.ownerDocument && element.ownerDocument.defaultView && element.ownerDocument.defaultView.location && element.ownerDocument.defaultView.location.href || SITE_BASE;
@@ -249,12 +376,31 @@ var CustomImportScript = (() => {
   function buildImg2(srcImg, element, document2) {
     if (!srcImg) return null;
     const img = document2.createElement("img");
-    img.setAttribute("src", toAbsolute2(srcImg.getAttribute("src"), element));
+    img.setAttribute("src", toAbsolute3(srcImg.getAttribute("src"), element));
     const alt = srcImg.getAttribute("alt");
     if (alt) img.setAttribute("alt", alt);
     return img;
   }
+  function parseTextImagePair(element, document2) {
+    const imgCol = element.nextElementSibling;
+    const imgEl = imgCol && imgCol.matches(".cmp-image") ? imgCol.querySelector("img") : null;
+    const textWrap = element.querySelector(".text-wrap") || element;
+    const col1 = Array.from(textWrap.children).filter((c) => !c.classList.contains("clearfix")).map((c) => c.cloneNode(true));
+    const img = buildImg2(imgEl, element, document2);
+    if (!col1.length && !img) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    if (imgCol && imgEl) imgCol.remove();
+    const cells = [[col1.length ? col1 : [""], img ? [img] : [""]]];
+    const block = WebImporter.Blocks.createBlock(document2, { name: "columns", cells });
+    element.replaceWith(block);
+  }
   function parse3(element, { document: document2 }) {
+    if (element.matches(".text.parbase")) {
+      parseTextImagePair(element, document2);
+      return;
+    }
     const imgs = Array.from(element.querySelectorAll(".cmp-image img, figure img, img"));
     const seen = /* @__PURE__ */ new Set();
     const uniqueImgs = imgs.filter((img) => {
@@ -320,7 +466,8 @@ var CustomImportScript = (() => {
     // decorative spacer bars before/after #content
   ];
   var FOOTER_SELECTORS = [
-    ".footer-wrap"
+    ".footer-wrap",
+    ".department-footer-wrap"
   ];
   var SKIP_LINK_SELECTORS = [
     ".skipToContent",
@@ -336,7 +483,9 @@ var CustomImportScript = (() => {
     ".phone-sidenav",
     // wrapper around the left section-nav sidebar
     ".lsa-sidenav-wrap",
-    // left section-nav sidebar (Undergraduate, Graduate, ...)
+    // left section-nav sidebar (homepage variant: .lsa-sidenav-wrap.sidenav-wrap)
+    ".sidenav-wrap",
+    // left section-nav sidebar (interior pages: bare .sidenav-wrap, e.g. /english/*, departments-and-units)
     ".lsa_policy_notice-wrap"
     // empty policy-notice shell region
   ];
@@ -344,11 +493,52 @@ var CustomImportScript = (() => {
     "link",
     "iframe"
   ];
+  var TRACKING_PIXEL_RE = /(\/\/(t\.co|analytics\.twitter\.com|bat\.bing\.com|www\.facebook\.com\/tr|[a-z.]*doubleclick\.net)\/)|\/adsct\b/i;
+  function removeTrackingPixels(element) {
+    element.querySelectorAll("img").forEach((img) => {
+      if (TRACKING_PIXEL_RE.test(img.getAttribute("src") || "")) img.remove();
+    });
+  }
+  var clean = (el) => el ? el.textContent.replace(/\s+/g, " ").trim() : "";
+  function flattenEventsFeed(element, document2) {
+    element.querySelectorAll(".events-wrap").forEach((wrap) => {
+      const events = Array.from(wrap.querySelectorAll("a.event"));
+      if (!events.length) return;
+      const ul = document2.createElement("ul");
+      events.forEach((ev) => {
+        const date = [clean(ev.querySelector(".month")), clean(ev.querySelector(".day"))].filter(Boolean).join(" ");
+        const title = clean(ev.querySelector(".details .title"));
+        const subtitle = clean(ev.querySelector(".details .subtitle"));
+        const where = [clean(ev.querySelector(".event_room")), clean(ev.querySelector(".place"))].filter(Boolean).join(" ");
+        const when = [clean(ev.querySelector(".time")), where].filter(Boolean).join(", ");
+        const li = document2.createElement("li");
+        const a = document2.createElement("a");
+        a.setAttribute("href", ev.getAttribute("href"));
+        a.textContent = [date, [title, subtitle].filter(Boolean).join(": ")].filter(Boolean).join(" \u2014 ") + (when ? `, ${when}` : "");
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+      const out = document2.createElement("div");
+      out.appendChild(ul);
+      const all = wrap.querySelector(".footline a[href]");
+      if (all) {
+        const p = document2.createElement("p");
+        const a = document2.createElement("a");
+        a.setAttribute("href", all.getAttribute("href"));
+        a.textContent = clean(all);
+        p.appendChild(a);
+        out.appendChild(p);
+      }
+      wrap.replaceWith(out);
+    });
+  }
   var WRAPPER_SELECTOR = ".lsa_gridwrapper, .responsivegrid, .parbase, .aem-Grid";
   function transform(hookName, element, payload) {
     if (hookName === TransformHook.beforeTransform) {
       WebImporter.DOMUtils.remove(element, SEARCH_VUE_SELECTORS);
       WebImporter.DOMUtils.remove(element, INLINE_SCRIPT_STYLE_SELECTORS);
+      removeTrackingPixels(element);
+      flattenEventsFeed(element, payload && payload.document || element.ownerDocument);
     }
     if (hookName === TransformHook.afterTransform) {
       WebImporter.DOMUtils.remove(element, [
@@ -460,6 +650,8 @@ var CustomImportScript = (() => {
         name: "hero",
         instances: [
           "#gridparlsa_gridwrapper_1456_379967915_gridclass",
+          "#gridparlsa_gridwrapper_1456_1440974871_gridclass",
+          // hero re-authored on the live site (Oct 2026)
           "#gridparlsa_gridwrapper_1742_gridclass"
         ]
       },

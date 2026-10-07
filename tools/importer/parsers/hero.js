@@ -15,16 +15,47 @@
  *   backgroundstyle (select), ctalabel (text), ctalink (aem-content),
  *   ctastyle (select), badge (text).
  * Hero is a SIMPLE block: 1 column, one row per (non-collapsed) model field.
- * Only fields that carry authored content are emitted; each content cell gets a
- * `<!-- field:name -->` hint (imageAlt is collapsed into the <img alt> attribute,
- * so it never gets its own row/hint).
+ * The image and text rows are ALWAYS emitted (empty when there is no content):
+ * hero.js reads config rows by position on publish/document-authored (DA) pages,
+ * so skipping a leading row would shift herolayout/backgroundstyle into the wrong
+ * slot. Content cells get a `<!-- field:name -->` hint (imageAlt is collapsed into
+ * the <img alt> attribute, so it never gets its own row/hint).
+ *
+ * Foreground-image variant (e.g. /lsa/prospective-students/undergraduate "Ask Us
+ * Anything"): a visible .cmp-image portrait beside the text column is used as the
+ * hero image with an image-left/image-right layout instead of the decorative
+ * section background. Only applies to an always-visible image beside dark text.
  *
  * Background image note: on these LSA sections the hero background is carried by the
  * section's `data-image-src` attribute (a relative /content/dam/... path), NOT an <img>.
  * We surface it as the hero `image` field, resolved to its original absolute
  * https://lsa.umich.edu/... URL (no localization/rewriting).
  */
+// Foreground portrait on a light card: a .cmp-image visible at EVERY breakpoint
+// beside dark text ("text-color-dark-override"). Student-profile / CTA heroes whose
+// images are responsive duplicates (hidden at some breakpoint) keep the section
+// background as their hero image.
+function findForegroundImage(element) {
+  if (element.querySelector('.pull-quote-wrapper')) return null;
+  if (!element.querySelector('.lsa-accssibility-text-color-dark-override')) return null;
+  return Array.from(element.querySelectorAll('.cmp-image img'))
+    .find((img) => !img.closest('[class*="GridColumn--"][class*="--hide"]')) || null;
+}
+
+function toAbsolute(src, element) {
+  try {
+    const base = (element.ownerDocument && element.ownerDocument.defaultView
+      && element.ownerDocument.defaultView.location
+      && element.ownerDocument.defaultView.location.href) || 'https://lsa.umich.edu/';
+    return new URL(src, base).href;
+  } catch (e) {
+    return src;
+  }
+}
+
 export default function parse(element, { document }) {
+  const fgImgEl = findForegroundImage(element);
+
   // --- image field: background carried on the section's data-image-src attribute ---
   // Fallbacks: inline background-image style, or a descendant <img>.
   let bgSrc = element.getAttribute('data-image-src')
@@ -38,7 +69,11 @@ export default function parse(element, { document }) {
   }
 
   let bgImg = null;
-  if (bgSrc) {
+  if (fgImgEl) {
+    bgImg = document.createElement('img');
+    bgImg.setAttribute('src', toAbsolute(fgImgEl.getAttribute('src'), element));
+    bgImg.setAttribute('alt', (fgImgEl.getAttribute('alt') || '').trim());
+  } else if (bgSrc) {
     // Resolve to the original absolute URL (do NOT localize/rewrite the path).
     let absSrc = bgSrc;
     try {
@@ -72,11 +107,29 @@ export default function parse(element, { document }) {
     });
   });
 
-  // --- herolayout (select): overlay when a pull-quote overlay exists, else text-left background ---
-  const herolayout = element.querySelector('.pull-quote-wrapper') ? 'overlay' : 'image-background-text-left';
+  // --- herolayout (select) ---
+  //   pull-quote overlay → overlay
+  //   foreground portrait → image-left / image-right (by DOM order vs. the text column)
+  //   background image with the text column offset to the right half → image-background-text-right
+  //   otherwise → image-background-text-left
+  const textCol = element.querySelector('.text.parbase, .title');
+  let herolayout = 'image-background-text-left';
+  if (element.querySelector('.pull-quote-wrapper')) {
+    herolayout = 'overlay';
+  } else if (fgImgEl) {
+    const imgFirst = textCol
+      && (fgImgEl.compareDocumentPosition(textCol) & 4 /* DOCUMENT_POSITION_FOLLOWING */);
+    herolayout = (!textCol || imgFirst) ? 'image-left' : 'image-right';
+  } else {
+    const offset = /aem-GridColumn--offset--default--(\d+)/.exec(
+      (element.querySelector('.text.parbase') || {}).className || '',
+    );
+    if (offset && parseInt(offset[1], 10) >= 4) herolayout = 'image-background-text-right';
+  }
 
-  // --- backgroundstyle (select): both LSA hero banners are dark full-bleed images ---
-  const backgroundstyle = 'theme-dark';
+  // --- backgroundstyle (select): the foreground-portrait card sits on a light
+  // background (dark text); every other LSA hero is a dark full-bleed image. ---
+  const backgroundstyle = fgImgEl ? 'theme-light' : 'theme-dark';
 
   // --- CTA: the block's action button ("Read More" / "Learn More") ---
   const ctaAnchor = element.querySelector('a.btn, a.lsa-button-click, .button a[href]');
@@ -91,19 +144,24 @@ export default function parse(element, { document }) {
 
   const cells = [];
 
-  // Row: image (field:image) — imageAlt collapsed into the <img alt> attribute
-  if (bgImg) {
+  // Row: image (field:image) — imageAlt collapsed into the <img alt> attribute.
+  // Always emitted (empty cell when there is no image) to keep positional alignment.
+  {
     const frag = document.createDocumentFragment();
-    frag.appendChild(document.createComment(' field:image '));
-    frag.appendChild(bgImg);
+    if (bgImg) {
+      frag.appendChild(document.createComment(' field:image '));
+      frag.appendChild(bgImg);
+    }
     cells.push([frag]);
   }
 
-  // Row: text (field:text)
-  if (textNodes.length) {
+  // Row: text (field:text) — always emitted, same reason as the image row.
+  {
     const frag = document.createDocumentFragment();
-    frag.appendChild(document.createComment(' field:text '));
-    textNodes.forEach((n) => frag.appendChild(n));
+    if (textNodes.length) {
+      frag.appendChild(document.createComment(' field:text '));
+      textNodes.forEach((n) => frag.appendChild(n));
+    }
     cells.push([frag]);
   }
 

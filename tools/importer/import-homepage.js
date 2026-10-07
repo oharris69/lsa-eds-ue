@@ -35,6 +35,7 @@ const PAGE_TEMPLATE = {
       name: 'hero',
       instances: [
         '#gridparlsa_gridwrapper_1456_379967915_gridclass',
+        '#gridparlsa_gridwrapper_1456_1440974871_gridclass', // hero re-authored on the live site (Oct 2026)
         '#gridparlsa_gridwrapper_1742_gridclass',
       ],
     },

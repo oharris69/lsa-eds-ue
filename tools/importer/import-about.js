@@ -4,7 +4,7 @@
 // PARSER IMPORTS
 import heroParser from './parsers/hero.js';
 import cardsParser from './parsers/cards.js';
-import columnsParser from './parsers/columns.js';
+import columnsParser from './parsers/columns-about.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/lsa-cleanup.js';
@@ -21,52 +21,36 @@ const transformers = [
   sectionsTransformer,
 ];
 
-// PAGE TEMPLATE CONFIGURATION - Embedded from page-templates.json ("audience-landing")
+// PAGE TEMPLATE CONFIGURATION - Embedded from page-templates.json ("about")
+// Recreated from import-about.bundle.js (the source was never committed).
 const PAGE_TEMPLATE = {
-  name: 'audience-landing',
-  description: 'Audience/program landing pages (prospective students, transfer, undergraduate).',
+  name: 'about',
+  description: 'LSA About page: image+pull-quote hero, five image+text+button columns sections, and a promo image-link cards grid.',
   urls: [
-    'https://lsa.umich.edu/lsa/prospective-students.html',
-    'https://lsa.umich.edu/lsa/prospective-students/undergraduate.html',
+    'https://lsa.umich.edu/lsa/about.html',
   ],
   blocks: [
     {
       name: 'hero',
       instances: [
-        '#gridparlsa_gridwrapper_copy_868376211_gridclass',
-        '#gridparlsa_gridwrapper_719363065_gridclass',
-        '#gridparlsa_gridwrapper_1904_1991551209_gridclass',
-        '#gridparlsa_gridwrapper_1373_238990270_gridclass',
-        '#gridparlsa_gridwrapper_1373_1439544965_gridclass',
-        '#gridparlsa_gridwrapper_1772_gridclass',
-        '#gridparlsa_gridwrapper_9189_gridclass',
-        '#gridparlsa_gridwrapper_copy_gridclass',
-      ],
-    },
-    {
-      name: 'cards',
-      instances: [
-        '#gridparlsa_gridwrapper_gridclass .hoverShine',
-        '#gridparlsa_gridwrapper_1697763167_gridclass .lsa_tile',
-        '#gridparlsa_gridwrapper_copy_553291602_gridclass .stat-row',
+        '#gridparlsa_gridwrapper_copy_1064718945_gridclass',
       ],
     },
     {
       name: 'columns',
       instances: [
-        '#gridparlsa_gridwrapper_1526_gridclass',
-        '#gridparlsa_gridwrapper_copy_553291602_gridclass .text.parbase.aem-GridColumn--default--5',
+        '#gridparlsa_gridwrapper_1033507225_gridclass',
+        '#gridparlsa_gridwrapper_1163586397_gridclass',
+        '#gridparlsa_gridwrapper_1750984253_gridclass',
+        '#gridparlsa_gridwrapper_934011541_gridclass',
+        '#gridparlsa_gridwrapper_72192711_gridclass',
       ],
     },
     {
-      name: 'section-career-wheel',
-      instances: ['#gridparlsa_gridwrapper_1772_gridclass'],
-      section: 'career-wheel-bg',
-    },
-    {
-      name: 'section-business-umblue',
-      instances: ['#gridparlsa_gridwrapper_1526_gridclass'],
-      section: 'umblue',
+      name: 'cards',
+      instances: [
+        '#gridparlsa_gridwrapper_418777680_gridclass',
+      ],
     },
   ],
 };

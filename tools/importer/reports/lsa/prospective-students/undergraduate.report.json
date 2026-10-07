@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://lsa.umich.edu/lsa/prospective-students/undergraduate.html",
+  "path": "lsa/prospective-students/undergraduate",
+  "timestamp": "2026-10-07T15:55:19.711Z",
+  "title": "Undergraduate | U-M LSA U-M College of LSA",
+  "template": "audience-landing",
+  "blocks": [
+    "hero",
+    "hero",
+    "cards",
+    "cards",
+    "columns"
+  ]
+}

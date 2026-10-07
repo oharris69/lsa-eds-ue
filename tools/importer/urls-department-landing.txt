@@ -1,1 +1,4 @@
-http://localhost:8082/english/undergraduate.html
+https://lsa.umich.edu/english/undergraduate.html
+https://lsa.umich.edu/urop/prospective-students.html
+https://lsa.umich.edu/psych/prospective-students/undergraduate.html
+https://lsa.umich.edu/cgis
