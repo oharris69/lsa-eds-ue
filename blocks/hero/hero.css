@@ -760,3 +760,211 @@ picture {
   background-color: #ffd633;
   color: var(--brand-dark-color, #00274c);
 }
+
+/* LSA full-bleed bands (portrait card / split CTA) sit flush, as on the live
+   site, instead of the default 40px section gap. */
+main > .section.hero-container:has(.hero.image-left.theme-light),
+main > .section.hero-container:has(.hero.image-background-text-right.theme-dark) {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* --------------------------
+   LSA portrait card — image-left + theme-light
+   (/lsa/prospective-students/undergraduate "Ask Us Anything").
+   Maize band; a fixed-width portrait beside navy heading + body copy and a
+   full-width navy CTA. Values match the live lsa.umich.edu section.
+--------------------------- */
+.hero.image-left.theme-light {
+  align-items: flex-start;
+  justify-content: center;
+  gap: 24px;
+  padding: 88px 24px 48px;
+  background: var(--brand-theme-color, #ffcb05);
+  box-shadow: none;
+}
+
+.hero.image-left.theme-light > div:first-child {
+  flex: 0 0 237px;
+}
+
+.hero.image-left.theme-light > div:first-child picture {
+  position: static;
+  height: auto;
+}
+
+.hero.image-left.theme-light > div:first-child img {
+  height: auto;
+  object-fit: contain;
+}
+
+.hero.image-left.theme-light .hero-text {
+  flex: 0 1 570px;
+  padding: 0;
+  background: none;
+  justify-content: flex-start;
+}
+
+.hero.image-left.theme-light h2 {
+  margin: 0 0 10px;
+  padding: 12px 0;
+  font-family: var(--heading-font-family);
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.4;
+  color: var(--brand-dark-color, #00274c);
+}
+
+.hero.image-left.theme-light p {
+  margin: 0 0 10px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 1.43;
+  color: #000;
+}
+
+.hero.image-left.theme-light p a:any-link:not(.button) {
+  display: inline;
+  padding: 0;
+  color: inherit;
+  font-family: var(--body-font-family);
+  font-weight: 700;
+  line-height: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted currentcolor;
+}
+
+.hero.image-left.theme-light p a:any-link:not(.button)::after {
+  content: none;
+}
+
+.hero.image-left.theme-light .button-container {
+  display: block;
+  margin: 20px 0 0;
+}
+
+.hero-wrapper .hero.image-left.theme-light .button-container a.button {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 12px 6px !important; /* beats the global .cta-button !important rule */
+  border: none !important;
+  border-radius: 0;
+  background-color: var(--brand-dark-color, #00274c) !important;
+  color: #fff !important;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 18px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.hero-wrapper .hero.image-left.theme-light .button-container a.button::after {
+  content: none;
+}
+
+.hero-wrapper .hero.image-left.theme-light .button-container a.button:hover {
+  background-color: #007cba !important;
+  color: #fff !important;
+  transform: none;
+}
+
+@media (width < 768px) {
+  .hero.image-left.theme-light {
+    align-items: center;
+    padding: 48px 16px 32px;
+  }
+
+  .hero.image-left.theme-light > div:first-child {
+    flex: none;
+    width: 237px;
+  }
+
+  .hero.image-left.theme-light .hero-text {
+    flex: none;
+    width: 100%;
+  }
+}
+
+/* --------------------------
+   LSA split CTA band — image-background-text-right + theme-dark
+   (/lsa/prospective-students/undergraduate "Resources").
+   The background art is photo-left / navy-right, so the copy sits directly on
+   the right half with no text box, and a cyan CTA. Values match the live site.
+--------------------------- */
+.hero.image-background-text-right.theme-dark {
+  isolation: isolate; /* keep the z-index:-1 background photo above the navy fill */
+  min-height: 400px;
+  justify-content: flex-start;
+  padding: 64px 24px 88px;
+  background: var(--brand-dark-color, #00274c);
+}
+
+.hero.image-background-text-right.theme-dark .hero-text {
+  width: min(570px, 100%);
+  margin-left: max(50%, calc(100% - 594px));
+  padding: 0;
+  background: none;
+}
+
+.hero.image-background-text-right.theme-dark h2 {
+  margin: 20px 0 10px;
+  font-family: var(--heading-font-family);
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.hero.image-background-text-right.theme-dark p {
+  margin: 0 0 10px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 1.43;
+}
+
+.hero.image-background-text-right.theme-dark .button-container {
+  margin-top: 40px;
+}
+
+.hero-wrapper .hero.image-background-text-right.theme-dark .button-container a.button {
+  display: inline-block;
+  margin: 0;
+  padding: 12px 37px !important; /* beats the global .cta-button !important rule */
+  border: none !important;
+  border-radius: 0;
+  background-color: #007cba !important;
+  color: #fff !important;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 18px;
+  text-decoration: none;
+}
+
+.hero-wrapper .hero.image-background-text-right.theme-dark .button-container a.button::after {
+  content: none;
+}
+
+.hero-wrapper .hero.image-background-text-right.theme-dark .button-container a.button:hover {
+  background-color: var(--brand-theme-color, #ffcb05) !important;
+  color: var(--brand-dark-color, #00274c) !important;
+  border-color: transparent !important;
+  transform: none;
+}
+
+@media (width < 768px) {
+  /* the photo half would sit under the copy on narrow screens: darken it */
+  .hero.image-background-text-right.theme-dark picture::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgb(0 39 76 / 80%);
+  }
+
+  .hero.image-background-text-right.theme-dark .hero-text {
+    width: 100%;
+    margin-left: 0;
+  }
+}

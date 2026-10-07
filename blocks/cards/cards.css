@@ -458,3 +458,94 @@
   }
   
 }
+
+/* --------------------------
+   Stat tiles — `cards (stats)` (e.g. /lsa/prospective-students/undergraduate).
+   Three flush colour tiles with a large italic Aleo figure, a bold label and an
+   optional citation. Tile colour comes from the card-style cell
+   (stat-navy | stat-cyan | stat-maize), applied to the <li> by cards.js.
+   Values match lsa.umich.edu `.stat-row .stat-block`.
+--------------------------- */
+.cards.stats > ul {
+  gap: 0;
+  padding: 0;
+  margin: 24px 0;
+}
+
+.cards.stats > ul > li {
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+  text-align: center;
+  background: var(--brand-dark-color, #00274c);
+  color: #fff;
+}
+
+.cards.stats > ul > li .cards-card-image {
+  display: none;
+}
+
+.cards.stats > ul > li .cards-card-body {
+  padding: 0;
+  background: none;
+  color: inherit;
+}
+
+.cards.stats > ul > li .cards-card-body p {
+  margin: 0 0 10px;
+  color: inherit;
+  font-family: var(--body-font-family);
+  font-size: 20.33px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* the figure: "#2", "100%", "1,700" */
+.cards.stats > ul > li .cards-card-body p:first-child {
+  margin: 0;
+}
+
+.cards.stats > ul > li .cards-card-body p:first-child > strong {
+  display: block;
+  font-family: var(--heading-font-family);
+  font-size: 67px;
+  font-style: italic;
+  font-weight: 900;
+  line-height: 1.5;
+  color: #007cba;
+}
+
+.cards.stats > ul > li .cards-card-body p:first-child sup {
+  font-size: 0.64em;
+  font-weight: 700;
+  line-height: 0;
+}
+
+/* citation */
+.cards.stats > ul > li .cards-card-body p:nth-child(3) {
+  font-size: 14.23px;
+  font-weight: 300;
+}
+
+.cards.stats > ul > li.stat-cyan {
+  background: #007cba;
+}
+
+.cards.stats > ul > li.stat-cyan .cards-card-body p:first-child > strong {
+  color: #fff;
+}
+
+.cards.stats > ul > li.stat-maize {
+  background: var(--brand-theme-color, #ffcb05);
+  color: var(--brand-dark-color, #00274c);
+}
+
+.cards.stats > ul > li.stat-maize .cards-card-body p:first-child > strong {
+  color: var(--brand-dark-color, #00274c);
+}
+
+@media (width < 768px) {
+  .cards.stats > ul {
+    flex-direction: column;
+  }
+}

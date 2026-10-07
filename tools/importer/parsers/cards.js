@@ -37,6 +37,13 @@
 
 const HERO_BASE = 'https://lsa.umich.edu/';
 
+// Source stat-tile colour classes → card style values (see blocks/cards/cards.css).
+const STAT_COLORS = [
+  ['mi-blue-bg', 'stat-navy'],
+  ['cyan-blue-bg', 'stat-cyan'],
+  ['maize-bg', 'stat-maize'],
+];
+
 function toAbsolute(url, element) {
   if (!url) return url;
   try {
@@ -227,12 +234,11 @@ export default function parse(element, { document }) {
         p.textContent = label.textContent.replace(/\s+/g, ' ').trim();
         textNodes.push(p);
       }
+      // Citation keeps its inline markup (e.g. an <em> publication title).
       const cite = card.querySelector('.stat-cite');
       if (cite) {
         const p = document.createElement('p');
-        const em = document.createElement('em');
-        em.textContent = cite.textContent.replace(/\s+/g, ' ').trim();
-        p.appendChild(em);
+        p.innerHTML = cite.innerHTML.replace(/\s+/g, ' ').trim();
         textNodes.push(p);
       }
     } else if (isFourBtn) {
@@ -263,7 +269,17 @@ export default function parse(element, { document }) {
     }
 
     // Every row has 2 columns: [image, text]. Text cell may be empty (image-only card).
-    cells.push([imageFrag, textFrag]);
+    // Stat tiles add a 3rd "card style" cell (cards.js applies it as the <li> class)
+    // carrying the tile colour, so authors can pick navy / cyan / maize per tile.
+    if (isStat) {
+      const styleFrag = document.createDocumentFragment();
+      const p = document.createElement('p');
+      p.textContent = STAT_COLORS.find(([cls]) => card.classList.contains(cls))?.[1] || 'stat-navy';
+      styleFrag.appendChild(p);
+      cells.push([imageFrag, textFrag, styleFrag]);
+    } else {
+      cells.push([imageFrag, textFrag]);
+    }
   });
 
   // --- Empty-block guard ---
@@ -272,6 +288,7 @@ export default function parse(element, { document }) {
     return;
   }
 
-  const block = WebImporter.Blocks.createBlock(document, { name: 'cards', cells });
+  const name = statBlocks.length ? 'cards (stats)' : 'cards';
+  const block = WebImporter.Blocks.createBlock(document, { name, cells });
   element.replaceWith(block);
 }

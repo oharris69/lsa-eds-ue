@@ -28,9 +28,10 @@ export default function decorate(block) {
   [...block.children].forEach((row) => {
     const li = document.createElement('li');
 
-    // Read card style from the third div (index 2)
+    // Read card style from the third div (index 2). Universal Editor wraps the
+    // value in a <p>; document-authored (DA) single-line cells are bare text.
     const styleDiv = row.children[2];
-    const styleParagraph = styleDiv?.querySelector('p');
+    const styleParagraph = styleDiv?.querySelector('p') || styleDiv;
     const cardStyle = styleParagraph?.textContent?.trim() || 'default';
     if (cardStyle && cardStyle !== 'default') {
       li.className = cardStyle;
@@ -38,7 +39,7 @@ export default function decorate(block) {
 
     // Read CTA style from the fourth div (index 3)
     const ctaDiv = row.children[3];
-    const ctaParagraph = ctaDiv?.querySelector('p');
+    const ctaParagraph = ctaDiv?.querySelector('p') || ctaDiv;
     const ctaStyle = ctaParagraph?.textContent?.trim() || 'default';
 
     moveInstrumentation(row, li);
@@ -55,6 +56,8 @@ export default function decorate(block) {
         const p = div.querySelector('p');
         if (p) {
           p.style.display = 'none'; // Hide the configuration text
+        } else {
+          div.style.display = 'none'; // bare-text config cell (DA)
         }
       } else {
         div.className = 'cards-card-body';

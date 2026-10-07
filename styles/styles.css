@@ -524,7 +524,9 @@ button {
  * solid on hover. Scoped to main text so nav, buttons, hero and cards are
  * untouched.
  */
-main .default-content-wrapper a:not(.button):any-link {
+main .default-content-wrapper a:not(.button):any-link,
+main .columns p a:not(.button):any-link,
+main .columns li a:not(.button):any-link {
   display: inline;
   font-family: var(--body-font-family);
   font-weight: 500;
@@ -533,9 +535,20 @@ main .default-content-wrapper a:not(.button):any-link {
   border-bottom: 1px dotted currentcolor;
 }
 
-main .default-content-wrapper a:not(.button):any-link:hover {
+main .default-content-wrapper a:not(.button):any-link:hover,
+main .columns p a:not(.button):any-link:hover,
+main .columns li a:not(.button):any-link:hover {
   border-bottom-style: solid;
   text-decoration: none;
+}
+
+/* In-copy links read inline (as on lsa.umich.edu): no floated chevron, which
+   otherwise lands at the paragraph's right edge, away from the link text. */
+main .default-content-wrapper p a:not(.button):any-link::after,
+main .default-content-wrapper li a:not(.button):any-link::after,
+main .columns p a:not(.button):any-link::after,
+main .columns li a:not(.button):any-link::after {
+  content: none;
 }
 
 a::after, a.button::after {
@@ -698,6 +711,19 @@ main > .section > div {
 
 main > .section:first-of-type {
   margin-top: 0;
+}
+
+/* Interior pages that open with default content (page title) rather than a
+   full-bleed hero: clear the fixed header (nav bar, plus the "for" audience
+   band at >= 900px) so the <h1> isn't hidden behind it. */
+main > .section:first-of-type:not(.hero-container) {
+  padding-top: 110px;
+}
+
+@media (width >= 900px) {
+  main > .section:first-of-type:not(.hero-container) {
+    padding-top: 220px;
+  }
 }
 
 @media (width >= 900px) {
