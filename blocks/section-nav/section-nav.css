@@ -325,3 +325,8 @@ main .section.breadcrumb-container > nav {
     margin: 0 0 10px;
   }
 }
+
+/* interior pages: no decorative rule after paragraphs (lsa.umich.edu has none) */
+main.has-section-nav .section > div > p::after {
+  content: none;
+}
