@@ -111,6 +111,7 @@
 @font-face {
   font-family: roboto-fallback;
   size-adjust: 99.529%;
+
   /* Roboto ascent/descent (1900/500 per 2048) / size-adjust: keeps line boxes
      the same height when self-hosted Roboto swaps in (CLS) */
   ascent-override: 93.21%;
