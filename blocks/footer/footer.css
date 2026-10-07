@@ -1,4 +1,5 @@
 footer {
+  overflow-x: clip; /* the full-bleed copyright band must not add a scrollbar */
   font-size: var(--body-font-size-xs);
   font-family: var(--light-font-family);
   background-color: var(--footer-background-color);
@@ -94,11 +95,18 @@ footer .footer .columns-wrapper .columns .columns-row > div {
   order: unset;
 }
 
+/* logo: 43px tall like lsa.umich.edu, never wider than its column */
 footer .footer .columns-wrapper .columns .columns-row > .columns-img-col img {
   width: auto;
-  height: 64px;
-  max-height: 64px;
+  height: 43px;
+  max-height: 43px;
+  max-width: 100%;
   object-fit: contain;
+  margin: 0;
+}
+
+footer .footer .columns-wrapper .columns .columns-row > .columns-img-col {
+  text-align: center;
 }
 
 footer .footer .columns-wrapper .columns .columns-row h3 {
@@ -114,7 +122,18 @@ footer .footer .columns ul {
 }
 
 footer .footer .columns li {
-  margin: 0 0 4px;
+  margin: 0 0 6px;
+  line-height: 17px;
+}
+
+/* links: Roboto 12px/500 (the global link rule is Aleo 16px) */
+footer .footer a:any-link {
+  display: inline;
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 17px;
+  white-space: normal;
 }
 
 /* footer links read as plain text links (no global chevron) */
@@ -122,9 +141,18 @@ footer .footer a::after {
   content: none;
 }
 
-/* copyright line */
+/* copyright line: its own full-width band under a hairline rule */
+footer .footer .section:last-child {
+  margin: 40px calc(50% - 50vw) 0;
+  padding: 34px 24px 30px;
+  border-top: 1px solid #333;
+}
+
 footer .footer .section:last-child p {
   text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 17px;
 }
 
 @media (width >= 900px) {
@@ -134,5 +162,12 @@ footer .footer .section:last-child p {
 
   footer .footer .columns-wrapper .columns .columns-row > div:first-child {
     grid-column: auto;
+    text-align: left;
+  }
+
+  /* hairline dividers between the link columns (not before the first one) */
+  footer .footer .columns-wrapper .columns .columns-row > div:nth-child(n + 3) {
+    padding-left: 15px;
+    border-left: 1px solid #333;
   }
 }

@@ -498,32 +498,41 @@ export default async function decorate(block) {
       });
     });
 
-    // Split the audience items (Prospective/Current/Alumni/Faculty Students) out
-    // of the main menu into their own "for" band below, matching lsa.umich.edu.
+    // The "for" audience band (Prospective/Current/Alumni/Faculty) below the main
+    // menu, matching lsa.umich.edu. Authored as the nav document's 4th section
+    // (a "for" label + a list of links); older nav documents carry the audience
+    // items inside the main menu, recognised by their /lsa/{audience} hrefs.
     const AUDIENCE = ['prospective-students', 'current-students', 'alumni-friends', 'faculty-staff'];
     const sourceUl = navSections.querySelector(':scope .default-content-wrapper > ul');
-    if (sourceUl) {
-      const audienceItems = [...sourceUl.children].filter((li) => {
+    const audienceSection = nav.children[3];
+    let audienceItems = [];
+    let labelText = 'for';
+    if (audienceSection?.querySelector('ul')) {
+      audienceItems = [...audienceSection.querySelector('ul').children];
+      labelText = audienceSection.querySelector('p')?.textContent.trim() || labelText;
+      audienceSection.remove();
+    } else if (sourceUl) {
+      audienceItems = [...sourceUl.children].filter((li) => {
         const href = li.querySelector('a')?.getAttribute('href') || '';
         return AUDIENCE.some((seg) => href.includes(`/lsa/${seg}`));
       });
-      if (audienceItems.length) {
-        const band = document.createElement('div');
-        band.className = 'nav-audience';
-        const label = document.createElement('span');
-        label.className = 'nav-audience-label';
-        label.textContent = 'for';
-        const audUl = document.createElement('ul');
-        audienceItems.forEach((li) => {
-          // Drop the sub-menu dropdown chrome; the band shows top-level buttons.
-          li.classList.remove('nav-drop');
-          li.removeAttribute('aria-expanded');
-          li.querySelectorAll(':scope > ul').forEach((sub) => sub.remove());
-          audUl.append(li);
-        });
-        band.append(label, audUl);
-        nav.append(band);
-      }
+    }
+    if (audienceItems.length) {
+      const band = document.createElement('div');
+      band.className = 'nav-audience';
+      const label = document.createElement('span');
+      label.className = 'nav-audience-label';
+      label.textContent = labelText;
+      const audUl = document.createElement('ul');
+      audienceItems.forEach((li) => {
+        // Drop the sub-menu dropdown chrome; the band shows top-level buttons.
+        li.classList.remove('nav-drop');
+        li.removeAttribute('aria-expanded');
+        li.querySelectorAll(':scope > ul').forEach((sub) => sub.remove());
+        audUl.append(li);
+      });
+      band.append(label, audUl);
+      nav.append(band);
     }
   }
 

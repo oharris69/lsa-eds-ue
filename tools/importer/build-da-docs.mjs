@@ -11,6 +11,9 @@
  *     blocks hot-linking, so images are uploaded to DA alongside the pages)
  *   - drops the Metadata "Image" row when it points at the blocked source origin
  *   - strips the trailing .html from internal page links (EDS URLs are extensionless)
+ *   - resolves internal links to migrated pages (normalized like the importer's
+ *     document paths); in the nav/footer fragments, links to pages that are not
+ *     migrated become placeholders to the homepage (report: {out}/nav-links.txt)
  *
  * Output: {out}/<path>.html for each page, plus {out}/manifest.json
  *   { pages: [{ path, file }], media: [file] }
@@ -46,9 +49,52 @@ const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) =
 const media = new Set();
 const pages = [];
 
-walk(CONTENT).sort().forEach((file) => {
-  const docPath = path.relative(CONTENT, file).replace(/\.plain\.html$/, '');
-  if (EXCLUDE.some((prefix) => `${docPath}/`.startsWith(prefix))) return;
+const files = walk(CONTENT).sort()
+  .map((file) => ({ file, docPath: path.relative(CONTENT, file).replace(/\.plain\.html$/, '') }))
+  .filter(({ docPath }) => !EXCLUDE.some((prefix) => `${docPath}/`.startsWith(prefix)));
+
+// Web paths of every migrated page (index → /), for link resolution.
+const FRAGMENTS = new Set(['nav', 'footer']);
+const migrated = new Set(files
+  .filter(({ docPath }) => !FRAGMENTS.has(docPath))
+  .map(({ docPath }) => (docPath === 'index' ? '/' : `/${docPath}`)));
+
+// Normalize a source page path the way the importer names documents
+// (WebImporter.FileUtils.sanitizePath): lowercase, no .html, no trailing slash,
+// no leading/trailing dashes per segment ("what-are-the-liberal-arts-" → "…-arts").
+const normalizePath = (p) => {
+  const clean = p.replace(/\.html?$/, '').replace(/\/+$/, '').toLowerCase()
+    .split('/')
+    .map((seg) => seg.replace(/^-+|-+$/g, ''))
+    .join('/');
+  return clean === '' || clean === '/lsa' || clean === '/index' ? '/' : clean;
+};
+
+const linkReport = [];
+/**
+ * Resolve internal links (relative, or absolute lsa.umich.edu): a link to a
+ * migrated page points at its EDS path; in nav/footer fragments a link to a page
+ * that isn't migrated becomes a placeholder to the homepage (/). Other hosts
+ * (umich.edu, giving, Course Guide, Gateway), anchors and mailto are untouched.
+ */
+function resolveLinks(html, docPath) {
+  const isFragment = FRAGMENTS.has(docPath);
+  return html.replace(/href="([^"]+)"/g, (m, href) => {
+    const abs = /^https?:\/\/lsa\.umich\.edu(\/[^"]*)?$/i.exec(href);
+    if (!href.startsWith('/') && !abs) return m;
+    if (href.startsWith('/media-da/')) return m;
+    const url = new URL(abs ? (abs[1] || '/') : href, 'https://x.invalid');
+    const target = normalizePath(url.pathname);
+    let out = null;
+    if (migrated.has(target)) out = target + url.hash;
+    else if (isFragment) out = '/';
+    if (!out) return m;
+    if (isFragment) linkReport.push(`${docPath}: ${href} → ${out}${migrated.has(target) ? '' : '  (placeholder)'}`);
+    return `href="${out}"`;
+  });
+}
+
+files.forEach(({ file, docPath }) => {
   let html = fs.readFileSync(file, 'utf8');
 
   html = html.replace(/<!--[\s\S]*?-->/g, '');
@@ -63,6 +109,7 @@ walk(CONTENT).sort().forEach((file) => {
   // /lsa/about.html). Only a trailing .html is stripped (before ?/#), so
   // servlet-style paths like /events.detail.html/123.html keep their inner segment.
   html = html.replace(/href="(\/(?!media-da\/)[^"?#]*?)\.html([?#][^"]*)?"/g, (m, p, rest) => `href="${p}${rest || ''}"`);
+  html = resolveLinks(html, docPath);
 
   html = html.replace(/(src|href)="\/media-da\/([^"]+)"/g, (m, attr, name) => {
     media.add(name);
@@ -82,7 +129,9 @@ fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify({
   org: ORG, repo: REPO, contentDir: CONTENT, pages, media: mediaList,
 }, null, 2));
 
+fs.writeFileSync(path.join(OUT, 'nav-links.txt'), `${linkReport.join('\n')}\n`);
 console.log(`Built ${pages.length} DA documents in ${OUT}; ${mediaList.length} media files referenced.`);
+console.log(`nav/footer links: ${linkReport.length} resolved (${linkReport.filter((l) => l.includes('placeholder')).length} placeholders) — see ${OUT}/nav-links.txt`);
 if (missing.length) {
   console.error(`Missing local media: ${missing.join(', ')}`);
   process.exitCode = 1;

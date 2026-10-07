@@ -718,3 +718,74 @@ header nav .nav-audience {
     border-color: var(--main-accent-color);
   }
 }
+
+/* --------------------------
+   LSA header layout, matched to lsa.umich.edu.
+   Desktop (>= 900px): a dark full-width utility strip (26px, tan 11px links),
+   then the logo on the left with the main menu right-aligned on its own row
+   just below it (Aleo 12px), then the "for" audience band.
+   Phones (< 900px): the logo scales to fit beside the menu button and the
+   utility links only show inside the open menu.
+--------------------------- */
+@media (width >= 900px) {
+  header nav {
+    padding-top: 0;
+  }
+
+  header nav .nav-tools {
+    flex: 0 0 100vw;
+    width: 100vw;
+    max-width: 100vw;
+    min-height: 26px;
+    margin: 0 0 14px calc(50% - 50vw);
+    padding: 0 max(32px, calc(50vw - 600px));
+    box-sizing: border-box;
+    background: #2b2c2e;
+    border-bottom: 1px solid #212223;
+  }
+
+  header nav .nav-sections {
+    flex: 1 0 100%;
+    align-self: auto;
+    margin-top: 8px;
+    padding-bottom: 4px;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul {
+    justify-content: flex-end;
+    gap: 0;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li > a,
+  header nav .nav-sections .default-content-wrapper > ul > li > a:any-link,
+  header nav .nav-sections .default-content-wrapper > ul > li > p > a,
+  header nav .nav-sections .default-content-wrapper > ul > li > p > a.button:any-link {
+    padding: 5px 15px;
+    font-family: var(--heading-font-family);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+  }
+
+  header nav .nav-audience ul li a,
+  header nav .nav-audience ul li a:any-link,
+  header nav .nav-audience ul li a.button {
+    padding: 3px 20px;
+    font-family: var(--heading-font-family);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+  }
+}
+
+@media (width < 900px) {
+  header nav .nav-brand img {
+    height: 35px;
+    max-height: 35px;
+    max-width: calc(100vw - 110px);
+  }
+
+  header nav:not([aria-expanded='true']) .nav-tools ul {
+    display: none;
+  }
+}

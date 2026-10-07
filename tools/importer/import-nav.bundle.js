@@ -53,41 +53,23 @@ var CustomImportScript = (() => {
         liEl.appendChild(aEl);
         navUl.appendChild(liEl);
       });
+      sections.appendChild(navUl);
+      const audience = document.createElement("div");
+      const forP = document.createElement("p");
+      forP.textContent = "for";
+      const audUl = document.createElement("ul");
       src.querySelectorAll(".audience-nav-item > li > a.audItem").forEach((audA) => {
         const liEl = document.createElement("li");
         const topA = document.createElement("a");
         topA.href = audA.getAttribute("href");
         topA.textContent = audA.textContent.trim();
         liEl.appendChild(topA);
-        const hoverId = audA.getAttribute("data-hover");
-        const submenu = hoverId ? src.querySelector(`#audMenu-${hoverId}`) : null;
-        if (submenu) {
-          const subUl = document.createElement("ul");
-          const featured = submenu.querySelector("a.featuredLink");
-          if (featured) {
-            const fLi = document.createElement("li");
-            const fA = document.createElement("a");
-            fA.href = featured.getAttribute("href");
-            fA.textContent = featured.textContent.trim();
-            fLi.appendChild(fA);
-            subUl.appendChild(fLi);
-          }
-          submenu.querySelectorAll("ul.highlighted > li > a, ul.other > li > a").forEach((sa) => {
-            const sLi = document.createElement("li");
-            const sA = document.createElement("a");
-            sA.href = sa.getAttribute("href");
-            sA.textContent = sa.textContent.trim();
-            sLi.appendChild(sA);
-            subUl.appendChild(sLi);
-          });
-          if (subUl.children.length) liEl.appendChild(subUl);
-        }
-        navUl.appendChild(liEl);
+        audUl.appendChild(liEl);
       });
-      sections.appendChild(navUl);
+      audience.append(forP, audUl);
       const tools = document.createElement("div");
       const toolsUl = document.createElement("ul");
-      src.querySelectorAll(".top-bar-wrap .lsa-nav > li > a").forEach((a) => {
+      src.querySelectorAll(".top-bar-wrap .lsa-nav li:not(.divider) > a").forEach((a) => {
         const liEl = document.createElement("li");
         const aEl = document.createElement("a");
         aEl.href = a.getAttribute("href");
@@ -101,7 +83,9 @@ var CustomImportScript = (() => {
         document.createElement("hr"),
         sections,
         document.createElement("hr"),
-        tools
+        tools,
+        document.createElement("hr"),
+        audience
       );
       WebImporter.rules.adjustImageUrls(main, payload.url, params.originalURL);
       return [{
