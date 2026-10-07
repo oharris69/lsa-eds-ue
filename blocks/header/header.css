@@ -797,3 +797,10 @@ header nav .nav-audience {
     display: none;
   }
 }
+
+/* audience links copied into the phone menu (see header.js); the desktop band shows them */
+@media (width >= 900px) {
+  header nav .nav-sections .nav-audience-mobile {
+    display: none;
+  }
+}

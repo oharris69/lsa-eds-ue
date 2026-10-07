@@ -533,6 +533,16 @@ export default async function decorate(block) {
       });
       band.append(label, audUl);
       nav.append(band);
+
+      // The band is desktop-only; on phones the same links close the main menu
+      // (copies, hidden at >= 900px by header.css).
+      if (sourceUl) {
+        audienceItems.forEach((li) => {
+          const copy = li.cloneNode(true);
+          copy.classList.add('nav-audience-mobile');
+          sourceUl.append(copy);
+        });
+      }
     }
   }
 
