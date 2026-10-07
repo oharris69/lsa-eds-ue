@@ -754,6 +754,12 @@ header nav .nav-audience {
   header nav .nav-sections .default-content-wrapper > ul {
     justify-content: flex-end;
     gap: 0;
+    width: 100%;
+  }
+
+  /* full-bleed "for" band: don't let the flex row shrink it short of the edge */
+  header nav .nav-audience {
+    flex: 0 0 100vw;
   }
 
   header nav .nav-sections .default-content-wrapper > ul > li > a,

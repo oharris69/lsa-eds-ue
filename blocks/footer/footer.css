@@ -89,6 +89,7 @@ footer .footer .columns-wrapper .columns .columns-row {
 
 footer .footer .columns-wrapper .columns .columns-row > div:first-child {
   grid-column: 1 / -1;
+  text-align: center; /* logo centred on phones/tablets, left on desktop */
 }
 
 footer .footer .columns-wrapper .columns .columns-row > div {
