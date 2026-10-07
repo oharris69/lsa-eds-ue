@@ -82,7 +82,9 @@ var CustomImportScript = (() => {
     } else {
       bgImg = element.querySelector("img");
     }
-    const textRegions = Array.from(element.querySelectorAll(".title, .text-wrap")).filter((region, _i, all) => !all.some((other) => other !== region && other.contains(region)));
+    const desktopVisible = (el) => !el.closest('[class*="GridColumn--default--hide"]');
+    let textRegions = Array.from(element.querySelectorAll(".title, .text-wrap")).filter((region, _i, all) => !all.some((other) => other !== region && other.contains(region)));
+    if (textRegions.some(desktopVisible)) textRegions = textRegions.filter(desktopVisible);
     const textNodes = [];
     textRegions.forEach((region) => {
       Array.from(region.children).forEach((child) => {
@@ -105,7 +107,17 @@ var CustomImportScript = (() => {
       if (offset && parseInt(offset[1], 10) >= 4) herolayout = "image-background-text-right";
     }
     const backgroundstyle = fgImgEl ? "theme-light" : "theme-dark";
-    const ctaAnchor = element.querySelector("a.btn, a.lsa-button-click, .button a[href]");
+    const ctaCandidates = Array.from(element.querySelectorAll("a.btn, a.lsa-button-click, .button a[href]"));
+    let ctaAnchor = ctaCandidates.find(desktopVisible) || null;
+    if (!ctaAnchor && !textNodes.length) [ctaAnchor] = ctaCandidates;
+    if (!ctaAnchor) {
+      const last = textNodes[textNodes.length - 1];
+      const onlyLink = last && last.tagName === "P" && last.children.length === 1 && last.firstElementChild.tagName === "A" && last.textContent.trim() === last.firstElementChild.textContent.trim();
+      if (onlyLink) {
+        ctaAnchor = last.firstElementChild;
+        textNodes.pop();
+      }
+    }
     const ctaLabel = ctaAnchor ? ctaAnchor.textContent.trim() : "";
     const ctaHref = ctaAnchor ? ctaAnchor.getAttribute("href") : "";
     if (!bgImg && textNodes.length === 0 && !ctaLabel) {
@@ -303,7 +315,7 @@ var CustomImportScript = (() => {
           h.textContent = title.textContent.trim();
           textNodes.push(h);
         }
-        const desc = card.querySelector(".tile-rollover p, .bottom > p, p");
+        const desc = card.querySelector(".tile-rollover p:not(.tile-title)") || card.querySelector(".bottom > p:not(.tile-title)") || card.querySelector("p:not(.tile-title)");
         if (desc) {
           const p = document2.createElement("p");
           p.textContent = desc.textContent.trim();

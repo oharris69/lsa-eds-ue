@@ -30,6 +30,7 @@ var CustomImportScript = (() => {
       const main = document.createElement("div");
       const footerSrc = src.querySelector(".footer-wrap");
       if (footerSrc) {
+        const row = [];
         const logoImg = footerSrc.querySelector(".footer-logo img");
         if (logoImg) {
           const p = document.createElement("p");
@@ -40,14 +41,16 @@ var CustomImportScript = (() => {
           img.alt = logoImg.getAttribute("alt") || "LSA";
           a.appendChild(img);
           p.appendChild(a);
-          main.appendChild(p);
+          row.push([p]);
         }
-        footerSrc.querySelectorAll(".footer-col").forEach((col) => {
+        const cols = footerSrc.querySelectorAll(".footer-col").length ? footerSrc.querySelectorAll(".footer-col") : Array.from(footerSrc.querySelectorAll("ul")).filter((ul) => ul.querySelector("li.title"));
+        cols.forEach((col) => {
+          const cell = [];
           const title = col.querySelector("li.title");
           if (title) {
             const h = document.createElement("h3");
             h.textContent = title.textContent.trim();
-            main.appendChild(h);
+            cell.push(h);
           }
           const ul = document.createElement("ul");
           col.querySelectorAll("li:not(.title)").forEach((li) => {
@@ -60,10 +63,15 @@ var CustomImportScript = (() => {
             liEl.appendChild(aEl);
             ul.appendChild(liEl);
           });
-          if (ul.children.length) main.appendChild(ul);
+          if (ul.children.length) cell.push(ul);
+          if (cell.length) row.push(cell);
         });
+        if (row.length) {
+          main.appendChild(WebImporter.Blocks.createBlock(document, { name: "columns", cells: [row] }));
+        }
         const copy = footerSrc.querySelector(".copyright");
         if (copy) {
+          main.appendChild(document.createElement("hr"));
           const p = document.createElement("p");
           p.innerHTML = copy.innerHTML.trim();
           main.appendChild(p);
@@ -72,7 +80,7 @@ var CustomImportScript = (() => {
       WebImporter.rules.adjustImageUrls(main, payload.url, params.originalURL);
       return [{
         element: main,
-        path: "/en/footer",
+        path: "/footer",
         report: { fragment: "footer" }
       }];
     }

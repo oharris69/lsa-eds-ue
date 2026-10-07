@@ -206,7 +206,11 @@ export default function parse(element, { document }) {
         h.textContent = title.textContent.trim();
         textNodes.push(h);
       }
-      const desc = card.querySelector('.tile-rollover p, .bottom > p, p');
+      // The overlay repeats the title as an aria-hidden <p class="tile-title">;
+      // take the rollover description first and never a title paragraph.
+      const desc = card.querySelector('.tile-rollover p:not(.tile-title)')
+        || card.querySelector('.bottom > p:not(.tile-title)')
+        || card.querySelector('p:not(.tile-title)');
       if (desc) {
         const p = document.createElement('p');
         p.textContent = desc.textContent.trim();

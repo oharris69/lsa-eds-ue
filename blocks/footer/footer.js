@@ -10,7 +10,8 @@ import {
  * Resolve a top-level fragment beside the current page's language root, keeping
  * the site segment intact. Finds the first `/{lang}/` segment and rebuilds up to
  * it, then appends the fragment name (works for /content/{site}/{lang}/…,
- * /content/{lang}/…, and /{lang}/… alike). Falls back to `/{lang}/{name}`.
+ * /content/{lang}/…, and /{lang}/… alike). Pages without a language segment
+ * (the single-language DA site) use the site-root fragment (/footer).
  */
 function footerFragmentPath(lang) {
   const segments = window.location.pathname.split('/');
@@ -18,7 +19,7 @@ function footerFragmentPath(lang) {
   if (langIdx > -1) {
     return `${segments.slice(0, langIdx + 1).join('/')}/footer`;
   }
-  return `/${lang}/footer`;
+  return '/footer';
 }
 
 /**

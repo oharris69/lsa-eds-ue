@@ -30,7 +30,8 @@ const siteName = await getSiteName();
  *   /content/lsa-umich-eds/en/lsa/academics/majors-minors  -> /content/lsa-umich-eds/en/nav
  *   /content/en/index                                    -> /content/en/nav
  *   /en/rc                                               -> /en/nav
- * Falls back to `/{lang}/{name}` if no language segment is found.
+ * Pages without a language segment (the single-language DA site:
+ * /lsa/about, /english/undergraduate, ...) use the site-root fragment (/nav).
  * @param {string} name fragment name ('nav' | 'footer')
  * @param {string} lang language code
  */
@@ -40,7 +41,7 @@ function fragmentPath(name, lang) {
   if (langIdx > -1) {
     return `${segments.slice(0, langIdx + 1).join('/')}/${name}`;
   }
-  return `/${lang}/${name}`;
+  return `/${name}`;
 }
 
 function closeOnEscape(e) {

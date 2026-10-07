@@ -96,8 +96,13 @@ export default function parse(element, { document }) {
   //   - .text-wrap → rich-text body (pull-quotes, paragraphs, profile heading+copy)
   // Using a combined selector preserves DOM order across mixed .title/.text-wrap
   // sections. Nested matches are de-duped (skip a region already inside a captured one).
-  const textRegions = Array.from(element.querySelectorAll('.title, .text-wrap'))
+  // LSA often ships a desktop copy and a mobile-only duplicate (column hidden at
+  // the default breakpoint). Keep only the desktop copy when one exists, so the
+  // hero text isn't authored twice.
+  const desktopVisible = (el) => !el.closest('[class*="GridColumn--default--hide"]');
+  let textRegions = Array.from(element.querySelectorAll('.title, .text-wrap'))
     .filter((region, _i, all) => !all.some((other) => other !== region && other.contains(region)));
+  if (textRegions.some(desktopVisible)) textRegions = textRegions.filter(desktopVisible);
   const textNodes = [];
   textRegions.forEach((region) => {
     Array.from(region.children).forEach((child) => {
@@ -132,7 +137,22 @@ export default function parse(element, { document }) {
   const backgroundstyle = fgImgEl ? 'theme-light' : 'theme-dark';
 
   // --- CTA: the block's action button ("Read More" / "Learn More") ---
-  const ctaAnchor = element.querySelector('a.btn, a.lsa-button-click, .button a[href]');
+  // Prefer a button visible on desktop; mobile-only buttons duplicate the copy's link.
+  const ctaCandidates = Array.from(element.querySelectorAll('a.btn, a.lsa-button-click, .button a[href]'));
+  let ctaAnchor = ctaCandidates.find(desktopVisible) || null;
+  if (!ctaAnchor && !textNodes.length) [ctaAnchor] = ctaCandidates;
+  // No visible button: a trailing link-only paragraph in the copy (styled as a
+  // button on the live site, e.g. the homepage "Learn More") becomes the CTA.
+  if (!ctaAnchor) {
+    const last = textNodes[textNodes.length - 1];
+    const onlyLink = last && last.tagName === 'P' && last.children.length === 1
+      && last.firstElementChild.tagName === 'A'
+      && last.textContent.trim() === last.firstElementChild.textContent.trim();
+    if (onlyLink) {
+      ctaAnchor = last.firstElementChild;
+      textNodes.pop();
+    }
+  }
   const ctaLabel = ctaAnchor ? ctaAnchor.textContent.trim() : '';
   const ctaHref = ctaAnchor ? ctaAnchor.getAttribute('href') : '';
 

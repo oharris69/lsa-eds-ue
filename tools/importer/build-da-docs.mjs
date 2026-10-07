@@ -17,6 +17,7 @@
  *
  * Usage:
  *   node tools/importer/build-da-docs.mjs [--org oharris69] [--repo lsa-eds-ue] [--out /tmp/da-out]
+ *     [--exclude en]   (comma-separated retired folders to skip; default "en")
  * Upload: see tools/importer/upload-to-da.sh
  */
 import fs from 'fs';
@@ -32,6 +33,9 @@ const REPO = arg('repo', 'lsa-eds-ue');
 const OUT = arg('out', '/tmp/da-out');
 const CONTENT = fs.realpathSync(arg('content', 'content'));
 const DA_MEDIA_BASE = `https://content.da.live/${ORG}/${REPO}/media-da/`;
+// Retired content folders that must not be re-uploaded. `en/` was the old
+// language root for nav/footer (now /nav and /footer at the site root).
+const EXCLUDE = arg('exclude', 'en').split(',').filter(Boolean).map((p) => `${p.replace(/\/$/, '')}/`);
 const BLOCKED_ORIGIN = 'https://lsa.umich.edu/';
 
 const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
@@ -44,6 +48,7 @@ const pages = [];
 
 walk(CONTENT).sort().forEach((file) => {
   const docPath = path.relative(CONTENT, file).replace(/\.plain\.html$/, '');
+  if (EXCLUDE.some((prefix) => `${docPath}/`.startsWith(prefix))) return;
   let html = fs.readFileSync(file, 'utf8');
 
   html = html.replace(/<!--[\s\S]*?-->/g, '');

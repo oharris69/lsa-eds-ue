@@ -65,3 +65,70 @@ footer .footer p {
     padding: 50px 32px;
   }
 }
+
+/* --------------------------
+   Link columns — the /footer document's Columns block:
+   [logo] | Information for | More about LSA | Student Resources | Connect.
+   A grid (not the generic columns flex) so the logo column is wider, and the
+   lists pair up two-per-row on phones as on lsa.umich.edu.
+--------------------------- */
+footer .footer .columns-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+footer .footer .columns > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+footer .footer .columns > div > div:first-child {
+  grid-column: 1 / -1;
+}
+
+footer .footer .columns > div > div {
+  order: unset;
+}
+
+footer .footer .columns > div > .columns-img-col img {
+  width: auto;
+  height: 64px;
+  max-height: 64px;
+  object-fit: contain;
+}
+
+footer .footer .columns h3 {
+  font-size: 14px;
+}
+
+footer .footer .columns ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+footer .footer .columns li {
+  margin: 0 0 4px;
+}
+
+/* footer links read as plain text links (no global chevron) */
+footer .footer a::after {
+  content: none;
+}
+
+/* copyright line */
+footer .footer .section:last-child p {
+  text-align: center;
+}
+
+@media (width >= 900px) {
+  footer .footer .columns > div {
+    grid-template-columns: 2fr repeat(4, minmax(0, 1fr));
+  }
+
+  footer .footer .columns > div > div:first-child {
+    grid-column: auto;
+  }
+}

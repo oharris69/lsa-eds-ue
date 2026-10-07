@@ -106,7 +106,7 @@ var CustomImportScript = (() => {
       WebImporter.rules.adjustImageUrls(main, payload.url, params.originalURL);
       return [{
         element: main,
-        path: "/en/nav",
+        path: "/nav",
         report: { fragment: "nav" }
       }];
     }

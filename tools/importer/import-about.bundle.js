@@ -82,7 +82,9 @@ var CustomImportScript = (() => {
     } else {
       bgImg = element.querySelector("img");
     }
-    const textRegions = Array.from(element.querySelectorAll(".title, .text-wrap")).filter((region, _i, all) => !all.some((other) => other !== region && other.contains(region)));
+    const desktopVisible = (el) => !el.closest('[class*="GridColumn--default--hide"]');
+    let textRegions = Array.from(element.querySelectorAll(".title, .text-wrap")).filter((region, _i, all) => !all.some((other) => other !== region && other.contains(region)));
+    if (textRegions.some(desktopVisible)) textRegions = textRegions.filter(desktopVisible);
     const textNodes = [];
     textRegions.forEach((region) => {
       Array.from(region.children).forEach((child) => {
@@ -105,7 +107,17 @@ var CustomImportScript = (() => {
       if (offset && parseInt(offset[1], 10) >= 4) herolayout = "image-background-text-right";
     }
     const backgroundstyle = fgImgEl ? "theme-light" : "theme-dark";
-    const ctaAnchor = element.querySelector("a.btn, a.lsa-button-click, .button a[href]");
+    const ctaCandidates = Array.from(element.querySelectorAll("a.btn, a.lsa-button-click, .button a[href]"));
+    let ctaAnchor = ctaCandidates.find(desktopVisible) || null;
+    if (!ctaAnchor && !textNodes.length) [ctaAnchor] = ctaCandidates;
+    if (!ctaAnchor) {
+      const last = textNodes[textNodes.length - 1];
+      const onlyLink = last && last.tagName === "P" && last.children.length === 1 && last.firstElementChild.tagName === "A" && last.textContent.trim() === last.firstElementChild.textContent.trim();
+      if (onlyLink) {
+        ctaAnchor = last.firstElementChild;
+        textNodes.pop();
+      }
+    }
     const ctaLabel = ctaAnchor ? ctaAnchor.textContent.trim() : "";
     const ctaHref = ctaAnchor ? ctaAnchor.getAttribute("href") : "";
     if (!bgImg && textNodes.length === 0 && !ctaLabel) {
@@ -168,6 +180,11 @@ var CustomImportScript = (() => {
 
   // tools/importer/parsers/cards.js
   var HERO_BASE = "https://lsa.umich.edu/";
+  var STAT_COLORS = [
+    ["mi-blue-bg", "stat-navy"],
+    ["cyan-blue-bg", "stat-cyan"],
+    ["maize-bg", "stat-maize"]
+  ];
   function toAbsolute2(url, element) {
     if (!url) return url;
     try {
@@ -265,6 +282,7 @@ var CustomImportScript = (() => {
     }
     const cells = [];
     cardEls.forEach((card) => {
+      var _a;
       const isStory = card.matches(".story") || !!card.querySelector(".lead-image");
       const isTile = card.matches(".lsa_tile") || !!card.querySelector(".tile-item, .tile-title");
       const isFourBtn = card.matches(".fourBtn") || !!card.querySelector(".button > .title");
@@ -297,7 +315,7 @@ var CustomImportScript = (() => {
           h.textContent = title.textContent.trim();
           textNodes.push(h);
         }
-        const desc = card.querySelector(".tile-rollover p, .bottom > p, p");
+        const desc = card.querySelector(".tile-rollover p:not(.tile-title)") || card.querySelector(".bottom > p:not(.tile-title)") || card.querySelector("p:not(.tile-title)");
         if (desc) {
           const p = document2.createElement("p");
           p.textContent = desc.textContent.trim();
@@ -327,9 +345,7 @@ var CustomImportScript = (() => {
         const cite = card.querySelector(".stat-cite");
         if (cite) {
           const p = document2.createElement("p");
-          const em = document2.createElement("em");
-          em.textContent = cite.textContent.replace(/\s+/g, " ").trim();
-          p.appendChild(em);
+          p.innerHTML = cite.innerHTML.replace(/\s+/g, " ").trim();
           textNodes.push(p);
         }
       } else if (isFourBtn) {
@@ -352,13 +368,22 @@ var CustomImportScript = (() => {
         textFrag.appendChild(document2.createComment(" field:text "));
         textNodes.forEach((n) => textFrag.appendChild(n));
       }
-      cells.push([imageFrag, textFrag]);
+      if (isStat) {
+        const styleFrag = document2.createDocumentFragment();
+        const p = document2.createElement("p");
+        p.textContent = ((_a = STAT_COLORS.find(([cls]) => card.classList.contains(cls))) == null ? void 0 : _a[1]) || "stat-navy";
+        styleFrag.appendChild(p);
+        cells.push([imageFrag, textFrag, styleFrag]);
+      } else {
+        cells.push([imageFrag, textFrag]);
+      }
     });
     if (cells.length === 0) {
       element.replaceWith(...element.childNodes);
       return;
     }
-    const block = WebImporter.Blocks.createBlock(document2, { name: "cards", cells });
+    const name = statBlocks.length ? "cards (stats)" : "cards";
+    const block = WebImporter.Blocks.createBlock(document2, { name, cells });
     element.replaceWith(block);
   }
 
