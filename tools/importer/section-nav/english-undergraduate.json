@@ -1,0 +1,18 @@
+{
+ "path": "/english/undergraduate",
+ "text": "Undergraduate",
+ "children": [
+  { "path": "/english/undergraduate/advising", "text": "Advising Information", "children": [] },
+  { "path": "/english/undergraduate/english-major", "text": "English Major", "children": [] },
+  { "path": "/english/undergraduate/english-minor", "text": "English Minor", "children": [] },
+  { "path": "/english/undergraduate/creative-writing-minor", "text": "Creative Writing Minor", "children": [] },
+  { "path": "/english/undergraduate/disability-studies-minor", "text": "Disability Studies Minor", "children": [] },
+  { "path": "/english/undergraduate/writing-program", "text": "English Department Writing Program", "children": [] },
+  { "path": "/english/undergraduate/capstone-programs", "text": "Capstone Programs", "children": [] },
+  { "path": "/english/undergraduate/how-to-earn-honors-with-an-english-major", "text": "How to Earn Honors with an English Major", "children": [] },
+  { "path": "/english/undergraduate/journalism", "text": "Journalism", "children": [] },
+  { "path": "/english/undergraduate/internships", "text": "Internships", "children": [] },
+  { "path": "/english/undergraduate/Beyond", "text": "English Outside the Classroom", "children": [] },
+  { "path": "/english/undergraduate/study-abroad", "text": "Study Abroad", "children": [] }
+ ]
+}

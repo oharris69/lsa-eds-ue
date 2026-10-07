@@ -15,7 +15,8 @@ import {
 	getMetadata,
 	loadScript,
 	toClassName,
-	toCamelCase
+	toCamelCase,
+	buildBlock,
   } from './aem.js';
   import { picture, source, img } from './dom-helpers.js';
   
@@ -128,9 +129,28 @@ const experimentationConfig = {
    * Builds all synthetic blocks in a container element.
    * @param {Element} main The container element
    */
-  function buildAutoBlocks() {
+  /**
+   * Section navigation (left menu + breadcrumb) for interior pages whose
+   * `section-nav` metadata points at a section-nav document. Skipped when the
+   * page opens with a full-bleed hero, as on lsa.umich.edu.
+   * @param {Element} main The container element
+   */
+  function buildSectionNav(main) {
+		const navPath = getMetadata('section-nav');
+		if (!navPath || main.querySelector('.section-nav')) return;
+		const first = main.querySelector(':scope > div');
+		if (!first || first.querySelector(':scope > .hero')) return;
+		const link = document.createElement('a');
+		link.href = navPath;
+		link.textContent = navPath;
+		const section = document.createElement('div');
+		section.append(buildBlock('section-nav', [[link]]));
+		main.prepend(section);
+  }
+
+  function buildAutoBlocks(main) {
 		try {
-		  // TODO: add auto block, if needed
+		  buildSectionNav(main);
 		} catch (error) {
 		  // eslint-disable-next-line no-console
 		  console.error('Auto Blocking failed', error);

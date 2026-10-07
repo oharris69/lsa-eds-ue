@@ -1,0 +1,10 @@
+{
+ "path": "/psych/prospective-students",
+ "text": "Prospective Students",
+ "children": [
+  { "path": "/psych/prospective-students/undergraduate", "text": "Undergraduate", "children": [] },
+  { "path": "/psych/prospective-students/transfer--undergraduate-", "text": "Transfer (Undergraduate)", "children": [] },
+  { "path": "/psych/prospective-students/AMDP", "text": "Accelerated Master's Degree Program", "children": [] },
+  { "path": "/psych/prospective-students/graduate", "text": "Doctoral", "children": [] }
+ ]
+}

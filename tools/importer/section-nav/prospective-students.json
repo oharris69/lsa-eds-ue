@@ -1,0 +1,173 @@
+{
+ "path": "/lsa/prospective-students",
+ "text": "Prospective Students",
+ "children": [
+  {
+   "path": "/lsa/prospective-students/undergraduate",
+   "text": "Undergraduate",
+   "children": [
+    {
+     "path": "/lsa/prospective-students/undergraduate/what-are-the-liberal-arts",
+     "text": "What Are the Liberal Arts?",
+     "children": []
+    },
+    {
+     "path": "/lsa/prospective-students/undergraduate/curriculum",
+     "text": "Curriculum",
+     "children": []
+    },
+    {
+     "path": "/lsa/prospective-students/undergraduate/student-life",
+     "text": "Student Life",
+     "children": []
+    },
+    {
+     "path": "/lsa/prospective-students/undergraduate/admissions",
+     "text": "Admissions",
+     "children": [
+      {
+       "path": "/lsa/prospective-students/undergraduate/admissions/undergraduate-application",
+       "text": "Undergraduate Application",
+       "children": []
+      }
+     ]
+    },
+    {
+     "path": "/lsa/prospective-students/undergraduate/scholarships-financialaid-tuition",
+     "text": "Scholarships, Financial Aid, and Tuition",
+     "children": []
+    }
+   ]
+  },
+  {
+   "path": "/lsa/prospective-students/graduate",
+   "text": "Graduate",
+   "children": [
+    {
+     "path": "/lsa/prospective-students/graduate/applying",
+     "text": "Applying",
+     "children": []
+    },
+    {
+     "path": "/lsa/prospective-students/graduate/funding-support",
+     "text": "Funding and Support",
+     "children": []
+    },
+    {
+     "path": "/lsa/prospective-students/graduate/frequently-asked-questions",
+     "text": "Frequently Asked Questions",
+     "children": []
+    }
+   ]
+  },
+  {
+   "path": "/lsa/prospective-students/transfer",
+   "text": "Transfer",
+   "children": []
+  },
+  {
+   "path": "/lsa/prospective-students/international",
+   "text": "International",
+   "children": [
+    {
+     "path": "/lsa/prospective-students/international/visiting-international",
+     "text": "International Visiting",
+     "children": [
+      {
+       "path": "/lsa/prospective-students/international/visiting-international/admissions-and-requirements",
+       "text": "Admissions and Requirements",
+       "children": []
+      },
+      {
+       "path": "/lsa/prospective-students/international/visiting-international/academics",
+       "text": "Academics",
+       "children": []
+      },
+      {
+       "path": "/lsa/prospective-students/international/visiting-international/student-life",
+       "text": "Student Life",
+       "children": []
+      },
+      {
+       "path": "/lsa/prospective-students/international/visiting-international/admitted-students",
+       "text": "Admitted Students",
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "path": "/lsa/prospective-students/student-stories",
+   "text": "Student Stories",
+   "children": [
+    {
+     "path": "/lsa/prospective-students/student-stories/dhaara-antani",
+     "text": "Dhaara Antani",
+     "children": []
+    },
+    {
+     "path": "/lsa/prospective-students/student-stories/kepriah-davis",
+     "text": "Kepriah Davis",
+     "children": []
+    },
+    {
+     "path": "/lsa/prospective-students/student-stories/abilene-emerson",
+     "text": "Abilene Emerson",
+     "children": []
+    },
+    {
+     "path": "/lsa/prospective-students/student-stories/harish-kilaru",
+     "text": "Harish Kilaru",
+     "children": []
+    },
+    {
+     "path": "/lsa/prospective-students/student-stories/jenna-malzahn",
+     "text": "Jenna Malzahn",
+     "children": []
+    }
+   ]
+  },
+  {
+   "path": "/lsa/prospective-students/lsa101",
+   "text": "LSA 101: Info for Admitted Students",
+   "children": [
+    {
+     "path": "/lsa/prospective-students/lsa101/curriculum",
+     "text": "Curriculum",
+     "children": []
+    },
+    {
+     "path": "/lsa/prospective-students/lsa101/faculty-and-research",
+     "text": "Faculty and Research",
+     "children": []
+    },
+    {
+     "path": "/lsa/prospective-students/lsa101/community",
+     "text": "Community",
+     "children": []
+    },
+    {
+     "path": "/lsa/prospective-students/lsa101/student-ambassadors",
+     "text": "Student Ambassadors",
+     "children": []
+    },
+    {
+     "path": "/lsa/prospective-students/lsa101/opportunities-beyond-the-classroom",
+     "text": "Opportunities Beyond the Classroom",
+     "children": []
+    },
+    {
+     "path": "/lsa/prospective-students/lsa101/events",
+     "text": "Events",
+     "children": []
+    }
+   ]
+  },
+  {
+   "path": "/lsa/prospective-students/visit-campus",
+   "text": "Visit Campus",
+   "children": []
+  }
+ ]
+}

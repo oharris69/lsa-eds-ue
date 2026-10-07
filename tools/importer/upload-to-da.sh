@@ -1,5 +1,5 @@
 #!/bin/bash
-# Upload the DA documents built by build-da-docs.mjs (media first, then pages)
+# Upload the DA documents built by build-da-docs.mjs (media, then pages, then sheets)
 # to the DA source API. Credentials are not handled here.
 #
 # Usage: tools/importer/upload-to-da.sh [/tmp/da-out]
@@ -31,6 +31,13 @@ for p in $(node -e "require('$MANIFEST').pages.forEach((p) => console.log(p.path
   code=$(curl -s -o /dev/null -w '%{http_code}' -X POST \
     -F "data=@$OUT/$p.html;type=text/html" "$API/$p.html")
   echo "page /$p -> $code"
+  [[ "$code" =~ ^20 ]] || FAIL=1
+done
+
+for s in $(node -e "(require('$MANIFEST').sheets || []).forEach((s) => console.log(s.path))"); do
+  code=$(curl -s -o /dev/null -w '%{http_code}' -X POST \
+    -F "data=@$OUT/$s.json;type=application/json" "$API/$s.json")
+  echo "sheet /$s.json -> $code"
   [[ "$code" =~ ^20 ]] || FAIL=1
 done
 

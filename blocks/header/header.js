@@ -307,6 +307,31 @@ const closeSearchOnFocusOut = (e, navTools) => {
   }
 };
 
+// The live site's search is an in-page Vue widget with no public results URL;
+// until an LSA search endpoint is wired up, keyword searches go to a web search
+// scoped to lsa.umich.edu. Change SEARCH_URL to point at a real search page.
+const SEARCH_URL = 'https://www.google.com/search';
+const SEARCH_SCOPE = 'site:lsa.umich.edu';
+
+function buildSearchForm() {
+  const form = document.createElement('form');
+  form.className = 'nav-search';
+  form.setAttribute('role', 'search');
+  form.action = SEARCH_URL;
+  form.method = 'get';
+  form.innerHTML = `<label class="nav-search-label" for="nav-search-input">Keyword search</label>
+    <input id="nav-search-input" type="search" name="q" autocomplete="off">
+    <button type="submit" aria-label="Search"><span class="nav-search-icon" aria-hidden="true"></span></button>`;
+  form.addEventListener('submit', (e) => {
+    const input = form.querySelector('input');
+    const terms = input.value.trim();
+    if (!terms) { e.preventDefault(); input.focus(); return; }
+    e.preventDefault();
+    window.location.href = `${SEARCH_URL}?q=${encodeURIComponent(`${SEARCH_SCOPE} ${terms}`)}`;
+  });
+  return form;
+}
+
 async function addLogoLink(langCode) {
   // urn:aemconnection:/content/wknd-universal/language-masters/en/magazine/jcr:content
   const currentLang = langCode || getLanguage();
@@ -316,10 +341,9 @@ async function addLogoLink(langCode) {
   let logoLink = '';
   if (aueResource !== null && aueResource !== undefined && aueResource !== '') {
     logoLink = `${aueResource}.html`;
-  } else if (langCode === 'en') {
-    logoLink = window.location.origin;
   } else {
-    logoLink = `${window.location.origin}/${langCode}`;
+    // language root, e.g. /en/ (future /es/ ...)
+    logoLink = `${window.location.origin}/${langCode}/`;
   }
 
   try {
@@ -647,6 +671,18 @@ export default async function decorate(block) {
       }
     });
   }
+
+  // LSA chrome: off-site main-menu links (Course Catalog, Give Online) get the
+  // maize arrow + bold sans treatment, and a keyword search box sits at the top
+  // right of the logo row, as on lsa.umich.edu.
+  if (navSections) {
+    navSections.querySelectorAll(':scope .default-content-wrapper > ul > li > a, :scope .default-content-wrapper > ul > li > p > a').forEach((a) => {
+      if (new URL(a.href, window.location.href).origin !== window.location.origin) {
+        a.closest('li').classList.add('nav-external');
+      }
+    });
+  }
+  nav.append(buildSearchForm());
 
   // hamburger for mobile
   const hamburger = document.createElement('div');

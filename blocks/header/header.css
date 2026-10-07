@@ -804,3 +804,146 @@ header nav .nav-audience {
     display: none;
   }
 }
+
+/* --------------------------
+   LSA header, round 2 — measured against lsa.umich.edu at 1512px:
+   1140px content width; search box top-right of the logo row; off-site menu
+   links (Course Catalog, Give Online) bold sans with a maize arrow; the "for"
+   band centred with cyan buttons; an 11px cyan hatched strip under the band.
+--------------------------- */
+@media (width >= 900px) {
+  header nav {
+    max-width: 1204px; /* 1140px content + 2 x 32px padding */
+  }
+
+  /* flex order: utility strip, logo + search, menu, audience band */
+  header nav .nav-brand { order: 0; }
+  header nav .nav-sections { order: 2; }
+
+  header nav .nav-tools {
+    padding: 0 max(32px, calc(50vw - 570px));
+  }
+
+  /* off-site links: Roboto 500 + maize location arrow (fa-location-arrow) */
+  header nav .nav-sections .nav-external > a,
+  header nav .nav-sections .nav-external > a:any-link,
+  header nav .nav-sections .nav-external > p > a {
+    padding-left: 30px;
+    font-family: var(--body-font-family);
+    font-weight: 500;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23ffcb05' d='M444.5 3.5L28.7 195.4c-48 22.4-32 92.8 19.2 92.8h175.9v175.9c0 51.2 70.4 67.2 92.8 19.2l191.9-415.8c16-38.4-25.6-80-64-64z'/%3E%3C/svg%3E") no-repeat 15px 50% / 11px 11px;
+  }
+
+  /* keyword search: 264 x 24, white, top-right of the logo row */
+  header nav .nav-search {
+    order: 1;
+    display: flex;
+    align-self: flex-start;
+    margin: 0 0 0 auto;
+  }
+
+  header nav .nav-search input {
+    box-sizing: border-box;
+    width: 239px;
+    height: 24px;
+    padding: 6px 12px 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 2px 0 0 2px;
+    background: #fff;
+    color: #555;
+    font-family: var(--body-font-family);
+    font-size: 14px;
+  }
+
+  header nav .nav-search button {
+    box-sizing: border-box;
+    width: 26px;
+    height: 24px;
+    margin-left: -1px;
+    padding: 0;
+    border: 1px solid #ccc;
+    border-radius: 0 2px 2px 0;
+    background: #fff;
+    cursor: pointer;
+  }
+
+  header nav .nav-search .nav-search-icon {
+    display: block;
+    width: 12px;
+    height: 12px;
+    margin: 0 auto;
+    background-color: #333;
+    mask: url('/icons/search.svg') no-repeat center / contain;
+  }
+
+  /* "for" band: centred group, cyan buttons, 11px hatched strip below */
+  header nav .nav-audience {
+    order: 3;
+    position: relative;
+    justify-content: center;
+    gap: 0;
+    min-height: 42px;
+    margin-bottom: 11px;
+    padding: 0 32px;
+  }
+
+  header nav .nav-audience::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -11px;
+    height: 11px;
+    background:
+      repeating-linear-gradient(
+        -45deg,
+        rgb(255 255 255 / 35%) 0,
+        rgb(255 255 255 / 35%) 2px,
+        transparent 2px,
+        transparent 5px
+      ),
+      #0fa6d3;
+  }
+
+  header nav .nav-audience .nav-audience-label {
+    margin: 0;
+    padding: 5px 20px;
+    font-family: var(--heading-font-family);
+    font-size: 17.6px;
+    font-weight: 800;
+    font-style: italic;
+  }
+
+  header nav .nav-audience ul {
+    gap: 6px;
+  }
+
+  header nav .nav-audience ul li a,
+  header nav .nav-audience ul li a:any-link,
+  header nav .nav-audience ul li a.button {
+    background: #007cba;
+    border: 1px solid #0fa6d3;
+  }
+
+  header nav .nav-audience ul li a:hover,
+  header nav .nav-audience ul li a.button:hover {
+    background: var(--main-accent-color);
+    border-color: var(--main-accent-color);
+    color: var(--brand-dark-color, #00274c);
+  }
+}
+
+@media (width < 900px) {
+  header nav .nav-search {
+    display: none;
+  }
+}
+
+.nav-search-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

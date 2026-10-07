@@ -1,0 +1,291 @@
+/* --------------------------
+   Section navigation + breadcrumb, matched to lsa.umich.edu interior pages
+   (1512px: 360px menu | 15px | 780px content within the 1140px container).
+--------------------------- */
+
+/* breadcrumb: home icon | PROSPECTIVE STUDENTS | UNDERGRADUATE */
+main .section.breadcrumb-container > nav {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section-breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  text-transform: uppercase;
+  color: #333;
+}
+
+.section-breadcrumb li + li::before {
+  content: '|';
+  padding: 0 5px;
+  color: #333;
+}
+
+.section-breadcrumb a:any-link {
+  display: inline;
+  color: #333;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+.section-breadcrumb a::after {
+  content: none;
+}
+
+.section-breadcrumb a:hover {
+  color: #007cba;
+}
+
+.section-breadcrumb li[aria-current='page'] {
+  color: #007cba;
+}
+
+.section-breadcrumb-home-icon {
+  display: inline-block;
+  width: 16px;
+  height: 14px;
+  vertical-align: -1px;
+  background-color: #000;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'%3E%3Cpath d='M280.4 148.3 96 300.1V464a16 16 0 0 0 16 16l112-.3a16 16 0 0 0 16-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.6a16 16 0 0 0 16 16.1l112 .3a16 16 0 0 0 16-16V300L295.7 148.3a12.2 12.2 0 0 0-15.3 0zM571.6 251.5 488 182.6V44a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.6L318.5 43a48 48 0 0 0-61 0L4.3 251.5a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.2 301l235.2-193.7a12.2 12.2 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.9z'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* menu */
+.section-nav-menu details > summary {
+  list-style: none;
+}
+
+.section-nav-menu details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.section-nav-menu .section-nav-title {
+  position: relative;
+  margin: 0 0 22px;
+  padding: 6px 12px;
+  border-top: 1px solid #fff;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      rgb(255 255 255 / 10%) 0,
+      rgb(255 255 255 / 10%) 1px,
+      transparent 1px,
+      transparent 6px
+    ),
+    #007cba;
+  cursor: pointer;
+}
+
+/* the small folded-corner triangle under the title bar */
+.section-nav-menu .section-nav-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  border-top: 10px solid #333;
+  border-left: 10px solid transparent;
+}
+
+.section-nav-menu .section-nav-title a:any-link {
+  display: block;
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 18px;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+.section-nav-menu a::after {
+  content: none;
+}
+
+.section-nav-menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.section-nav-menu li {
+  position: relative;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.section-nav-menu a:any-link {
+  display: block;
+  color: #000;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 18px;
+  white-space: normal;
+}
+
+.section-nav-menu a:hover {
+  color: #007cba;
+}
+
+/* second level */
+.section-nav-level-2 > li {
+  margin-left: 10px;
+  padding-left: 8px;
+}
+
+.section-nav-level-2 > li > a:any-link {
+  padding: 6px 0;
+  font-weight: 500;
+}
+
+.section-nav-level-2 > li.active,
+.section-nav-level-2 > li.open {
+  background: #e5e5e5;
+}
+
+.section-nav-level-2 > li.active > a,
+.section-nav-level-2 > li.open > a {
+  font-weight: 700;
+}
+
+/* third level: cyan hatched marker box + indented text */
+.section-nav-level-3 {
+  margin-left: -8px;
+  background: #fff;
+}
+
+.section-nav-level-3 > li {
+  margin-left: 10px;
+  border-top: 0;
+}
+
+.section-nav-level-3 > li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      rgb(255 255 255 / 12%) 0,
+      rgb(255 255 255 / 12%) 1px,
+      transparent 1px,
+      transparent 5px
+    ),
+    #007cba;
+}
+
+.section-nav-level-3 > li > a:any-link {
+  padding: 7px 24px 7px 40px;
+  font-weight: 400;
+}
+
+.section-nav-level-3 > li.active > a,
+.section-nav-level-3 > li.open > a {
+  font-weight: 700;
+}
+
+/* fourth level and deeper */
+.section-nav-level-4 > li,
+.section-nav-level-5 > li {
+  border-top: 0;
+}
+
+.section-nav-level-4 > li > a:any-link,
+.section-nav-level-5 > li > a:any-link {
+  padding: 6px 24px 6px 56px;
+  font-size: 15px;
+}
+
+.section-nav-level-4 > li.active > a,
+.section-nav-level-5 > li.active > a {
+  font-weight: 700;
+}
+
+/* --------------------------
+   Two-column interior layout (set on <main> by section-nav.js)
+--------------------------- */
+@media (width >= 900px) {
+  main.has-section-nav {
+    display: grid;
+    grid-template-columns: 360px minmax(0, 780px);
+    column-gap: 15px;
+    place-content: start center;
+  }
+
+  main.has-section-nav > .section {
+    grid-column: 2;
+    min-width: 0;
+    margin: 0 0 24px;
+  }
+
+  main.has-section-nav > .section > div {
+    max-width: none;
+    padding: 0 15px;
+  }
+
+  main.has-section-nav > .section.breadcrumb-container {
+    grid-column: 1 / -1;
+    margin-bottom: 12px;
+  }
+
+  main.has-section-nav > .section.breadcrumb-container > nav {
+    width: 1155px;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  main.has-section-nav > .section.section-nav-container {
+    grid-column: 1;
+    align-self: start;
+  }
+
+  main.has-section-nav > .section.section-nav-container > div {
+    padding: 0;
+  }
+
+  main.has-section-nav > .section.section-nav-full {
+    grid-column: 1 / -1;
+  }
+
+  main.has-section-nav > .section.section-nav-full > div {
+    max-width: 1200px;
+    padding: 0 24px;
+  }
+}
+
+@media (width < 900px) {
+  main.has-section-nav > .section.section-nav-container {
+    margin: 0 0 24px;
+  }
+
+  .section-nav-menu .section-nav-title::before {
+    content: '';
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    margin-top: -6px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .section-nav-menu details[open] .section-nav-title::before {
+    margin-top: -2px;
+    transform: rotate(-135deg);
+  }
+}
