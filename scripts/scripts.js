@@ -137,7 +137,9 @@ const experimentationConfig = {
    */
   function buildSectionNav(main) {
 		const navPath = getMetadata('section-nav');
-		if (!navPath || main.querySelector('.section-nav')) return;
+		// page <main> only: fragments (nav, footer) are decorated with the same
+		// pipeline but must not get the page's section menu
+		if (!navPath || main.parentElement !== document.body || main.querySelector('.section-nav')) return;
 		const first = main.querySelector(':scope > div');
 		if (!first || first.querySelector(':scope > .hero')) return;
 		const link = document.createElement('a');
