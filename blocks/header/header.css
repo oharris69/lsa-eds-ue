@@ -744,9 +744,11 @@ header nav .nav-audience {
     border-bottom: 1px solid #212223;
   }
 
-  header nav .nav-sections {
+  header nav .nav-sections,
+  header nav[aria-expanded='true'] .nav-sections {
     flex: 1 0 100%;
     align-self: auto;
+    justify-content: flex-end;
     margin-top: 8px;
     padding-bottom: 4px;
   }
