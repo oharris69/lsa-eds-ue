@@ -1,4 +1,5 @@
 import { getDynamicMediaServerURL } from '../../scripts/utils.js';
+import { loadScript } from '../../scripts/aem.js';
 
 
 /**
@@ -29,7 +30,11 @@ export default async function decorate(block) {
           // Get DM Url input
           let dmUrlEl = await getDynamicMediaServerURL();
         
-          // Ensure S7 is loaded
+          // Load the Scene7 responsive-image library on demand (only pages that
+          // use this block pay for it; it used to be in head.html for every page).
+          if (typeof s7responsiveImage !== 'function') {
+            await loadScript('https://s7d1.scene7.com/s7viewers/libs/responsive_image.js');
+          }
           if (typeof s7responsiveImage !== 'function') {
             console.error("s7responsiveImage function is not defined, ensure script include is added to head tag");
             return;

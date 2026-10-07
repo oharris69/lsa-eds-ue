@@ -1,11 +1,19 @@
+import { loadScript } from '../../scripts/aem.js';
+
 let dmViewerPromise;
+
+// DM video viewer, loaded on demand (it used to be a parser-blocking script in
+// head.html on every page).
+const DM_VIEWER_SRC = 'https://delivery-p153659-e1620914.adobeaemcloud.com/adobe/assets/urn:aaid:aem:dmviewers-html5/as/DMVideoViewer.js';
 
 /**
  * Decorate the dm-video block.
  * @param {Element} block The block root element.
  */
 export default async function decorate(block) {
- 
+  if (!window.dmviewers?.VideoViewer) {
+    await loadScript(DM_VIEWER_SRC);
+  }
   if (!window.dmviewers || !window.dmviewers.VideoViewer) {
     console.error('DM VideoViewer not available on window.dmviewers');
     return;

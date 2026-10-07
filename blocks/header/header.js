@@ -330,7 +330,15 @@ async function addLogoLink(langCode) {
       title: logoImage?.alt,
     });
     const picture = document.querySelector('.nav-brand picture');
+    const authoredLink = picture?.closest('a');
     if (picture) anchor.appendChild(picture);
+    // The authored brand link (`[logo](/)`) is left empty once its picture moves
+    // into the new anchor; drop it so there's no unnamed link in the header.
+    if (authoredLink && !authoredLink.textContent.trim() && !authoredLink.querySelector('img')) {
+      const wrapper = authoredLink.parentElement;
+      authoredLink.remove();
+      if (wrapper?.tagName === 'P' && !wrapper.children.length && !wrapper.textContent.trim()) wrapper.remove();
+    }
     const targetElement = document.querySelector('.nav-brand .default-content-wrapper');
     if (targetElement) {
       targetElement.appendChild(anchor);

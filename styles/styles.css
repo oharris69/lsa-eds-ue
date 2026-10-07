@@ -47,10 +47,10 @@
   
   /* fonts — LSA brand: Aleo for headings, Roboto for body (matches lsa.umich.edu) */
   --body-font-family: roboto, roboto-fallback, arial, sans-serif;
-  --heading-font-family: aleo, georgia, 'Times New Roman', serif;
+  --heading-font-family: aleo, aleo-fallback, georgia, 'Times New Roman', serif;
   --light-font-family: roboto, roboto-fallback, arial, sans-serif;
-  --extra-font-family: aleo, georgia, 'Times New Roman', serif;
-  --black-font-family: aleo, georgia, 'Times New Roman', serif;
+  --extra-font-family: aleo, aleo-fallback, georgia, 'Times New Roman', serif;
+  --black-font-family: aleo, aleo-fallback, georgia, 'Times New Roman', serif;
 
   /* body sizes */
   --body-font-size-m: 22px;
@@ -112,6 +112,18 @@
   font-family: roboto-fallback;
   size-adjust: 99.529%;
   src: local('Arial');
+}
+
+/* Georgia scaled to Aleo's average glyph width and vertical metrics
+   (Capsize metrics: size-adjust = Aleo xWidthAvg / Georgia xWidthAvg), so the
+   swap to the web font doesn't reflow headings. */
+@font-face {
+  font-family: aleo-fallback;
+  size-adjust: 102.96%;
+  ascent-override: 87.9%;
+  descent-override: 28.65%;
+  line-gap-override: 0%;
+  src: local('Georgia');
 }
 
 @media (width >= 900px) {
@@ -1021,7 +1033,7 @@ table {
   padding: 12px 24px !important;
   margin: 10px 5px;
   background-color: var(--main-accent-color) !important;
-  color: var(--text-light) !important;
+  color: var(--brand-dark-color, #00274c) !important; /* navy on maize: ~11:1 contrast */
   text-decoration: none;
   border: 2px solid var(--main-accent-color) !important;
   border-radius: 4px;
@@ -1039,22 +1051,22 @@ table {
  .cta-button a.button::after {
   content: "\f105";
   font-family: 'Font Awesome 5 Solid', sans-serif;
-  color: var(--text-light) !important;
+  color: var(--brand-dark-color, #00274c) !important;
   font-size: 20px;
   margin-left: 8px;
   transition: all 0.3s ease;
 }
 
 .cta-button a.button:hover {
-  background-color: transparent !important;
-  color: var(--main-accent-color) !important;
-  border-color: var(--main-accent-color) !important;
+  background-color: var(--brand-dark-color, #00274c) !important;
+  color: var(--text-light) !important;
+  border-color: var(--brand-dark-color, #00274c) !important;
   box-shadow: 0 4px 8px rgb(0 0 0 / 15%);
   transform: translateY(-1px);
 }
 
  .cta-button a.button:hover::after {
-  color: var(--main-accent-color) !important  ;
+  color: var(--text-light) !important;
   transform: translateX(2px);
 }
 
