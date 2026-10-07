@@ -575,6 +575,7 @@ main .columns li a:not(.button):any-link:hover {
    otherwise lands at the paragraph's right edge, away from the link text. */
 main .default-content-wrapper p a:not(.button):any-link::after,
 main .default-content-wrapper li a:not(.button):any-link::after,
+main .default-content-wrapper :is(h1, h2, h3, h4, h5, h6) a:not(.button):any-link::after,
 main .columns p a:not(.button):any-link::after,
 main .columns li a:not(.button):any-link::after {
   content: none;
@@ -740,6 +741,14 @@ main > .section > div {
 
 main > .section:first-of-type {
   margin-top: 0;
+}
+
+/* progressive section appearance (EDS boilerplate): a section stays hidden
+   until its blocks are decorated, so undecorated block markup never paints
+   and then reflows (CLS) */
+main > .section[data-section-status='loading'],
+main > .section[data-section-status='initialized'] {
+  display: none;
 }
 
 /* Interior pages that open with default content (page title) rather than a
