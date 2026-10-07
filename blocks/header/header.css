@@ -947,3 +947,25 @@ header nav .nav-audience {
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/* round 2 fixes: the global a::after chevron reserves ~35px (width + padding,
+   floated) even when emptied — drop it entirely in the utility strip, menu and
+   band so spacing matches lsa.umich.edu */
+header nav .nav-tools a::after,
+header nav .nav-audience a::after,
+header nav .nav-sections .default-content-wrapper > ul > li > a::after {
+  content: none;
+}
+
+@media (width >= 900px) {
+  header nav[aria-expanded='true'] {
+    padding: 0 32px;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li.nav-external > a,
+  header nav .nav-sections .default-content-wrapper > ul > li.nav-external > a:any-link {
+    padding-left: 30px;
+    font-family: var(--body-font-family);
+    font-weight: 500;
+  }
+}
