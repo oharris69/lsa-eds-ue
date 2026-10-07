@@ -70,36 +70,40 @@ footer .footer p {
    Link columns — the /footer document's Columns block:
    [logo] | Information for | More about LSA | Student Resources | Connect.
    A grid (not the generic columns flex) so the logo column is wider, and the
-   lists pair up two-per-row on phones as on lsa.umich.edu.
+   lists pair up two-per-row on phones as on lsa.umich.edu. Selectors are
+   scoped through .columns-wrapper/.columns-row to outrank columns.css's own
+   tablet rules (< 1024px).
 --------------------------- */
 footer .footer .columns-wrapper {
   max-width: none;
   padding: 0;
 }
 
-footer .footer .columns > div {
+footer .footer .columns-wrapper .columns .columns-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
   align-items: start;
 }
 
-footer .footer .columns > div > div:first-child {
+footer .footer .columns-wrapper .columns .columns-row > div:first-child {
   grid-column: 1 / -1;
 }
 
-footer .footer .columns > div > div {
+footer .footer .columns-wrapper .columns .columns-row > div {
   order: unset;
 }
 
-footer .footer .columns > div > .columns-img-col img {
+footer .footer .columns-wrapper .columns .columns-row > .columns-img-col img {
   width: auto;
   height: 64px;
   max-height: 64px;
   object-fit: contain;
 }
 
-footer .footer .columns h3 {
+footer .footer .columns-wrapper .columns .columns-row h3 {
+  margin: 0 0 8px;
+  padding: 0;
   font-size: 14px;
 }
 
@@ -124,11 +128,11 @@ footer .footer .section:last-child p {
 }
 
 @media (width >= 900px) {
-  footer .footer .columns > div {
+  footer .footer .columns-wrapper .columns .columns-row {
     grid-template-columns: 2fr repeat(4, minmax(0, 1fr));
   }
 
-  footer .footer .columns > div > div:first-child {
+  footer .footer .columns-wrapper .columns .columns-row > div:first-child {
     grid-column: auto;
   }
 }
