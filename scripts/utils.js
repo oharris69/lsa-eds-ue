@@ -208,14 +208,9 @@ export function computeLocalizedUrl(targetLang) {
     const hash = url.hash || '';
 
     if (!isContentPath) {
-      // EDS: /{lang}/{suffix}
+      // EDS: /{lang}/{suffix}; every language's homepage is its root (/en/, /es/)
       const cleanSuffix = suffix ? suffix.replace(/^\/+/, '') : '';
-      if (targetLang.toLowerCase() === 'en' && !cleanSuffix) {
-        // Homepage → root
-        return `/${query}${hash}`.replace(/\/\/?(?=\?|#|$)/, '/');
-      }
-      const next = `/${targetLang}${cleanSuffix ? `/${cleanSuffix}` : ''}`;
-      return `${next}${query}${hash}`;
+      return `/${targetLang}/${cleanSuffix}${query}${hash}`;
     }
 
     // AEM author: /content/{site}/language-masters/{lang}/{suffix}.html
