@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "url": "https://lsa.umich.edu/psych/prospective-students/undergraduate.html",
+  "path": "en/psych/prospective-students/undergraduate",
+  "timestamp": "2026-10-08T13:09:40.219Z",
+  "title": "Undergraduate | U-M LSA Department of Psychology",
+  "template": "department-landing",
+  "blocks": [
+    "cards"
+  ]
+}

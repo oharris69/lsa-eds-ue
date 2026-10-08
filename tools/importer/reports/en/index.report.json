@@ -1,0 +1,18 @@
+{
+  "status": "success",
+  "url": "https://lsa.umich.edu/",
+  "path": "en/index",
+  "timestamp": "2026-10-08T13:08:47.940Z",
+  "title": "College of LSA | U-M LSA",
+  "template": "homepage",
+  "blocks": [
+    "hero",
+    "hero",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "columns"
+  ]
+}

@@ -27,11 +27,10 @@ const siteName = await getSiteName();
  * Finds the first `/{lang}/` segment in the current pathname and rebuilds the
  * path up to and including it, then appends the fragment name. Works for every
  * host shape our content is served under:
- *   /content/lsa-umich-eds/en/lsa/academics/majors-minors  -> /content/lsa-umich-eds/en/nav
+ *   /en/academics/majors-minors                          -> /en/nav
+ *   /en/english/undergraduate                            -> /en/nav
  *   /content/en/index                                    -> /content/en/nav
- *   /en/rc                                               -> /en/nav
- * Pages without a language segment (the single-language DA site:
- * /lsa/about, /english/undergraduate, ...) use the site-root fragment (/nav).
+ * Pages without a language segment fall back to the site-root fragment (/nav).
  * @param {string} name fragment name ('nav' | 'footer')
  * @param {string} lang language code
  */

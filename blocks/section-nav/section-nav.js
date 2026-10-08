@@ -2,12 +2,13 @@
  * Section navigation + breadcrumb (lsa.umich.edu interior pages).
  *
  * Auto-blocked by scripts.js on pages whose `section-nav` metadata points at a
- * section-nav document, e.g. /en/lsa/prospective-students/section-nav: one
+ * section-nav document, e.g. /en/prospective-students/section-nav: one
  * nested list, authored in DA:
- *   - [Prospective Students](/en/lsa/prospective-students)
- *     - [Undergraduate](/en/lsa/prospective-students/undergraduate)
+ *   - [Prospective Students](/en/prospective-students)
+ *     - [Undergraduate](/en/prospective-students/undergraduate)
  *       - [What Are the Liberal Arts?](...)
  *     - [Graduate](...)
+ * Entries for pages that aren't migrated may link off-site (https://lsa.umich.edu/…).
  *
  * Renders (as on the live site):
  *   - a breadcrumb above the page: home icon | ancestors | current page
@@ -19,11 +20,17 @@
 
 const trimPath = (p) => (p || '').replace(/\.html$/, '').replace(/\/+$/, '') || '/';
 
+/** Same-site links as a path (matched against the current page), others as-is. */
+function hrefOf(a) {
+  const url = new URL(a.getAttribute('href'), window.location.href);
+  return url.origin === window.location.origin ? url.pathname : url.href;
+}
+
 function toTree(li) {
   const a = li.querySelector(':scope > a, :scope > p > a');
   const sub = li.querySelector(':scope > ul');
   return {
-    href: a ? new URL(a.getAttribute('href'), window.location.href).pathname : '',
+    href: a ? hrefOf(a) : '',
     text: a ? a.textContent.trim() : li.firstChild?.textContent?.trim() || '',
     children: sub ? [...sub.children].map(toTree) : [],
   };

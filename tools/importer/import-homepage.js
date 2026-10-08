@@ -9,6 +9,7 @@ import columnsParser from './parsers/columns.js';
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/lsa-cleanup.js';
 import sectionsTransformer from './transformers/lsa-sections.js';
+import { sitePath } from './doc-path.mjs';
 
 // PARSER REGISTRY - Map parser names to functions
 const parsers = {
@@ -165,13 +166,8 @@ export default {
     WebImporter.rules.transformBackgroundImages(main, document);
     WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
 
-    // 6. Generate sanitized path. Map the root/homepage URL to `/index`.
-    //    A pathname of `/` becomes '' after trailing-slash stripping, which crashes
-    //    the bundled importer's path polyfill (`.cwd is not a function`).
-    const rawPath = new URL(params.originalURL).pathname
-      .replace(/\/$/, '')
-      .replace(/\.html?$/, '');
-    const path = WebImporter.FileUtils.sanitizePath(rawPath === '' ? '/index' : rawPath);
+    // Document path under the language root, mirroring lsa.umich.edu (doc-path.mjs).
+    const path = WebImporter.FileUtils.sanitizePath(sitePath(new URL(params.originalURL).pathname));
 
     return [{
       element: main,

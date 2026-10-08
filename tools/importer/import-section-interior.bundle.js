@@ -461,6 +461,18 @@ var CustomImportScript = (() => {
     }
   }
 
+  // tools/importer/doc-path.mjs
+  var LANG = "en";
+  var COLLEGE_SITE = "lsa";
+  function segmentsOf(pathname) {
+    return pathname.replace(/\.html?$/i, "").toLowerCase().split("/").map((s) => s.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")).filter(Boolean);
+  }
+  function sitePath(pathname, lang = LANG) {
+    const segs = segmentsOf(pathname);
+    if (segs[0] === COLLEGE_SITE) segs.shift();
+    return `/${[lang, ...segs.length ? segs : ["index"]].join("/")}`;
+  }
+
   // tools/importer/import-section-interior.js
   var parsers = {
     cards: parse,
@@ -603,8 +615,7 @@ var CustomImportScript = (() => {
       WebImporter.rules.createMetadata(main, document2);
       WebImporter.rules.transformBackgroundImages(main, document2);
       WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
-      const rawPath = new URL(params.originalURL).pathname.replace(/\/$/, "").replace(/\.html?$/, "");
-      const path = WebImporter.FileUtils.sanitizePath(rawPath === "" ? "/index" : rawPath);
+      const path = WebImporter.FileUtils.sanitizePath(sitePath(new URL(params.originalURL).pathname));
       return [{
         element: main,
         path,

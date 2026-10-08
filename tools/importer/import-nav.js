@@ -1,9 +1,11 @@
 /* eslint-disable */
 /* global WebImporter */
 
-// Import script for the LSA site header → /nav fragment (site root).
+// Import script for the LSA site header → /en/nav fragment (language root).
 // header.js splits the fragment's 3 top-level children into brand / sections / tools.
 // Images keep original absolute https://lsa.umich.edu URLs.
+
+import { LANG } from './doc-path.mjs';
 
 export default {
   transform: (payload) => {
@@ -86,7 +88,7 @@ export default {
 
     return [{
       element: main,
-      path: '/nav',
+      path: `/${LANG}/nav`,
       report: { fragment: 'nav' },
     }];
   },

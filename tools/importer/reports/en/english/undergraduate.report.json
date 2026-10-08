@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "url": "https://lsa.umich.edu/english/undergraduate.html",
+  "path": "en/english/undergraduate",
+  "timestamp": "2026-10-08T13:09:35.162Z",
+  "title": "Undergraduate Students | U-M LSA English Language and Literature",
+  "template": "department-landing",
+  "blocks": [
+    "cards"
+  ]
+}

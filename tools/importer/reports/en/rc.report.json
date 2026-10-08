@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://lsa.umich.edu/rc",
+  "path": "en/rc",
+  "timestamp": "2026-10-08T13:09:49.973Z",
+  "title": "Residential College | U-M LSA",
+  "template": "unit-home",
+  "blocks": [
+    "hero",
+    "cards"
+  ]
+}

@@ -23,6 +23,11 @@ var CustomImportScript = (() => {
   __export(import_footer_exports, {
     default: () => import_footer_default
   });
+
+  // tools/importer/doc-path.mjs
+  var LANG = "en";
+
+  // tools/importer/import-footer.js
   var import_footer_default = {
     transform: (payload) => {
       const { document, params } = payload;
@@ -80,7 +85,7 @@ var CustomImportScript = (() => {
       WebImporter.rules.adjustImageUrls(main, payload.url, params.originalURL);
       return [{
         element: main,
-        path: "/footer",
+        path: `/${LANG}/footer`,
         report: { fragment: "footer" }
       }];
     }

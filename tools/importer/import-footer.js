@@ -1,13 +1,15 @@
 /* eslint-disable */
 /* global WebImporter */
 
-// Import script for the LSA site footer → /footer fragment (site root).
+// Import script for the LSA site footer → /en/footer fragment (language root).
 // footer.js loads the fragment and appends its sections into the footer block.
 // Document structure (authorable in DA):
 //   section 1: Columns block — [logo] | [title + links] x4 (Information for,
 //              More about LSA, Student Resources, Connect)
 //   section 2: copyright line
 // Images keep original absolute https://lsa.umich.edu URLs.
+
+import { LANG } from './doc-path.mjs';
 
 export default {
   transform: (payload) => {
@@ -80,7 +82,7 @@ export default {
 
     return [{
       element: main,
-      path: '/footer',
+      path: `/${LANG}/footer`,
       report: { fragment: 'footer' },
     }];
   },

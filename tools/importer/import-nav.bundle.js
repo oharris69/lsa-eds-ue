@@ -23,6 +23,11 @@ var CustomImportScript = (() => {
   __export(import_nav_exports, {
     default: () => import_nav_default
   });
+
+  // tools/importer/doc-path.mjs
+  var LANG = "en";
+
+  // tools/importer/import-nav.js
   var import_nav_default = {
     transform: (payload) => {
       const { document, params } = payload;
@@ -90,7 +95,7 @@ var CustomImportScript = (() => {
       WebImporter.rules.adjustImageUrls(main, payload.url, params.originalURL);
       return [{
         element: main,
-        path: "/nav",
+        path: `/${LANG}/nav`,
         report: { fragment: "nav" }
       }];
     }
