@@ -274,9 +274,11 @@ export default function parse(element, { document }) {
 
     // Every row has 2 columns: [image, text]. Text cell may be empty (image-only card).
     // Stat tiles add a 3rd "card style" cell (cards.js applies it as the <li> class)
-    // carrying the tile colour, so authors can pick navy / cyan / maize per tile.
+    // carrying the tile colour, so authors can pick navy / cyan / maize per tile
+    // (card model field `style`).
     if (isStat) {
       const styleFrag = document.createDocumentFragment();
+      styleFrag.appendChild(document.createComment(' field:style '));
       const p = document.createElement('p');
       p.textContent = STAT_COLORS.find(([cls]) => card.classList.contains(cls))?.[1] || 'stat-navy';
       styleFrag.appendChild(p);

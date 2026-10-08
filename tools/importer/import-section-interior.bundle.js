@@ -233,6 +233,7 @@ var CustomImportScript = (() => {
       }
       if (isStat) {
         const styleFrag = document2.createDocumentFragment();
+        styleFrag.appendChild(document2.createComment(" field:style "));
         const p = document2.createElement("p");
         p.textContent = ((_a = STAT_COLORS.find(([cls]) => card.classList.contains(cls))) == null ? void 0 : _a[1]) || "stat-navy";
         styleFrag.appendChild(p);
@@ -259,11 +260,18 @@ var CustomImportScript = (() => {
       const title = titleEl ? titleEl.textContent.replace(/\s+/g, " ").trim() : "";
       const bodyEl = item.querySelector(".accordion-body");
       if (!title && !bodyEl) return;
-      const content = document2.createElement("div");
-      if (bodyEl) {
-        Array.from(bodyEl.children).filter((c) => !c.classList.contains("clearfix")).forEach((c) => content.appendChild(c.cloneNode(true)));
+      const summary = document2.createDocumentFragment();
+      if (title) {
+        summary.appendChild(document2.createComment(" field:summary "));
+        summary.appendChild(document2.createTextNode(title));
       }
-      cells.push([title, content]);
+      const content = document2.createDocumentFragment();
+      const bodyChildren = bodyEl ? Array.from(bodyEl.children).filter((c) => !c.classList.contains("clearfix")) : [];
+      if (bodyChildren.length) {
+        content.appendChild(document2.createComment(" field:text "));
+        bodyChildren.forEach((c) => content.appendChild(c.cloneNode(true)));
+      }
+      cells.push([summary, content]);
     });
     if (!cells.length) {
       element.replaceWith(...element.childNodes);

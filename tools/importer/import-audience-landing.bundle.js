@@ -370,6 +370,7 @@ var CustomImportScript = (() => {
       }
       if (isStat) {
         const styleFrag = document2.createDocumentFragment();
+        styleFrag.appendChild(document2.createComment(" field:style "));
         const p = document2.createElement("p");
         p.textContent = ((_a = STAT_COLORS.find(([cls]) => card.classList.contains(cls))) == null ? void 0 : _a[1]) || "stat-navy";
         styleFrag.appendChild(p);

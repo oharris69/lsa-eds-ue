@@ -24,13 +24,21 @@ export default function parse(element, { document }) {
     const bodyEl = item.querySelector('.accordion-body');
     if (!title && !bodyEl) return;
 
-    const content = document.createElement('div');
-    if (bodyEl) {
-      Array.from(bodyEl.children)
-        .filter((c) => !c.classList.contains('clearfix'))
-        .forEach((c) => content.appendChild(c.cloneNode(true)));
+    // Field hints for the accordion-item model (summary | text).
+    const summary = document.createDocumentFragment();
+    if (title) {
+      summary.appendChild(document.createComment(' field:summary '));
+      summary.appendChild(document.createTextNode(title));
     }
-    cells.push([title, content]);
+    const content = document.createDocumentFragment();
+    const bodyChildren = bodyEl
+      ? Array.from(bodyEl.children).filter((c) => !c.classList.contains('clearfix'))
+      : [];
+    if (bodyChildren.length) {
+      content.appendChild(document.createComment(' field:text '));
+      bodyChildren.forEach((c) => content.appendChild(c.cloneNode(true)));
+    }
+    cells.push([summary, content]);
   });
 
   if (!cells.length) {

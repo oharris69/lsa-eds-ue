@@ -208,6 +208,31 @@
         "value": "",
         "label": "Text",
         "valueType": "string"
+      },
+      {
+        "component": "select",
+        "name": "style",
+        "label": "Card Style",
+        "valueType": "string",
+        "value": "",
+        "options": [
+          {
+            "name": "Default",
+            "value": ""
+          },
+          {
+            "name": "Stat tile (navy)",
+            "value": "stat-navy"
+          },
+          {
+            "name": "Stat tile (cyan)",
+            "value": "stat-cyan"
+          },
+          {
+            "name": "Stat tile (maize)",
+            "value": "stat-maize"
+          }
+        ]
       }
     ]
   },
@@ -275,6 +300,31 @@
         "value": "",
         "label": "Text",
         "valueType": "string"
+      },
+      {
+        "component": "select",
+        "name": "style",
+        "label": "Card Style",
+        "valueType": "string",
+        "value": "",
+        "options": [
+          {
+            "name": "Default",
+            "value": ""
+          },
+          {
+            "name": "Stat tile (navy)",
+            "value": "stat-navy"
+          },
+          {
+            "name": "Stat tile (cyan)",
+            "value": "stat-cyan"
+          },
+          {
+            "name": "Stat tile (maize)",
+            "value": "stat-maize"
+          }
+        ]
       },
       {
         "component": "select",
