@@ -5,16 +5,18 @@
  * lsa.umich.edu hosts the College site (/lsa/…, with its home page served at /)
  * and department/unit sites beside it (/english, /psych, /urop, /cgis, /rc).
  * Under the language root the College's pages sit directly below the root and
- * each unit site keeps its slug:
+ * every department/unit site sits in one Departments folder, keeping its slug:
  *   /                                            → /en/index (served at /en/)
  *   /lsa/prospective-students/undergraduate.html → /en/prospective-students/undergraduate
- *   /english/undergraduate.html                  → /en/english/undergraduate
+ *   /english/undergraduate.html                  → /en/departments/english/undergraduate
+ *   /rc                                          → /en/departments/rc
  *
  * Shared by the import scripts (document output paths) and build-da-docs.mjs
  * (link resolution, section-nav and redirects), so both always agree.
  */
 export const LANG = 'en';
 export const COLLEGE_SITE = 'lsa';
+export const DEPARTMENTS = 'departments';
 
 /**
  * Normalize path segments like WebImporter.FileUtils.sanitizePath: lowercase,
@@ -38,6 +40,7 @@ export function segmentsOf(pathname) {
 export function sitePath(pathname, lang = LANG) {
   const segs = segmentsOf(pathname);
   if (segs[0] === COLLEGE_SITE) segs.shift();
+  else if (segs.length) segs.unshift(DEPARTMENTS);
   return `/${[lang, ...(segs.length ? segs : ['index'])].join('/')}`;
 }
 

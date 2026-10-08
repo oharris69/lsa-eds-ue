@@ -28,7 +28,7 @@ const siteName = await getSiteName();
  * path up to and including it, then appends the fragment name. Works for every
  * host shape our content is served under:
  *   /en/academics/majors-minors                          -> /en/nav
- *   /en/english/undergraduate                            -> /en/nav
+ *   /en/departments/english/undergraduate                -> /en/nav
  *   /content/en/index                                    -> /content/en/nav
  * Pages without a language segment fall back to the site-root fragment (/nav).
  * @param {string} name fragment name ('nav' | 'footer')

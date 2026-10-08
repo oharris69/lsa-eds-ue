@@ -5,11 +5,11 @@
  *
  * The import scripts already write every document at its final path under the
  * language root (doc-path.mjs): the College site's pages directly below /en
- * (/lsa/about → /en/about, the home page → /en/index, served at /en/), unit sites
- * keeping their slug (/english/undergraduate → /en/english/undergraduate), and the
- * nav/footer fragments at /en/nav, /en/footer (header.js / footer.js resolve
- * /{lang}/nav|footer). Only the language root is read; anything else in the content
- * folder (e.g. pre-language-root import output) is ignored.
+ * (/lsa/about → /en/about, the home page → /en/index, served at /en/), department
+ * and unit sites in one folder (/english/undergraduate → /en/departments/english/
+ * undergraduate), and the nav/footer fragments at /en/nav, /en/footer (header.js /
+ * footer.js resolve /{lang}/nav|footer). Only the pages in the import URL lists
+ * (urls-*.txt) are built; other content files (output of earlier layouts) are ignored.
  *
  * For every page:
  *   - wraps the section <div>s as <body><header></header><main>…</main><footer></footer></body>
@@ -25,12 +25,13 @@
  *     {out}/nav-links.txt); in page content they point at the live LSA site
  *     (report: {out}/live-links.txt)
  *   - builds a section-nav document per tree in tools/importer/section-nav/*.json
- *     (e.g. /en/prospective-students/section-nav) for the section-nav block
+ *     (/en/fragments/section-nav/<tree file name>) for the section-nav block
  *
  * Sheets (uploaded as DA sheets at the site root):
  *   - metadata.json   bulk metadata: `section-nav` for every page of each section
  *   - redirects.json  earlier EDS paths of every page (pre-language-root /lsa/about,
- *                     and the first language-root layout /en/lsa/about) → its path
+ *                     and earlier language-root layouts /en/lsa/about,
+ *                     /en/english/undergraduate) → its path
  *
  * Output: {out}/<path>.html for each document, {out}/<sheet>.json, {out}/manifest.json
  *   { pages: [{ path, web, file }], sheets: [{ path, file }], media: [file] }
@@ -44,7 +45,7 @@ import fs from 'fs';
 import path from 'path';
 // .mjs: shared with the (bundled) import scripts
 import {
-  LANG as DEFAULT_LANG, segmentsOf, sitePath, webPath,
+  LANG as DEFAULT_LANG, DEPARTMENTS, segmentsOf, sitePath, webPath,
 } from './doc-path.mjs'; // eslint-disable-line import/extensions
 
 const args = process.argv.slice(2);
@@ -70,19 +71,35 @@ const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) =
 const media = new Set();
 const pages = [];
 
+const LIVE_ORIGIN = 'https://lsa.umich.edu';
+const docFor = (sourcePath) => sitePath(sourcePath, LANG);
+
+// The pages to build: every source URL in the import lists (urls-*.txt), mapped
+// to its document path, plus the nav/footer fragments. Other files under the
+// language root (output of earlier layouts) are ignored.
+const sourceUrls = fs.readdirSync(IMPORTER_DIR)
+  .filter((n) => /^urls-.*\.txt$/.test(n))
+  .flatMap((n) => fs.readFileSync(path.join(IMPORTER_DIR, n), 'utf8').split('\n'))
+  .map((l) => l.trim())
+  .filter((l) => l.startsWith(LIVE_ORIGIN));
+const FRAGMENTS = new Set([`${LANG}/nav`, `${LANG}/footer`]);
+const wanted = new Set([
+  ...sourceUrls.map((u) => docFor(new URL(u).pathname).slice(1)),
+  ...FRAGMENTS,
+]);
+const stale = [];
 // docPath: the document path without the leading slash (en/about, en/index).
 const files = walk(path.join(CONTENT, LANG)).sort()
-  .map((file) => ({ file, docPath: path.relative(CONTENT, file).replace(/\.plain\.html$/, '') }));
+  .map((file) => ({ file, docPath: path.relative(CONTENT, file).replace(/\.plain\.html$/, '') }))
+  .filter(({ docPath }) => wanted.has(docPath) || (stale.push(docPath) && false));
+const missingDocs = [...wanted].filter((d) => !files.some((f) => f.docPath === d));
 
-const FRAGMENTS = new Set([`${LANG}/nav`, `${LANG}/footer`]);
 // Document paths (/en/about, /en/index) of every migrated page, for link resolution.
 const migrated = new Set(files
   .filter(({ docPath }) => !FRAGMENTS.has(docPath))
   .map(({ docPath }) => `/${docPath}`));
 const HOME = `/${LANG}/`;
-const docFor = (sourcePath) => sitePath(sourcePath, LANG);
 
-const LIVE_ORIGIN = 'https://lsa.umich.edu';
 const linkReport = [];
 const liveLinks = new Set();
 /**
@@ -126,7 +143,7 @@ const titleOf = new Map(files.map(({ file, docPath }) => {
 }));
 
 // Department directory: a department whose home page isn't migrated, but which
-// has migrated pages (e.g. /en/english/undergraduate), gets links to its top-level
+// has migrated pages (e.g. /en/departments/english/undergraduate), gets links to its top-level
 // migrated pages next to its entry so they can be reached from the site.
 const DEPT_DIRECTORY = `${LANG}/academics/departments-and-units`;
 function linkMigratedDeptPages(html) {
@@ -175,12 +192,16 @@ files.forEach(({ file, docPath }) => {
   writeDoc(docPath, webPath(`/${docPath}`), html);
 });
 
-// Section-nav documents (one nested list) + bulk metadata rows pointing the
-// section's pages at them. Tree paths are source-site paths.
+// Section-nav documents (one nested list each, kept together in
+// /{lang}/fragments/section-nav/<tree file name>) + bulk metadata rows pointing
+// the section's pages at them. Tree paths are source-site paths.
 const metadataRows = [];
 const sectionTrees = fs.existsSync(SECTION_NAV_DIR)
   ? fs.readdirSync(SECTION_NAV_DIR).filter((n) => n.endsWith('.json'))
-    .map((n) => JSON.parse(fs.readFileSync(path.join(SECTION_NAV_DIR, n), 'utf8')))
+    .map((n) => ({
+      name: n.replace(/\.json$/, ''),
+      ...JSON.parse(fs.readFileSync(path.join(SECTION_NAV_DIR, n), 'utf8')),
+    }))
   : [];
 sectionTrees.forEach((tree) => {
   const item = (node) => {
@@ -190,7 +211,7 @@ sectionTrees.forEach((tree) => {
     return `<li><a href="${href}">${esc(node.text)}</a>${kids ? `<ul>${kids}</ul>` : ''}</li>`;
   };
   const sectionWeb = webPath(docFor(tree.path));
-  const navWeb = `${sectionWeb}/section-nav`;
+  const navWeb = `/${LANG}/fragments/section-nav/${tree.name}`;
   writeDoc(navWeb.slice(1), navWeb, `<div><ul>${item(tree)}</ul></div>`);
   metadataRows.push({ URL: sectionWeb, 'section-nav': navWeb });
   metadataRows.push({ URL: `${sectionWeb}/**`, 'section-nav': navWeb });
@@ -198,13 +219,8 @@ sectionTrees.forEach((tree) => {
 
 // Redirects: the earlier EDS paths of every migrated page (from the import URL
 // lists) → its current path. Earlier paths were the sanitized source path
-// (/lsa/about, /english/undergraduate) and the same under the first language
-// root layout (/en/lsa/about).
-const sourceUrls = fs.readdirSync(IMPORTER_DIR)
-  .filter((n) => /^urls-.*\.txt$/.test(n))
-  .flatMap((n) => fs.readFileSync(path.join(IMPORTER_DIR, n), 'utf8').split('\n'))
-  .map((l) => l.trim())
-  .filter((l) => l.startsWith(LIVE_ORIGIN));
+// (/lsa/about, /english/undergraduate) and the same under the language root
+// (/en/lsa/about, /en/english/undergraduate).
 const redirects = new Map();
 sourceUrls.forEach((u) => {
   const { pathname } = new URL(u);
@@ -217,6 +233,10 @@ sourceUrls.forEach((u) => {
     if (src !== destination && src !== destination.replace(/\/$/, '')) redirects.set(src, destination);
   });
 });
+// The Departments folder has no page of its own: send it to the College's
+// Departments & Units directory.
+const directory = `/${DEPT_DIRECTORY}`;
+if (migrated.has(directory)) redirects.set(`/${LANG}/${DEPARTMENTS}`, webPath(directory));
 const redirectRows = [...redirects].sort()
   .map(([Source, Destination]) => ({ Source, Destination }));
 
@@ -244,7 +264,12 @@ console.log(`in-page links to unmigrated LSA pages: ${liveLinks.size} unique →
 console.log(`Built ${pages.length} DA documents under /${LANG}/ in ${OUT}; ${mediaList.length} media files referenced.`);
 console.log(`sheets: metadata (${metadataRows.length} rows), redirects (${redirectRows.length} rows)`);
 console.log(`nav/footer links: ${linkReport.length} resolved (${linkReport.filter((l) => l.includes('placeholder')).length} placeholders) — see ${OUT}/nav-links.txt`);
+if (stale.length) console.log(`ignored ${stale.length} content file(s) not in the import lists: ${stale.join(', ')}`);
 if (missing.length) {
   console.error(`Missing local media: ${missing.join(', ')}`);
+  process.exitCode = 1;
+}
+if (missingDocs.length) {
+  console.error(`Not imported yet (no content file): ${missingDocs.join(', ')}`);
   process.exitCode = 1;
 }

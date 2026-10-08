@@ -370,6 +370,7 @@ var CustomImportScript = (() => {
       }
       if (isStat) {
         const styleFrag = document2.createDocumentFragment();
+        styleFrag.appendChild(document2.createComment(" field:style "));
         const p = document2.createElement("p");
         p.textContent = ((_a = STAT_COLORS.find(([cls]) => card.classList.contains(cls))) == null ? void 0 : _a[1]) || "stat-navy";
         styleFrag.appendChild(p);
@@ -657,12 +658,14 @@ var CustomImportScript = (() => {
   // tools/importer/doc-path.mjs
   var LANG = "en";
   var COLLEGE_SITE = "lsa";
+  var DEPARTMENTS = "departments";
   function segmentsOf(pathname) {
     return pathname.replace(/\.html?$/i, "").toLowerCase().split("/").map((s) => s.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")).filter(Boolean);
   }
   function sitePath(pathname, lang = LANG) {
     const segs = segmentsOf(pathname);
     if (segs[0] === COLLEGE_SITE) segs.shift();
+    else if (segs.length) segs.unshift(DEPARTMENTS);
     return `/${[lang, ...segs.length ? segs : ["index"]].join("/")}`;
   }
 
