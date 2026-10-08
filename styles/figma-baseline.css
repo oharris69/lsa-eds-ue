@@ -1,0 +1,176 @@
+/*
+ * Theme "figma-baseline" — pages built from the Figma baseline design
+ * ("LSA Undergrad Prospective Students – baseline (test)", e.g. /en/figma-test).
+ * Enabled by page metadata `Theme: figma-baseline` (body.figma-baseline);
+ * scripts.js loads this file only on those pages.
+ *
+ * Section styles (Section Metadata "Style"): intro, navy, grey, pills.
+ * Block variants live with their blocks: hero (band), cards (stats-band),
+ * cards (events), columns (media).
+ */
+body.figma-baseline {
+  --figma-navy: #00274c;
+  --figma-maize: #ffcb05;
+  --figma-slate: #4a5d73;
+  --figma-grey: #f2f2f2;
+  --figma-text: #222;
+  --figma-content-width: 1120px;
+  --figma-section-padding: 64px;
+}
+
+/* Layout: 1120px content column, 64px vertical rhythm between sections. */
+.figma-baseline main > .section {
+  margin: 0;
+  padding: var(--figma-section-padding) 0;
+}
+
+.figma-baseline main > .section > div {
+  max-width: calc(var(--figma-content-width) + 64px);
+}
+
+.figma-baseline main > .section.hero-container {
+  padding: 0;
+}
+
+.figma-baseline main > .section.hero-container > div {
+  max-width: none;
+  padding: 0;
+}
+
+/* Typography */
+.figma-baseline main h2 {
+  margin: 0 0 16px;
+  font-family: var(--heading-font-family);
+  font-size: 34px;
+  line-height: 41px;
+  font-weight: 700;
+  color: var(--figma-navy);
+}
+
+.figma-baseline main p,
+.figma-baseline main li {
+  font-family: var(--body-font-family);
+  font-size: 17px;
+  line-height: 27px;
+  color: var(--figma-text);
+}
+
+.figma-baseline main p {
+  margin: 0 0 16px;
+}
+
+.figma-baseline main > .section > div > p:last-child {
+  margin-bottom: 0;
+}
+
+/* The site's decorative rule after section copy isn't part of this design. */
+.figma-baseline main .section > div > p::after {
+  content: none;
+}
+
+/* Buttons: maize, Michigan Blue label, no chevron. */
+.figma-baseline main a.button:any-link {
+  padding: 14px 28px;
+  border-radius: 4px;
+  background-color: var(--figma-maize);
+  color: var(--figma-navy);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.figma-baseline main a.button:any-link::after {
+  content: none;
+}
+
+.figma-baseline main a.button:hover,
+.figma-baseline main a.button:focus-visible {
+  background-color: var(--figma-navy);
+  color: #fff;
+  text-decoration: none;
+}
+
+.figma-baseline main p.button-container {
+  margin: 8px 0 0;
+}
+
+/* Paired text columns: top-aligned, 64px apart (columns (media) centres its row). */
+@media (width >= 900px) {
+  .figma-baseline main .columns:not(.media) > div {
+    align-items: flex-start;
+    gap: 64px;
+  }
+}
+
+/* Section style: intro — the lead paragraph under the hero. */
+.figma-baseline main .section.intro p {
+  font-size: 20px;
+  line-height: 32px;
+}
+
+/* Section styles: navy / grey bands (full bleed). */
+.figma-baseline main > .section.navy {
+  background-color: var(--figma-navy);
+}
+
+.figma-baseline main > .section.grey {
+  background-color: var(--figma-grey);
+}
+
+.figma-baseline main > .section.grey h2 {
+  margin-bottom: 24px;
+}
+
+/* Section style: pills — heading + list as maize pills, then an image band. */
+.figma-baseline main > .section.pills {
+  padding: 32px 0 0;
+}
+
+.figma-baseline main .section.pills h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  line-height: 34px;
+}
+
+.figma-baseline main .section.pills ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.figma-baseline main .section.pills li {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background-color: var(--figma-maize);
+  color: var(--figma-navy);
+  font-size: 15px;
+  line-height: 21px;
+  font-weight: 700;
+}
+
+.figma-baseline main .section.pills p:has(> picture) {
+  margin: 32px 0 0;
+}
+
+.figma-baseline main .section.pills picture img {
+  display: block;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+@media (width < 900px) {
+  body.figma-baseline {
+    --figma-section-padding: 40px;
+  }
+
+  .figma-baseline main h2 {
+    font-size: 28px;
+    line-height: 34px;
+  }
+}

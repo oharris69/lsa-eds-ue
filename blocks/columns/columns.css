@@ -94,3 +94,39 @@
 
 }
 
+
+/* --------------------------
+   `columns (media)` — Figma baseline image + text rows (e.g. /en/figma-test):
+   a 480×360 photo beside vertically centred copy, 64px apart. The photo keeps
+   its authored side (left or right).
+--------------------------- */
+@media (width >= 900px) {
+  .columns.media > div {
+    flex-direction: row;
+    align-items: center;
+    gap: 64px;
+  }
+
+  .columns.media > div > div,
+  .columns.media > div > .columns-img-col {
+    order: initial;
+    flex: 1 1 0;
+  }
+
+  .columns.media > div > .columns-img-col {
+    flex: 0 0 480px;
+  }
+}
+
+.columns.media .columns-img-col p {
+  margin: 0;
+}
+
+.columns.media .columns-img-col img {
+  display: block;
+  width: 100%;
+  height: 360px;
+  max-height: none;
+  object-fit: cover;
+  object-position: left center;
+}

@@ -574,6 +574,11 @@ async function loadEager(doc) {
   const main = doc.querySelector('main');
   if (main) {
     await decorateMain(main);
+    // Themed pages (metadata `Theme`) with their own stylesheet, loaded before the
+    // first section paints.
+    if (document.body.classList.contains('figma-baseline')) {
+      await loadCSS(`${window.hlx.codeBasePath}/styles/figma-baseline.css`);
+    }
     document.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }

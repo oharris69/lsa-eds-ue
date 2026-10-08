@@ -549,3 +549,103 @@
     flex-direction: column;
   }
 }
+
+/* --------------------------
+   Figma baseline variants (e.g. /en/figma-test, theme figma-baseline).
+   `cards (stats-band)`: three stats on a navy band — maize Aleo figure, white
+   label and citation. `cards (events)`: white event cards with a maize top
+   rule — bold date, then title / time · place.
+--------------------------- */
+.cards.stats-band > ul,
+.cards.events > ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 0;
+  margin: 0;
+}
+
+.cards.stats-band > ul {
+  gap: 48px;
+}
+
+.cards.events > ul {
+  gap: 32px;
+}
+
+.cards.stats-band > ul > li,
+.cards.events > ul > li {
+  display: flex;
+  flex-direction: column;
+}
+
+.cards.stats-band > ul > li {
+  background: transparent;
+}
+
+.cards.stats-band .cards-card-image,
+.cards.events .cards-card-image {
+  display: none;
+}
+
+.cards.stats-band > ul > li .cards-card-body,
+.cards.events > ul > li .cards-card-body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.cards.stats-band .cards-card-body p {
+  margin: 0 0 8px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 22px;
+  color: #fff;
+}
+
+.cards.stats-band .cards-card-body p:first-child,
+.cards.stats-band .cards-card-body p:first-child > strong {
+  font-family: var(--heading-font-family);
+  font-size: 44px;
+  line-height: 62px;
+  font-weight: 700;
+  color: var(--brand-theme-color, #ffcb05);
+}
+
+.cards.stats-band .cards-card-body p:nth-child(3) {
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.cards.events > ul > li {
+  padding: 24px;
+  border-top: 4px solid var(--brand-theme-color, #ffcb05);
+  background: #fff;
+}
+
+.cards.events .cards-card-body p {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  line-height: 23px;
+  color: #222;
+}
+
+.cards.events .cards-card-body p:first-child {
+  margin-bottom: 8px;
+}
+
+.cards.events .cards-card-body p:first-child > strong {
+  font-family: var(--body-font-family);
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 700;
+  color: var(--brand-dark-color, #00274c);
+}
+
+@media (width < 900px) {
+  .cards.stats-band > ul,
+  .cards.events > ul {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}

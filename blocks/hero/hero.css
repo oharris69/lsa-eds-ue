@@ -968,3 +968,60 @@ main > .section.hero-container:has(.hero.image-background-text-right.theme-dark)
     margin-left: 0;
   }
 }
+
+/* --------------------------
+   `hero (band)` — Figma baseline page title band (e.g. /en/figma-test):
+   a 420px photo band tinted slate, the title bottom-left on the 1120px
+   content column. The band sits below the fixed site header, so the header
+   height (110px / 220px at >= 900px) is added on top.
+--------------------------- */
+.hero.band {
+  --hero-band-header: 110px;
+
+  min-height: calc(420px + var(--hero-band-header));
+  padding: var(--hero-band-header) 32px 48px;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.hero.band::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: rgb(74 93 115 / 62%);
+}
+
+.hero.band .hero-text {
+  width: 100%;
+  max-width: 1120px;
+}
+
+.hero.block.band.overlay h1 {
+  max-width: none;
+  margin: 0;
+  text-shadow: none;
+  font-family: var(--heading-font-family);
+  font-size: 56px;
+  line-height: 67px;
+  font-weight: 700;
+  color: #fff;
+  text-align: left;
+}
+
+@media (width >= 900px) {
+  .hero.band {
+    --hero-band-header: 220px;
+  }
+}
+
+@media (width < 600px) {
+  .hero.band {
+    min-height: calc(280px + var(--hero-band-header));
+  }
+
+  .hero.block.band.overlay h1 {
+    font-size: 40px;
+    line-height: 48px;
+  }
+}

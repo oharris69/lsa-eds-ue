@@ -82,9 +82,17 @@ const sourceUrls = fs.readdirSync(IMPORTER_DIR)
   .flatMap((n) => fs.readFileSync(path.join(IMPORTER_DIR, n), 'utf8').split('\n'))
   .map((l) => l.trim())
   .filter((l) => l.startsWith(LIVE_ORIGIN));
+// Pages built from Figma designs (import-figma.js, served locally): the document
+// is named after the source file (figma-test.html → en/figma-test).
+const FIGMA_URLS = path.join(IMPORTER_DIR, 'urls-figma.txt');
+const figmaDocs = fs.existsSync(FIGMA_URLS)
+  ? fs.readFileSync(FIGMA_URLS, 'utf8').split('\n').map((l) => l.trim()).filter(Boolean)
+    .map((u) => `${LANG}/${path.basename(new URL(u).pathname).replace(/\.html?$/, '')}`)
+  : [];
 const FRAGMENTS = new Set([`${LANG}/nav`, `${LANG}/footer`]);
 const wanted = new Set([
   ...sourceUrls.map((u) => docFor(new URL(u).pathname).slice(1)),
+  ...figmaDocs,
   ...FRAGMENTS,
 ]);
 const stale = [];
