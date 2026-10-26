@@ -132,53 +132,44 @@
 }
 
 /* --------------------------
-   `columns (lsa-media)` — LSA Design System image + text (Figma "Engaged
+   `columns (media)` on LSA Design System pages (body.lsa-ds, Figma "Engaged
    Learning", e.g. /en/lsa-figma): copy beside a 560px photo, 80px apart,
-   vertically centred. The photo keeps its authored side.
+   vertically centred. The photo keeps its authored side. (A single-word
+   variant, so it survives the Experience Workspace sync.)
 --------------------------- */
-.columns.lsa-media > div {
+.lsa-ds .columns.media > div {
   display: flex;
   flex-direction: column;
   gap: var(--lsa-space-32, 32px);
 }
 
-.columns.lsa-media .columns-img-col p {
-  margin: 0;
-}
-
-.columns.lsa-media .columns-img-col img {
-  display: block;
-  width: 100%;
+.lsa-ds .columns.media .columns-img-col img {
   height: auto;
   aspect-ratio: 560 / 343;
   object-fit: cover;
+  object-position: center;
 }
 
-.columns.lsa-media :is(h2, h3) {
+.lsa-ds .columns.media :is(h2, h3) {
   font-size: 44px;
   line-height: 46px;
   letter-spacing: -0.22px;
 }
 
-.columns.lsa-media p {
+.lsa-ds .columns.media p {
   color: #373737;
   font-size: 18px;
   line-height: 26px;
 }
 
 @media (width >= 900px) {
-  .columns.lsa-media > div {
+  .lsa-ds .columns.media > div {
     flex-direction: row;
     align-items: center;
     gap: var(--lsa-space-80, 80px);
   }
 
-  .columns.lsa-media > div > div {
-    order: initial;
-    flex: 1 1 0;
-  }
-
-  .columns.lsa-media > div > .columns-img-col {
+  .lsa-ds .columns.media > div > .columns-img-col {
     flex: 0 0 560px;
   }
 }

@@ -1,14 +1,14 @@
 {
   "definitions": [
     {
-      "title": "LSA Give Band",
+      "title": "Lsa Give Band",
       "id": "lsa-give-band",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "name": "LSA Give Band",
+              "name": "Lsa Give Band",
               "model": "lsa-give-band",
               "tagline": "<p>for what’s next</p><h3>Look to Michigan</h3>",
               "text": "<p>LSA is the place for foundational knowledge where creative thinkers engage with a complex, diverse, and changing world.</p>",

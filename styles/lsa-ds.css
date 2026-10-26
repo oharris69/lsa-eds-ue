@@ -16,7 +16,7 @@
  *   `flush`, type `display`, `overline`.
  * - Accent themes (Section Metadata "Style", or page metadata `Accent`):
  *   accent-<palette>, from the Advanced User Palette (Base / Dark / Lite).
- * Blocks: lsa-hero, lsa-give-band, lsa-news, lsa-swatches, columns (lsa-media);
+ * Blocks: lsa-hero, lsa-give-band, lsa-news, lsa-swatches, columns (media);
  * header and footer use blocks/header/lsa-header.js and the footer styles below.
  */
 body.lsa-ds {
