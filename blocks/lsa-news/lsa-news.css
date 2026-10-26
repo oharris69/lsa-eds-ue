@@ -1,0 +1,153 @@
+/* LSA Design System featured news carousel. */
+.lsa-news {
+  --lsa-news-action: #a26a28; /* Special Content: Autumnal Umber */
+  --lsa-news-action-hover: #6f4a1d;
+}
+
+.lsa-news .lsa-news-track {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lsa-news .lsa-news-slide {
+  position: relative;
+  display: grid;
+  min-height: 562px;
+  margin: 0;
+  overflow: hidden;
+  background-color: var(--lsa-puma-black, #111b23);
+}
+
+.lsa-news .lsa-news-slide[hidden] {
+  display: none;
+}
+
+.lsa-news .lsa-news-slide > div {
+  grid-area: 1 / 1;
+}
+
+.lsa-news .lsa-news-media picture,
+.lsa-news .lsa-news-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lsa-news .lsa-news-content {
+  position: relative;
+  align-self: end;
+  padding: var(--lsa-space-24, 24px);
+  background: linear-gradient(0deg, rgb(17 27 35 / 80%) 0%, #111b23 100%);
+}
+
+.lsa-news .lsa-news-content :is(h2, h3, h4) {
+  margin: 0 0 var(--lsa-space-8, 8px);
+  font-size: 24px;
+  line-height: 29px;
+  font-weight: 800;
+  letter-spacing: 0;
+  color: var(--lsa-white, #fff);
+}
+
+.lsa-news .lsa-news-content :is(h2, h3, h4) a:any-link {
+  color: inherit;
+  border-bottom: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.lsa-news .lsa-news-content :is(h2, h3, h4) a:any-link:hover {
+  color: var(--lsa-accent-l2, #89dfff);
+}
+
+.lsa-news .lsa-news-content p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 21px;
+  letter-spacing: 0.25px;
+  color: var(--lsa-white, #fff);
+}
+
+.lsa-news .lsa-news-content .button-container {
+  margin-top: var(--lsa-space-16, 16px);
+}
+
+.lsa-news .lsa-news-content a.button:any-link {
+  border-color: var(--lsa-news-action);
+  background-color: var(--lsa-news-action);
+  color: var(--lsa-white, #fff);
+}
+
+.lsa-news .lsa-news-content a.button:any-link:hover {
+  border-color: var(--lsa-news-action-hover);
+  background-color: var(--lsa-news-action-hover);
+}
+
+/* Controls: 01 / 15  ← → */
+.lsa-news .lsa-news-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--lsa-space-16, 16px);
+  margin-top: var(--lsa-space-16, 16px);
+}
+
+.lsa-news .lsa-news-counter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 500;
+  letter-spacing: 0.25px;
+}
+
+.lsa-news .lsa-news-current {
+  color: var(--lsa-accent, #007cba);
+}
+
+.lsa-news .lsa-news-total {
+  color: var(--lsa-text-secondary, #40454d);
+}
+
+.lsa-news .lsa-news-sep {
+  width: 3px;
+  height: 16px;
+  background-color: var(--lsa-accent, #007cba);
+  transform: rotate(12deg);
+}
+
+.lsa-news .lsa-news-controls button {
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--lsa-border-subtle, #c3d3e8);
+  border-radius: 50%;
+  background: var(--lsa-white, #fff) center / 16px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23007cba' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 8H3M7 4L3 8l4 4'/%3E%3C/svg%3E");
+  cursor: pointer;
+}
+
+.lsa-news .lsa-news-controls button.lsa-news-next {
+  transform: scaleX(-1);
+}
+
+.lsa-news .lsa-news-controls button:hover {
+  border-color: var(--lsa-accent, #007cba);
+  background-color: var(--lsa-accent-l4, #effbff);
+}
+
+@media (width < 900px) {
+  .lsa-news .lsa-news-slide {
+    min-height: 480px;
+  }
+
+  .lsa-news + .lsa-give-band,
+  .lsa-news-wrapper + .lsa-give-band-wrapper {
+    margin-top: var(--lsa-space-32, 32px);
+  }
+}

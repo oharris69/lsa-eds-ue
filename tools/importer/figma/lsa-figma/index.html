@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LSA Design System</title>
+<!--
+  Import source for /en/lsa-figma (landing page), built from the Figma
+  "LSA Design System (Adobe Copy)" (file sbAjYExBKVc22jcLSLIx00, canvas 7121:416303
+  "Design Library"): Landing Page Hero Section (7154:509416 — Dep-Hero 7154:509477
+  split hero + support band, 7154:509476 featured news + support card,
+  7154:509478 video banner + support band), Audience-Hero (7154:510000) and the
+  Faculty and Staff "Engaged Learning" row (7154:510095).
+  Photos are the design's own (exported from the Figma frames into
+  /media-da/lsa-figma/); "Button Text" placeholders are given real labels.
+  Theme `lsa-ds` (styles/lsa-ds.css); header/footer from /en/lsa-figma/nav|footer.
+  Blocks are authored as block tables (first row = block name), each section is a
+  <section> (data-style = section style), and data-field on a cell becomes the
+  field hint that keeps the workspace sync's md2jcr mapping.
+  Imported by tools/importer/import-figma.js (served locally, see urls-figma.txt).
+-->
+</head>
+<body>
+<main>
+
+<section>
+<!-- 7154:509477 Dep-Hero: split -->
+<table>
+  <tr><th>LSA Hero (split)</th></tr>
+  <tr><td data-field="image"><p><img src="/media-da/lsa-figma/history-of-art.jpg" alt="A smiling girl and a woman in a Student Parents t-shirt in front of a yellow wall covered in handwritten names"></p></td></tr>
+  <tr><td data-field="text"><h1>History of Art at Michigan</h1><p>We combine historical depth and cultural range in our research and teaching, and have long-established strengths in Asian and African as well as European and North American art.</p><p><strong><a href="https://lsa.umich.edu/histart">Explore the Department</a></strong></p><p><em><a href="https://lsa.umich.edu/histart/undergraduates.html">Undergraduate Programs</a></em></p></td></tr>
+</table>
+</section>
+
+<section data-style="flush-top">
+<!-- 7146:477876 Support Full Width Header -->
+<table>
+  <tr><th>LSA Give Band</th></tr>
+  <tr><td data-field="tagline"><p>for what’s next</p><h2>Look to Michigan</h2></td></tr>
+  <tr><td data-field="text"><p>LSA is the place for foundational knowledge where creative thinkers engage with a complex, diverse, and changing world. We need your support to fuel our innovative environment, invest in the brightest people, and advance tomorrow’s breakthroughs.</p></td></tr>
+  <tr><td data-field="actions"><p><em><a href="https://lsa.umich.edu/lsa/look-to-michigan.html">Learn More</a></em></p><p><strong><a href="https://leadersandbest.umich.edu/find/#!/lsa">Give Online</a></strong></p></td></tr>
+</table>
+</section>
+
+<section data-style="feature-grid, flush-top">
+<!-- 7154:509476 8 Col Interactions (featured news) + Support Vertical -->
+<table>
+  <tr><th colspan="2">LSA News</th></tr>
+  <tr>
+    <td data-field="image"><p><img src="/media-da/lsa-figma/museum.jpg" alt="A visitor looks at a landscape painting beside a marble sculpture in a museum gallery"></p></td>
+    <td data-field="text"><h3><a href="https://lsa.umich.edu/lsa/news-events/all-news.html">Museum director Michael L. Galaty and co-editor Lorenc Bejko win 2025 AIA award for their landmark study of northern Albania</a></h3><p>A cluster of “ghostly” golden chanterelles, Cantharellus phasmatis M.J. Foltz &amp; T.J. Volk. Part of a cryptic species complex, this species was originally described from the driftless region of western Wisconsin. Foltz has recently confirmed using molecular techniques that …</p><p><a href="https://lsa.umich.edu/lsa/news-events/all-news.html">Read the Story</a></p></td>
+  </tr>
+  <tr>
+    <td data-field="image"><p><img src="/media-da/lsa-figma/atrium.jpg" alt="Students gather on the stairs and in the lounge of a bright, multi-level atrium"></p></td>
+    <td data-field="text"><h3><a href="https://lsa.umich.edu/opportunityhub">The Opportunity Hub’s industry groups connect students with careers they hadn’t imagined</a></h3><p>Your academic major doesn’t determine your career—you do. The Hub’s Industry Groups nurture your curiosity and connect your education, your goals, and your network.</p><p><a href="https://lsa.umich.edu/opportunityhub">Read the Story</a></p></td>
+  </tr>
+  <tr>
+    <td data-field="image"><p><img src="/media-da/lsa-figma/lab.jpg" alt="A student in a white lab coat works at a microscope bench beside a laptop"></p></td>
+    <td data-field="text"><h3><a href="https://lsa.umich.edu/lsa/academics/research-opportunities.html">Undergraduate researchers take discovery from the lab bench to the field</a></h3><p>From research in the field with faculty to community outreach to creating literature or art, there are endless opportunities for students to explore their interests while making an impact.</p><p><a href="https://lsa.umich.edu/lsa/academics/research-opportunities.html">Read the Story</a></p></td>
+  </tr>
+</table>
+<table>
+  <tr><th>LSA Give Band (vertical)</th></tr>
+  <tr><td data-field="tagline"><p>for what’s next</p><h2>Look to Michigan</h2></td></tr>
+  <tr><td data-field="text"><p>LSA is the place for foundational knowledge where creative thinkers engage with a complex, diverse, and changing world. We need your support to fuel our innovative environment, invest in the brightest people, and advance tomorrow’s breakthroughs.</p></td></tr>
+  <tr><td data-field="actions"><p><em><a href="https://lsa.umich.edu/lsa/look-to-michigan.html">Learn More</a></em></p><p><strong><a href="https://leadersandbest.umich.edu/find/#!/lsa">Give Online</a></strong></p></td></tr>
+</table>
+</section>
+
+<section data-style="spacious">
+<!-- 7154:510357 Engaged Learning (Faculty and Staff page template) -->
+<table>
+  <tr><th colspan="2">Columns (lsa-media)</th></tr>
+  <tr>
+    <td><h2>Engaged Learning</h2><p>Life at LSA can take you across campus and around the world. From research in the field with faculty to community outreach to creating literature or art, there are endless opportunities for students to explore their interests while making an impact.</p><p><strong><a href="https://lsa.umich.edu/lsa/academics/research-opportunities.html">Find Programs &amp; Opportunities</a></strong></p></td>
+    <td><p><img src="/media-da/lsa-figma/lab.jpg" alt="A student in a white lab coat works at a microscope bench beside a laptop"></p></td>
+  </tr>
+</table>
+</section>
+
+<section>
+<!-- 7154:510000 Audience-Hero: band -->
+<table>
+  <tr><th>LSA Hero (band)</th></tr>
+  <tr><td data-field="image"><p><img src="/media-da/lsa-figma/field-biology.jpg" alt="Two students in a forest collecting field samples with flags and a yellow bag"></p></td></tr>
+  <tr><td data-field="text"><h2>Opens the door to diverse career opportunities.</h2><p>The Program in Biology is made up of two departments: the Ecology and Evolutionary Biology Department (EEB) and the Molecular, Cellular, and Developmental Biology (MCDB) Department.</p><p><strong><a href="https://lsa.umich.edu/biology">:lsa-arrow-right: Learn More</a></strong></p></td></tr>
+</table>
+</section>
+
+<section>
+<!-- 7154:509478 Dep-Hero: video banner (overlay) -->
+<table>
+  <tr><th>LSA Hero (overlay)</th></tr>
+  <tr><td data-field="image"><p><img src="/media-da/lsa-figma/atrium.jpg" alt="Students gather on the stairs and in the lounge of a bright, multi-level atrium"></p></td></tr>
+  <tr><td data-field="text"><h2>U-M Biological Station Releases Field Guide</h2><p>Identify wildlife and nature in and around Douglas Lake with the UMBS Field Guide, a reference tool informed by our scientific experts and private citizens during a BioBlitz that tallied the living things that call this part of northern Michigan home.</p><p><strong><a href="https://lsa.umich.edu/umbs">:lsa-arrow-right: Learn More</a></strong></p></td></tr>
+</table>
+</section>
+
+<section data-style="full-width">
+<!-- 7146:477929 Support Full Width Header (under the video banner) -->
+<table>
+  <tr><th>LSA Give Band</th></tr>
+  <tr><td data-field="tagline"><p>for what’s next</p><h2>Look to Michigan</h2></td></tr>
+  <tr><td data-field="text"><p>LSA is the place for foundational knowledge where creative thinkers engage with a complex, diverse, and changing world. We need your support to fuel our innovative environment, invest in the brightest people, and advance tomorrow’s breakthroughs.</p></td></tr>
+  <tr><td data-field="actions"><p><em><a href="https://lsa.umich.edu/lsa/look-to-michigan.html">Learn More</a></em></p><p><strong><a href="https://leadersandbest.umich.edu/find/#!/lsa">Give Online</a></strong></p></td></tr>
+</table>
+<table>
+  <tr><th colspan="2">Metadata</th></tr>
+  <tr><td>Title</td><td>LSA Design System | U-M LSA</td></tr>
+  <tr><td>Description</td><td>Landing page built from the LSA Design System in Figma: heroes, support band, featured news and engaged-learning blocks.</td></tr>
+  <tr><td>Theme</td><td>lsa-ds</td></tr>
+  <tr><td>nav</td><td>/en/lsa-figma/nav</td></tr>
+  <tr><td>footer</td><td>/en/lsa-figma/footer</td></tr>
+</table>
+</section>
+
+</main>
+</body>
+</html>

@@ -55,6 +55,80 @@
           {
             "name": "Meadow Light",
             "value": "meadow-light"
+          },
+          {
+            "name": "LSA Design System",
+            "value": "lsa-ds"
+          }
+        ]
+      },
+      {
+        "component": "select",
+        "name": "accent",
+        "label": "Accent colour (LSA Design System)",
+        "valueType": "string",
+        "value": "",
+        "options": [
+          {
+            "name": "LSA Cyan (default)",
+            "value": ""
+          },
+          {
+            "name": "Transformational Teal",
+            "value": "teal"
+          },
+          {
+            "name": "Exploratory Orange",
+            "value": "orange"
+          },
+          {
+            "name": "Impactful Pink",
+            "value": "pink"
+          },
+          {
+            "name": "Spring Bloom Magenta",
+            "value": "magenta"
+          },
+          {
+            "name": "Rigorous Red",
+            "value": "red"
+          },
+          {
+            "name": "Michigan Summer Blue",
+            "value": "summer-blue"
+          },
+          {
+            "name": "Celebratory Celeste",
+            "value": "celeste"
+          },
+          {
+            "name": "Autumnal Umber",
+            "value": "umber"
+          },
+          {
+            "name": "Storied Slate",
+            "value": "slate"
+          },
+          {
+            "name": "Woolen Mitten",
+            "value": "mitten"
+          }
+        ]
+      },
+      {
+        "component": "select",
+        "name": "mode",
+        "label": "Mode (LSA Design System)",
+        "valueType": "string",
+        "value": "",
+        "options": [
+          {
+            "name": "Default (UM Blue)",
+            "value": ""
+          },
+          {
+            "name": "Dark (Puma Black)",
+            "value": "dark"
           }
         ]
       },
@@ -187,6 +261,122 @@
           {
             "name": "Highlight",
             "value": "highlight"
+          },
+          {
+            "name": "LSA DS: Mode - UM Blue",
+            "value": "um-blue"
+          },
+          {
+            "name": "LSA DS: Mode - Dark (Puma Black)",
+            "value": "dark"
+          },
+          {
+            "name": "LSA DS: Mode - Lite (White)",
+            "value": "lite"
+          },
+          {
+            "name": "LSA DS: Surface - Grey",
+            "value": "grey"
+          },
+          {
+            "name": "LSA DS: Surface - Accent Lite",
+            "value": "accent-lite"
+          },
+          {
+            "name": "LSA DS: Surface - Accent Dark",
+            "value": "accent-dark"
+          },
+          {
+            "name": "LSA DS: Layout - Full width",
+            "value": "full-width"
+          },
+          {
+            "name": "LSA DS: Layout - Feature grid (8 + 4 columns)",
+            "value": "feature-grid"
+          },
+          {
+            "name": "LSA DS: Layout - Narrow (816px)",
+            "value": "narrow"
+          },
+          {
+            "name": "LSA DS: Spacing - Compact",
+            "value": "compact"
+          },
+          {
+            "name": "LSA DS: Spacing - Spacious",
+            "value": "spacious"
+          },
+          {
+            "name": "LSA DS: Spacing - Flush (no padding)",
+            "value": "flush"
+          },
+          {
+            "name": "LSA DS: Spacing - No top padding",
+            "value": "flush-top"
+          },
+          {
+            "name": "LSA DS: Type - Display headings",
+            "value": "display"
+          },
+          {
+            "name": "LSA DS: Type - Body Lg",
+            "value": "body-lg"
+          },
+          {
+            "name": "LSA DS: Type - Body Sm",
+            "value": "body-sm"
+          },
+          {
+            "name": "LSA DS: Type - Specimen (bold paragraph = label)",
+            "value": "type-specimen"
+          },
+          {
+            "name": "LSA DS: Buttons - Large",
+            "value": "buttons-lg"
+          },
+          {
+            "name": "LSA DS: Buttons - Small",
+            "value": "buttons-sm"
+          },
+          {
+            "name": "LSA DS: Accent - Transformational Teal",
+            "value": "accent-teal"
+          },
+          {
+            "name": "LSA DS: Accent - Exploratory Orange",
+            "value": "accent-orange"
+          },
+          {
+            "name": "LSA DS: Accent - Impactful Pink",
+            "value": "accent-pink"
+          },
+          {
+            "name": "LSA DS: Accent - Spring Bloom Magenta",
+            "value": "accent-magenta"
+          },
+          {
+            "name": "LSA DS: Accent - Rigorous Red",
+            "value": "accent-red"
+          },
+          {
+            "name": "LSA DS: Accent - Michigan Summer Blue",
+            "value": "accent-summer-blue"
+          },
+          {
+            "name": "LSA DS: Accent - Celebratory Celeste",
+            "value": "accent-celeste"
+          },
+          {
+            "name": "LSA DS: Accent - Autumnal Umber",
+            "value": "accent-umber"
+          },
+          {
+            "name": "LSA DS: Accent - Storied Slate",
+            "value": "accent-slate"
+          },
+          {
+            "name": "LSA DS: Accent - Woolen Mitten",
+            "value": "accent-mitten"
           }
         ]
       }
@@ -6356,6 +6546,150 @@
         "value": "",
         "label": "iFrame URL",
         "description": "Please provide a URL to an iFrame app."
+      }
+    ]
+  },
+  {
+    "id": "lsa-give-band",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "tagline",
+        "value": "",
+        "label": "Tagline",
+        "description": "A short line, then a heading (e.g. “for what’s next” / Look to Michigan).",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "name": "actions",
+        "value": "",
+        "label": "Buttons",
+        "description": "One link per paragraph: italic = outline, bold = filled.",
+        "valueType": "string"
+      },
+      {
+        "component": "select",
+        "name": "classes",
+        "value": "",
+        "label": "Layout",
+        "valueType": "string",
+        "options": [
+          {
+            "name": "Full-width band",
+            "value": ""
+          },
+          {
+            "name": "Vertical card",
+            "value": "vertical"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "lsa-hero",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Image alt text",
+        "value": ""
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "description": "Heading, intro and buttons (bold link = primary, italic link = secondary). Overlay: a link to an .mp4 plays as the background video.",
+        "valueType": "string"
+      },
+      {
+        "component": "select",
+        "name": "classes",
+        "value": "split",
+        "label": "Layout",
+        "valueType": "string",
+        "options": [
+          {
+            "name": "Split (photo, then title + intro)",
+            "value": "split"
+          },
+          {
+            "name": "Overlay (full-bleed photo / video)",
+            "value": "overlay"
+          },
+          {
+            "name": "Band (accent band, photo below)",
+            "value": "band"
+          },
+          {
+            "name": "Photo only",
+            "value": "photo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "lsa-news-item",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Image alt text",
+        "value": ""
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "description": "Headline (linked), summary, and a button.",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "lsa-swatch",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "name",
+        "label": "Colour name",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "value",
+        "label": "Hex value",
+        "description": "e.g. #007cba",
+        "value": ""
       }
     ]
   },

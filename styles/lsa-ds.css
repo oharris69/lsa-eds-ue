@@ -1,0 +1,793 @@
+/*
+ * Theme "lsa-ds" — the LSA Design System (Figma "LSA Design System (Adobe Copy)",
+ * file sbAjYExBKVc22jcLSLIx00, canvas 7121:416303 "Design Library").
+ * Enabled by page metadata `Theme: lsa-ds` (body.lsa-ds), e.g. the /en/lsa-figma
+ * folder; scripts.js loads this file only on those pages.
+ *
+ * - Tokens: the library's variables (Global Palette, Theme, Neutrals, Text,
+ *   Actions, Spacing, Layout Padding, Radius), as --lsa-* custom properties.
+ * - Typography: Headline 1-6, Subheading, Body Lg/Rg/Sm, Caption, Overline,
+ *   Display (Aleo headings, Roboto text).
+ * - Buttons: primary (link in <strong> or alone), secondary/outline (link in <em>),
+ *   text link; sizes via the `buttons-lg` / `buttons-sm` section styles.
+ * - Section styles (Section Metadata "Style"): modes `um-blue` (Default), `dark`
+ *   (Puma Black), `lite` (White), surfaces `grey`, `accent-lite`, `accent-dark`,
+ *   layout `full-width`, `feature-grid`, `narrow`, spacing `compact`, `spacious`,
+ *   `flush`, type `display`, `overline`.
+ * - Accent themes (Section Metadata "Style", or page metadata `Accent`):
+ *   accent-<palette>, from the Advanced User Palette (Base / Dark / Lite).
+ * Blocks: lsa-hero, lsa-give-band, lsa-news, lsa-swatches, columns (lsa-media);
+ * header and footer use blocks/header/lsa-header.js and the footer styles below.
+ */
+body.lsa-ds {
+  /* Global palette */
+  --lsa-um-blue: #00274c;
+  --lsa-maize: #ffcb05;
+  --lsa-cyan: #00aeef;
+  --lsa-puma-black: #111b23;
+  --lsa-black: #000;
+  --lsa-white: #fff;
+  --lsa-grey: #f6f6f6;
+
+  /* Theme (accent) — LSA Cyan by default; accent-* classes override these */
+  --lsa-accent: #007cba;
+  --lsa-accent-d1: #0089bc;
+  --lsa-accent-d2: #006489;
+  --lsa-accent-l1: #56d1ff;
+  --lsa-accent-l2: #89dfff;
+  --lsa-accent-l3: #bcedff;
+  --lsa-accent-l4: #effbff;
+
+  /* Neutrals (Storied Slate) */
+  --lsa-neutral: #585f69;
+  --lsa-neutral-d1: #40454d;
+  --lsa-neutral-d2: #282c30;
+  --lsa-neutral-l1: #858f9e;
+  --lsa-neutral-l2: #a9b7c9;
+  --lsa-neutral-l3: #c3d3e8;
+  --lsa-neutral-l4: #e3efff;
+
+  /* Semantic */
+  --lsa-text-heading: var(--lsa-puma-black);
+  --lsa-text: var(--lsa-puma-black);
+  --lsa-text-secondary: var(--lsa-neutral-d1);
+  --lsa-text-on-dark: var(--lsa-white);
+  --lsa-surface: var(--lsa-white);
+  --lsa-action: var(--lsa-accent);
+  --lsa-action-hover: var(--lsa-accent-d2);
+  --lsa-action-label: var(--lsa-accent-l4);
+  --lsa-action-secondary-hover: var(--lsa-accent-l4);
+  --lsa-focus: var(--lsa-accent-l2);
+  --lsa-border: var(--lsa-neutral-l1);
+  --lsa-border-subtle: var(--lsa-neutral-l3);
+
+  /* Spacing & layout */
+  --lsa-space-4: 4px;
+  --lsa-space-8: 8px;
+  --lsa-space-12: 12px;
+  --lsa-space-16: 16px;
+  --lsa-space-20: 20px;
+  --lsa-space-24: 24px;
+  --lsa-space-32: 32px;
+  --lsa-space-40: 40px;
+  --lsa-space-48: 48px;
+  --lsa-space-64: 64px;
+  --lsa-space-80: 80px;
+  --lsa-space-120: 120px;
+  --lsa-space-160: 160px;
+  --lsa-container: 1200px;
+  --lsa-gutter: 40px;
+  --lsa-content: 1120px;
+  --lsa-section-padding: var(--lsa-space-48);
+  --lsa-radius: 2px;
+
+  /* Type */
+  --lsa-font-heading: var(--heading-font-family);
+  --lsa-font-text: var(--body-font-family);
+
+  background-color: var(--lsa-surface);
+  color: var(--lsa-text);
+  font-family: var(--lsa-font-text);
+}
+
+@media (width < 900px) {
+  body.lsa-ds {
+    --lsa-gutter: 20px;
+    --lsa-section-padding: var(--lsa-space-40);
+  }
+}
+
+/* Accent themes (Advanced User Palette: Base / Dark / Lite). On a section or,
+   via page metadata `Accent`, on the body. The action colours are re-derived
+   here, as custom properties resolve where they're declared. */
+.lsa-ds .accent-teal,
+body.lsa-ds.accent-teal {
+  --lsa-accent: #037e8c;
+  --lsa-accent-d2: #013b41;
+  --lsa-accent-l3: #b4e2ef;
+  --lsa-accent-l4: #dcfbfe;
+  --lsa-action: var(--lsa-accent);
+  --lsa-action-hover: var(--lsa-accent-d2);
+  --lsa-action-secondary-hover: var(--lsa-accent-l4);
+}
+
+.lsa-ds .accent-orange,
+body.lsa-ds.accent-orange {
+  --lsa-accent: #bf5027;
+  --lsa-accent-d2: #8d3c1e;
+  --lsa-accent-l3: #fecbaa;
+  --lsa-accent-l4: #ffeadc;
+  --lsa-action: var(--lsa-accent);
+  --lsa-action-hover: var(--lsa-accent-d2);
+  --lsa-action-secondary-hover: var(--lsa-accent-l4);
+}
+
+.lsa-ds .accent-pink,
+body.lsa-ds.accent-pink {
+  --lsa-accent: #dc1f2f;
+  --lsa-accent-d2: #931a21;
+  --lsa-accent-l3: #fec8d2;
+  --lsa-accent-l4: #fff0f3;
+  --lsa-action: var(--lsa-accent);
+  --lsa-action-hover: var(--lsa-accent-d2);
+  --lsa-action-secondary-hover: var(--lsa-accent-l4);
+}
+
+.lsa-ds .accent-magenta,
+body.lsa-ds.accent-magenta {
+  --lsa-accent: #ab1e80;
+  --lsa-accent-d2: #80165f;
+  --lsa-accent-l3: #e7a6ca;
+  --lsa-accent-l4: #fbe7f5;
+  --lsa-action: var(--lsa-accent);
+  --lsa-action-hover: var(--lsa-accent-d2);
+  --lsa-action-secondary-hover: var(--lsa-accent-l4);
+}
+
+.lsa-ds .accent-red,
+body.lsa-ds.accent-red {
+  --lsa-accent: #b42325;
+  --lsa-accent-d2: #6c1206;
+  --lsa-accent-l3: #fab4aa;
+  --lsa-accent-l4: #fddfdb;
+  --lsa-action: var(--lsa-accent);
+  --lsa-action-hover: var(--lsa-accent-d2);
+  --lsa-action-secondary-hover: var(--lsa-accent-l4);
+}
+
+.lsa-ds .accent-summer-blue,
+body.lsa-ds.accent-summer-blue {
+  --lsa-accent: #004f99;
+  --lsa-accent-d2: #1a3865;
+  --lsa-accent-l3: #8bbde6;
+  --lsa-accent-l4: #e5f3ff;
+  --lsa-action: var(--lsa-accent);
+  --lsa-action-hover: var(--lsa-accent-d2);
+  --lsa-action-secondary-hover: var(--lsa-accent-l4);
+}
+
+.lsa-ds .accent-celeste,
+body.lsa-ds.accent-celeste {
+  --lsa-accent: #00664d;
+  --lsa-accent-d2: #00664d;
+  --lsa-accent-l3: #d2ece8;
+  --lsa-accent-l4: #e8f5f3;
+  --lsa-action: var(--lsa-accent);
+  --lsa-action-hover: var(--lsa-accent-d2);
+  --lsa-action-secondary-hover: var(--lsa-accent-l4);
+}
+
+.lsa-ds .accent-umber,
+body.lsa-ds.accent-umber {
+  --lsa-accent: #a26a28;
+  --lsa-accent-d2: #553913;
+  --lsa-accent-l3: #ffdea3;
+  --lsa-accent-l4: #fff0d6;
+  --lsa-action: var(--lsa-accent);
+  --lsa-action-hover: var(--lsa-accent-d2);
+  --lsa-action-secondary-hover: var(--lsa-accent-l4);
+}
+
+.lsa-ds .accent-slate,
+body.lsa-ds.accent-slate {
+  --lsa-accent: #585f69;
+  --lsa-accent-d2: #282c30;
+  --lsa-accent-l3: #c3d3e8;
+  --lsa-accent-l4: #e3efff;
+  --lsa-action: var(--lsa-accent);
+  --lsa-action-hover: var(--lsa-accent-d2);
+  --lsa-action-secondary-hover: var(--lsa-accent-l4);
+}
+
+.lsa-ds .accent-mitten,
+body.lsa-ds.accent-mitten {
+  --lsa-accent: #696158;
+  --lsa-accent-d2: #312e29;
+  --lsa-accent-l3: #d7d3cf;
+  --lsa-accent-l4: #eeedeb;
+  --lsa-action: var(--lsa-accent);
+  --lsa-action-hover: var(--lsa-accent-d2);
+  --lsa-action-secondary-hover: var(--lsa-accent-l4);
+}
+
+/* ---------- Resets of the site-wide link/image chrome this design doesn't use ---------- */
+.lsa-ds a::after,
+.lsa-ds a.button::after,
+.lsa-ds main picture::before {
+  content: none;
+  display: none;
+}
+
+.lsa-ds :is(main, header, footer) a:any-link {
+  display: inline;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.lsa-ds main a:any-link:not(.button) {
+  color: var(--lsa-action);
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px dotted currentcolor;
+}
+
+.lsa-ds main a:any-link:not(.button):hover {
+  color: var(--lsa-action-hover);
+  border-bottom-style: solid;
+  text-decoration: none;
+}
+
+.lsa-ds :is(main, header, footer) :focus-visible {
+  outline: 3px solid var(--lsa-focus);
+  outline-offset: 2px;
+}
+
+/* ---------- Layout ---------- */
+.lsa-ds header {
+  position: sticky;
+  height: auto;
+  min-height: 0;
+}
+
+.lsa-ds main > .section {
+  margin: 0;
+  padding: var(--lsa-section-padding) 0;
+  background-color: var(--lsa-surface);
+  color: var(--lsa-text);
+}
+
+.lsa-ds main > .section:first-of-type:not(.hero-container) {
+  padding-top: var(--lsa-section-padding);
+}
+
+.lsa-ds main > .section > div {
+  max-width: var(--lsa-container);
+  margin: 0 auto;
+  padding: 0 var(--lsa-gutter);
+}
+
+.lsa-ds main > .section > div + div {
+  margin-top: var(--lsa-space-32);
+}
+
+.lsa-ds main > .section.narrow > div { max-width: 816px; }
+.lsa-ds main > .section.compact { padding: var(--lsa-space-32) 0; }
+.lsa-ds main > .section.spacious { padding: var(--lsa-space-80) 0; }
+.lsa-ds main > .section.flush { padding: 0; }
+.lsa-ds main > .section.flush-top { padding-top: 0; }
+
+/* Full-bleed sections (heroes): no column, no padding. */
+.lsa-ds main > .section.full-width,
+.lsa-ds main > .section.lsa-hero-container,
+.lsa-ds main > .section.lsa-hero-container:first-of-type {
+  padding: 0;
+}
+
+.lsa-ds main > .section.full-width > div,
+.lsa-ds main > .section.lsa-hero-container > .lsa-hero-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+/* Feature grid: an 8-column block beside a 4-column one (news + support card). */
+@media (width >= 900px) {
+  .lsa-ds main > .section.feature-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 352px;
+    column-gap: var(--lsa-space-40);
+    align-items: start;
+    padding-left: max(var(--lsa-gutter), calc((100% - var(--lsa-content)) / 2));
+    padding-right: max(var(--lsa-gutter), calc((100% - var(--lsa-content)) / 2));
+  }
+
+  .lsa-ds main > .section.feature-grid > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .lsa-ds main > .section.feature-grid > .default-content-wrapper {
+    grid-column: 1 / -1;
+    margin-bottom: var(--lsa-space-32);
+  }
+}
+
+/* ---------- Modes & surfaces ---------- */
+.lsa-ds main > .section.lite { --lsa-surface: var(--lsa-white); }
+.lsa-ds main > .section.grey { --lsa-surface: var(--lsa-grey); }
+.lsa-ds main > .section.accent-lite { --lsa-surface: var(--lsa-accent-l4); }
+
+.lsa-ds main > .section:is(.um-blue, .dark, .accent-dark) {
+  --lsa-text: var(--lsa-text-on-dark);
+  --lsa-text-heading: var(--lsa-white);
+  --lsa-text-secondary: var(--lsa-neutral-l3);
+  --lsa-action: var(--lsa-accent);
+  --lsa-action-label: var(--lsa-white);
+  --lsa-border-subtle: var(--lsa-neutral);
+}
+
+.lsa-ds main > .section.um-blue { --lsa-surface: var(--lsa-um-blue); }
+.lsa-ds main > .section.dark { --lsa-surface: var(--lsa-puma-black); }
+
+.lsa-ds main > .section.accent-dark {
+  --lsa-surface: var(--lsa-accent-d2);
+  --lsa-action: var(--lsa-accent);
+}
+
+.lsa-ds main > .section:is(.um-blue, .dark, .accent-dark) a:any-link:not(.button) {
+  color: var(--lsa-white);
+}
+
+.lsa-ds main > .section:is(.um-blue, .dark) .button.secondary {
+  --lsa-action: var(--lsa-white);
+}
+
+/* ---------- Typography ---------- */
+.lsa-ds main :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0 0 var(--lsa-space-16);
+  font-family: var(--lsa-font-heading);
+  font-weight: 700;
+  color: var(--lsa-text-heading);
+  text-wrap: balance;
+}
+
+.lsa-ds main h1 {
+  font-size: 44px;
+  line-height: 46px;
+  letter-spacing: -0.22px;
+}
+
+.lsa-ds main h2 {
+  font-size: 36px;
+  line-height: 38px;
+  letter-spacing: 0;
+}
+
+.lsa-ds main h3 {
+  font-size: 28px;
+  line-height: 32px;
+  letter-spacing: 0;
+}
+
+.lsa-ds main h4 {
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: 0.25px;
+}
+
+.lsa-ds main h5 {
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0.25px;
+  font-weight: 800;
+}
+
+.lsa-ds main h6 {
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: 0.25px;
+}
+
+@media (width < 900px) {
+  .lsa-ds main h1 {
+    font-size: 36px;
+    line-height: 38px;
+  }
+
+  .lsa-ds main h2 {
+    font-size: 28px;
+    line-height: 32px;
+  }
+
+  .lsa-ds main h3 {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+}
+
+.lsa-ds main :is(p, li, dd, td, th, blockquote) {
+  font-family: var(--lsa-font-text);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--lsa-text);
+}
+
+.lsa-ds main p { margin: 0 0 var(--lsa-space-16); }
+
+.lsa-ds main :is(ul, ol) {
+  margin: 0 0 var(--lsa-space-16);
+  padding-left: 24px;
+}
+
+.lsa-ds main li + li { margin-top: var(--lsa-space-8); }
+.lsa-ds main .section > div > :last-child { margin-bottom: 0; }
+
+/* The site's decorative rule after section copy isn't part of this design. */
+.lsa-ds main .section > div > p::after { content: none; }
+
+/* Subheading, Body Lg/Sm, Caption, Overline, Display (Section style or the
+   matching class on default content: `subheading`, `body-lg`…). */
+.lsa-ds main :is(.subheading, .section.subheading p) {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+.lsa-ds main :is(.body-lg, .section.body-lg p) {
+  font-size: 18px;
+  line-height: 27px;
+}
+
+.lsa-ds main :is(.body-sm, .section.body-sm p) {
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.lsa-ds main :is(.caption, figcaption) {
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 500;
+}
+
+.lsa-ds main :is(.overline, .section.overline h6) {
+  font-family: var(--lsa-font-text);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 1px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.lsa-ds main .section.display :is(h1, h2) {
+  font-size: 60px;
+  line-height: 64px;
+  letter-spacing: -0.5px;
+}
+
+@media (width < 900px) {
+  .lsa-ds main .section.display :is(h1, h2) {
+    font-size: 44px;
+    line-height: 46px;
+  }
+
+}
+
+/* Type specimen (style guide): a paragraph that is all bold is the spec label. */
+.lsa-ds main .section.type-specimen p:has(> strong:only-child) {
+  margin: var(--lsa-space-40) 0 var(--lsa-space-8);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--lsa-text-secondary);
+}
+
+.lsa-ds main .section.type-specimen > div > p:first-child:has(> strong:only-child) {
+  margin-top: 0;
+}
+
+/* ---------- Buttons ---------- */
+
+/* Button paragraphs sit side by side (Figma "Button Group": 20px apart). */
+.lsa-ds main .button-container {
+  display: inline-flex;
+  vertical-align: top;
+  margin: var(--lsa-space-24) var(--lsa-space-20) 0 0;
+}
+
+.lsa-ds main a.button:any-link,
+.lsa-ds main button.button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lsa-space-8);
+  margin: 0;
+  padding: 8px 16px;
+  border: 2px solid var(--lsa-action);
+  border-radius: var(--lsa-radius);
+  background-color: var(--lsa-action);
+  color: var(--lsa-action-label);
+  font-family: var(--lsa-font-text);
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  text-align: center;
+  font-style: normal;
+  text-decoration: none;
+  white-space: normal;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.lsa-ds main a.button:any-link:hover,
+.lsa-ds main a.button:any-link:focus-visible {
+  border-color: var(--lsa-action-hover);
+  background-color: var(--lsa-action-hover);
+  color: var(--lsa-white);
+  text-decoration: none;
+}
+
+.lsa-ds main a.button.secondary:any-link {
+  background-color: transparent;
+  color: var(--lsa-action);
+}
+
+.lsa-ds main a.button.secondary:any-link:hover,
+.lsa-ds main a.button.secondary:any-link:focus-visible {
+  border-color: var(--lsa-action);
+  background-color: var(--lsa-action-secondary-hover);
+  color: var(--lsa-action-hover);
+}
+
+.lsa-ds main .section:is(.um-blue, .dark, .accent-dark) a.button.secondary:any-link:hover {
+  background-color: rgb(255 255 255 / 12%);
+  color: var(--lsa-white);
+}
+
+/* Arrow-led button (Figma "Select Icon"): `:arrow-right:` icon in the link. */
+.lsa-ds main a.button .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.lsa-ds main a.button .icon img {
+  filter: brightness(0) invert(1);
+}
+
+.lsa-ds main a.button.secondary .icon img {
+  filter: none;
+}
+
+/* Sizes: Lg (18/26, 12px 24px) and Sm (14/21, 4px 12px). */
+.lsa-ds main .buttons-lg a.button:any-link {
+  padding: 10px 22px;
+  font-size: 18px;
+  line-height: 26px;
+}
+
+.lsa-ds main .buttons-sm a.button:any-link {
+  padding: 2px 10px;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+/* ---------- Images ---------- */
+.lsa-ds main img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Footer (department band + college footer) ----------
+   Scoped through `body.lsa-ds footer .footer` to outrank blocks/footer/footer.css. */
+body.lsa-ds footer {
+  --lsa-footer-surface: var(--lsa-accent-d2);
+  --lsa-footer-label: var(--lsa-neutral-l3);
+
+  margin: 0;
+  padding: 0;
+  background-color: var(--lsa-um-blue);
+  color: var(--lsa-white);
+  font-family: var(--lsa-font-text);
+}
+
+body.lsa-ds footer .footer > div {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+body.lsa-ds footer .footer .section,
+body.lsa-ds footer .footer .section:last-child {
+  margin: 0;
+  padding: 0 max(var(--lsa-gutter), calc((100% - var(--lsa-content)) / 2));
+  border: 0;
+}
+
+body.lsa-ds footer .footer .section > div,
+body.lsa-ds footer .footer .columns-wrapper {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+body.lsa-ds footer .footer a:any-link {
+  color: inherit;
+  font-family: var(--lsa-font-text);
+  font-size: inherit;
+  font-weight: 400;
+  line-height: inherit;
+  text-decoration: none;
+}
+
+body.lsa-ds footer .footer a:any-link:hover {
+  color: var(--lsa-white);
+  text-decoration: underline;
+}
+
+body.lsa-ds footer .footer :is(p, li),
+body.lsa-ds footer .footer .section:last-child p {
+  margin: 0;
+  font-family: var(--lsa-font-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-align: left;
+  color: inherit;
+}
+
+body.lsa-ds footer .footer ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+body.lsa-ds footer .footer img {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+}
+
+body.lsa-ds footer .footer .icon {
+  width: 16px;
+  height: 16px;
+  margin-right: var(--lsa-space-8);
+  vertical-align: -3px;
+}
+
+/* Department band: title + social, 3 columns, site map. */
+body.lsa-ds footer .footer .section.footer-department {
+  padding-top: var(--lsa-space-40);
+  padding-bottom: var(--lsa-space-32);
+  background-color: var(--lsa-footer-surface);
+  border-top: 8px solid var(--lsa-accent);
+}
+
+body.lsa-ds footer .footer .footer-department h2 {
+  margin: 0;
+  font-family: var(--lsa-font-heading);
+  font-size: 24px;
+  line-height: 28px;
+  font-weight: 700;
+  color: var(--lsa-white);
+}
+
+body.lsa-ds footer .footer .footer-department > .default-content-wrapper:first-child {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lsa-space-16);
+}
+
+body.lsa-ds footer .footer .footer-department > .default-content-wrapper:first-child > ul {
+  display: flex;
+  gap: var(--lsa-space-16);
+}
+
+body.lsa-ds footer .footer .footer-department > .default-content-wrapper:first-child > ul .icon {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+
+body.lsa-ds footer .footer .footer-department > .default-content-wrapper:last-child:not(:first-child) {
+  margin-top: var(--lsa-space-32);
+}
+
+/* Link columns (both bands). */
+body.lsa-ds footer .footer .columns-wrapper {
+  margin-top: var(--lsa-space-32);
+}
+
+body.lsa-ds footer .footer .columns-wrapper .columns .columns-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--lsa-space-32);
+}
+
+body.lsa-ds footer .footer .columns-wrapper .columns .columns-row > div,
+body.lsa-ds footer .footer .columns-wrapper .columns .columns-row > div:first-child,
+body.lsa-ds footer .footer .columns-wrapper .columns .columns-row > div:nth-child(n + 3) {
+  grid-column: auto;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  text-align: left;
+}
+
+@media (width >= 900px) {
+  body.lsa-ds footer .footer .columns-wrapper .columns-3-cols .columns-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  body.lsa-ds footer .footer .columns-wrapper .columns-4-cols .columns-row {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+body.lsa-ds footer .footer .columns-wrapper .columns .columns-row h3 {
+  margin: 0 0 var(--lsa-space-12);
+  padding: 0;
+  font-family: var(--lsa-font-text);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--lsa-footer-label);
+}
+
+body.lsa-ds footer .footer .columns li,
+body.lsa-ds footer .footer .columns p + p {
+  margin: 0 0 var(--lsa-space-8);
+}
+
+body.lsa-ds footer .footer .footer-department .columns p:has(> .icon:first-child) {
+  display: flex;
+  align-items: flex-start;
+}
+
+body.lsa-ds footer .footer .footer-department .columns p > .icon:first-child {
+  flex: none;
+  margin-top: 3px;
+}
+
+/* College footer: logo, 4 link columns, copyright. */
+body.lsa-ds footer .footer .section.footer-college {
+  padding-top: var(--lsa-space-48);
+  padding-bottom: var(--lsa-space-32);
+  background-color: var(--lsa-um-blue);
+}
+
+body.lsa-ds footer .footer .footer-college > .default-content-wrapper:first-child img {
+  width: auto;
+  height: 36px;
+}
+
+body.lsa-ds footer .footer .footer-college .columns h3 {
+  color: var(--lsa-white);
+}
+
+body.lsa-ds footer .footer .footer-college .columns li {
+  color: var(--lsa-neutral-l3);
+}
+
+body.lsa-ds footer .footer .footer-college > .default-content-wrapper:last-child:not(:first-child) {
+  margin-top: var(--lsa-space-40);
+}
+
+body.lsa-ds footer .footer .footer-college > .default-content-wrapper:last-child:not(:first-child) p {
+  font-size: 12px;
+  text-align: right;
+  color: var(--lsa-neutral-l2);
+}
+
+/* Dark mode (page metadata `Mode: dark`). */
+body.lsa-ds.mode-dark footer .footer .section.footer-college { background-color: var(--lsa-puma-black); }

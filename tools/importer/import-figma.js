@@ -10,8 +10,8 @@
 //   - images under /media-da/ (the site's DA media folder)
 // The importer strips <hr> and comments from the source page, so section breaks,
 // Section Metadata and field hints are created here.
-// The document lands under the language root, named after the source file:
-// figma/figma-test.html → /en/figma-test.
+// The document lands under the language root at the source file's path:
+// figma/figma-test.html → /en/figma-test, figma/lsa-figma/index.html → /en/lsa-figma/index.
 
 import { LANG } from './doc-path.mjs';
 
@@ -46,11 +46,13 @@ export default {
       section.replaceWith(...section.childNodes);
     });
 
-    const name = new URL(params.originalURL).pathname.split('/').pop().replace(/\.html?$/, '');
+    // Document path = the source file's path below the server root.
+    const name = new URL(params.originalURL).pathname.replace(/^\//, '').replace(/\.html?$/, '')
+      .split('/').map((seg) => WebImporter.FileUtils.sanitizePath(seg)).join('/');
 
     return [{
       element: main,
-      path: `/${LANG}/${WebImporter.FileUtils.sanitizePath(name)}`,
+      path: `/${LANG}/${name}`,
       report: { title: document.title, template: 'figma', sections: sections.length },
     }];
   },

@@ -43,7 +43,16 @@ export default async function decorate(block) {
     footerPath = footerFragmentPath(langCode);
   }
 
+  // LSA Design System pages: the footer document is resolved like the header's
+  // (local preview prefix kept), and icon-only social links are labelled.
+  let lsa;
+  if (document.body.classList.contains('lsa-ds')) {
+    lsa = await import('../header/lsa-header.js');
+    if (footerMeta) footerPath = lsa.rebaseFragmentPath(footerMeta);
+  }
+
   const fragment = await loadFragment(footerPath);
+  if (lsa && fragment) lsa.labelIconLinks(fragment);
 
   // decorate footer DOM
   block.textContent = '';

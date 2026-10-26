@@ -464,6 +464,13 @@ async function applyCFTheme(themeCFReference) {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
+  // LSA Design System pages (theme `lsa-ds`) have their own header.
+  if (document.body.classList.contains('lsa-ds')) {
+    const { default: decorateLsaHeader } = await import('./lsa-header.js');
+    await decorateLsaHeader(block);
+    return;
+  }
+
   // load nav as fragment
   // const locale = getMetadata('nav');
 

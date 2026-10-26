@@ -14,6 +14,7 @@ import {
   getMetadata,
   buildBlock,
   createOptimizedPicture,
+  toClassName,
 } from './aem.js';
 
 // eslint-disable-next-line import/no-cycle
@@ -530,7 +531,35 @@ export async function decorateDMImages(main) {
    * @param {Element} main The main element
    */
 // eslint-disable-next-line import/prefer-default-export
+/**
+ * Local preview only: `:lsa-name:` icon codes in .plain.html documents are still
+ * text (the delivery pipeline normally turns them into icon spans).
+ * @param {Element} main
+ */
+function decorateInlineIconCodes(main) {
+  const walker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) {
+    if (/:lsa-[a-z0-9-]+:/.test(walker.currentNode.nodeValue)) nodes.push(walker.currentNode);
+  }
+  nodes.forEach((node) => {
+    const frag = document.createDocumentFragment();
+    node.nodeValue.split(/(:lsa-[a-z0-9-]+:)/).forEach((part) => {
+      const code = /^:(lsa-[a-z0-9-]+):$/.exec(part);
+      if (code) {
+        const span = document.createElement('span');
+        span.className = `icon icon-${code[1]}`;
+        frag.append(span);
+      } else if (part) {
+        frag.append(part);
+      }
+    });
+    node.replaceWith(frag);
+  });
+}
+
 export async function decorateMain(main) {
+  decorateInlineIconCodes(main);
   // hopefully forward compatible button decoration
   decorateButtons(main);
   decorateIcons(main);
@@ -563,10 +592,38 @@ async function renderWBDataLayer() {
 }
 
 /**
+ * Local preview only: documents served as .plain.html still carry their Metadata
+ * block (the delivery pipeline normally turns it into <meta> tags), so apply it
+ * here — page title, Theme, nav, footer… — and drop the block.
+ * @param {Element} main
+ */
+function applyInlineMetadata(main) {
+  const block = main?.querySelector(':scope > div > .metadata');
+  if (!block) return;
+  [...block.children].forEach((row) => {
+    const [key, value] = [...row.children].map((cell) => cell.textContent.trim());
+    const name = toClassName(key || '');
+    if (!name || !value) return;
+    if (name === 'title') document.title = value;
+    let meta = document.head.querySelector(`meta[name="${name}"]`);
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.name = name;
+      document.head.append(meta);
+    }
+    meta.content = value;
+  });
+  const section = block.parentElement;
+  block.remove();
+  if (!section.children.length) section.remove();
+}
+
+/**
    * Loads everything needed to get to LCP.
    * @param {Element} doc The container element
    */
 async function loadEager(doc) {
+  applyInlineMetadata(doc.querySelector('main'));
   setPageLanguage();
   decorateTemplateAndTheme();
   await runExperimentation(doc, experimentationConfig);
@@ -578,6 +635,15 @@ async function loadEager(doc) {
     // first section paints.
     if (document.body.classList.contains('figma-baseline')) {
       await loadCSS(`${window.hlx.codeBasePath}/styles/figma-baseline.css`);
+    }
+    // LSA Design System: page metadata `Accent` (accent-<palette>) and `Mode`
+    // (mode-dark | mode-lite) refine the theme.
+    if (document.body.classList.contains('lsa-ds')) {
+      ['accent', 'mode'].forEach((name) => {
+        const value = toClassName(getMetadata(name));
+        if (value) document.body.classList.add(`${name}-${value}`);
+      });
+      await loadCSS(`${window.hlx.codeBasePath}/styles/lsa-ds.css`);
     }
     document.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);

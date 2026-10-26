@@ -11,3 +11,6 @@ dist/
 
 # raw source-page snapshots saved by the importer's bot-protection fallback
 tools/importer/bd-snapshots/
+
+# local symlink for serving Figma import sources (see import-figma.js)
+tools/importer/figma/media-da

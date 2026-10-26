@@ -1,0 +1,41 @@
+/* LSA Design System colour swatches. */
+.lsa-swatches ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--lsa-space-16, 16px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lsa-swatches li {
+  display: grid;
+  margin: 0;
+  border: 1px solid var(--lsa-border-subtle, #c3d3e8);
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--lsa-white, #fff);
+}
+
+.lsa-swatches .lsa-swatch-chip {
+  display: block;
+  height: 96px;
+  border-bottom: 1px solid var(--lsa-border-subtle, #c3d3e8);
+}
+
+.lsa-swatches strong {
+  padding: var(--lsa-space-12, 12px) var(--lsa-space-12, 12px) 0;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--lsa-puma-black, #111b23);
+}
+
+.lsa-swatches code {
+  padding: 2px var(--lsa-space-12, 12px) var(--lsa-space-12, 12px);
+  font-family: var(--lsa-font-text, sans-serif);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 1px;
+  color: var(--lsa-neutral-d1, #40454d);
+}

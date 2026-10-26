@@ -52,10 +52,10 @@ var CustomImportScript = (() => {
         if (i > 0) section.before(document.createElement("hr"));
         section.replaceWith(...section.childNodes);
       });
-      const name = new URL(params.originalURL).pathname.split("/").pop().replace(/\.html?$/, "");
+      const name = new URL(params.originalURL).pathname.replace(/^\//, "").replace(/\.html?$/, "").split("/").map((seg) => WebImporter.FileUtils.sanitizePath(seg)).join("/");
       return [{
         element: main,
-        path: `/${LANG}/${WebImporter.FileUtils.sanitizePath(name)}`,
+        path: `/${LANG}/${name}`,
         report: { title: document.title, template: "figma", sections: sections.length }
       }];
     }

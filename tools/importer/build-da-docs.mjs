@@ -83,11 +83,12 @@ const sourceUrls = fs.readdirSync(IMPORTER_DIR)
   .map((l) => l.trim())
   .filter((l) => l.startsWith(LIVE_ORIGIN));
 // Pages built from Figma designs (import-figma.js, served locally): the document
-// is named after the source file (figma-test.html → en/figma-test).
+// path is the source file's path (figma-test.html → en/figma-test,
+// lsa-figma/index.html → en/lsa-figma/index).
 const FIGMA_URLS = path.join(IMPORTER_DIR, 'urls-figma.txt');
 const figmaDocs = fs.existsSync(FIGMA_URLS)
   ? fs.readFileSync(FIGMA_URLS, 'utf8').split('\n').map((l) => l.trim()).filter(Boolean)
-    .map((u) => `${LANG}/${path.basename(new URL(u).pathname).replace(/\.html?$/, '')}`)
+    .map((u) => `${LANG}/${new URL(u).pathname.replace(/^\//, '').replace(/\.html?$/, '')}`)
   : [];
 const FRAGMENTS = new Set([`${LANG}/nav`, `${LANG}/footer`]);
 const wanted = new Set([
@@ -128,7 +129,9 @@ function resolveLinks(html, docPath) {
     if (href.startsWith('/media-da/')) return m;
     const rel = abs ? (abs[1] || '/') : href;
     const url = new URL(rel.replace(/&amp;/g, '&'), 'https://x.invalid');
-    const target = docFor(url.pathname);
+    // Figma-built pages link to documents by their final path (/en/lsa-figma/…).
+    const direct = url.pathname.replace(/\.html?$/, '').replace(/\/$/, '/index');
+    const target = figmaDocs.includes(docPath) && migrated.has(direct) ? direct : docFor(url.pathname);
     let out;
     if (migrated.has(target)) out = webPath(target) + url.hash;
     else if (isFragment) out = HOME;

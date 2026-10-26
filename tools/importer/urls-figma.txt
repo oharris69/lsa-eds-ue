@@ -1,1 +1,5 @@
 http://localhost:8093/figma-test.html
+http://localhost:8093/lsa-figma/index.html
+http://localhost:8093/lsa-figma/style-guide.html
+http://localhost:8093/lsa-figma/nav.html
+http://localhost:8093/lsa-figma/footer.html
