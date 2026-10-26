@@ -1,0 +1,134 @@
+/* LSA Design System page title: breadcrumb, title, section dropdown. */
+.lsa-page-title {
+  position: relative;
+  z-index: 3;
+}
+
+.lsa-page-title-breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0 0 var(--lsa-space-16, 16px);
+  padding: 0;
+  list-style: none;
+}
+
+.lsa-ds main .lsa-page-title-breadcrumb li {
+  margin: 0;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--lsa-neutral-l1, #858f9e);
+}
+
+.lsa-page-title-breadcrumb li + li::before {
+  content: '/';
+  padding: 0 10px;
+  color: var(--lsa-neutral-l1, #858f9e);
+}
+
+.lsa-ds main .lsa-page-title-breadcrumb a:any-link {
+  color: var(--lsa-puma-black, #111b23);
+  font-weight: 400;
+  border: 0;
+}
+
+.lsa-ds main .lsa-page-title-breadcrumb a:any-link:hover {
+  color: var(--lsa-action, #007cba);
+  text-decoration: underline;
+}
+
+.lsa-ds main .lsa-page-title-breadcrumb a.lsa-page-title-home:any-link {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: -4px;
+  background-color: currentcolor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linejoin='round'%3E%3Cpath d='M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+.lsa-page-title-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--lsa-space-16, 16px);
+}
+
+.lsa-ds main .lsa-page-title-bar :is(h1, h2, h3) {
+  margin: 0;
+}
+
+.lsa-page-title-toggle {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--lsa-neutral-l2, #a9b7c9);
+  border-radius: 50%;
+  background: var(--lsa-white, #fff) center / 16px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23007cba' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6 8 10.5 12.5 6'/%3E%3C/svg%3E");
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.lsa-page-title-toggle:hover {
+  border-color: var(--lsa-action, #007cba);
+  background-color: var(--lsa-accent-l4, #effbff);
+}
+
+.lsa-page-title-toggle[aria-expanded='true'] {
+  transform: rotate(180deg);
+}
+
+.lsa-page-title-menu {
+  position: absolute;
+  top: calc(100% + var(--lsa-space-12, 12px));
+  left: 0;
+  width: min(416px, 100%);
+  padding: var(--lsa-space-8, 8px) var(--lsa-space-24, 24px);
+  border-top: 4px solid var(--lsa-action, #007cba);
+  background-color: var(--lsa-white, #fff);
+  box-shadow: 0 12px 32px rgb(17 27 35 / 25%);
+}
+
+.lsa-page-title-menu[hidden] {
+  display: none;
+}
+
+.lsa-ds main .lsa-page-title-menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lsa-ds main .lsa-page-title-menu li {
+  margin: 0;
+  border-bottom: 1px solid var(--lsa-neutral-l3, #c3d3e8);
+}
+
+.lsa-ds main .lsa-page-title-menu li:last-child {
+  border-bottom: 0;
+}
+
+.lsa-ds main .lsa-page-title-menu a:any-link {
+  display: block;
+  padding: 12px 0;
+  color: var(--lsa-puma-black, #111b23);
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 500;
+  border: 0;
+}
+
+.lsa-ds main .lsa-page-title-menu a:any-link:hover,
+.lsa-ds main .lsa-page-title-menu a[aria-current='page'] {
+  color: var(--lsa-action, #007cba);
+}
+
+/* The title section: compact padding, flush to the hero below (Figma 24 / 24);
+   above the next section so the dropdown can overlap it. */
+.lsa-ds main > .section.lsa-page-title-container,
+.lsa-ds main > .section.lsa-page-title-container:first-of-type:not(.hero-container) {
+  position: relative;
+  z-index: 3;
+  padding: var(--lsa-space-24, 24px) 0;
+}

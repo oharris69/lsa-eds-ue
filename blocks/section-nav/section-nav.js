@@ -99,7 +99,13 @@ export default async function decorate(block) {
   const main = block.closest('main');
   const navLink = block.querySelector('a');
   const navPath = navLink ? new URL(navLink.href, window.location.href).pathname : '';
-  const resp = navPath ? await fetch(`${trimPath(navPath)}.plain.html`) : null;
+  // Hosts that serve the site below a prefix (the local preview's /content/en/…):
+  // keep the prefix for the fetch, and drop it when matching the current page.
+  const lang = navPath.split('/')[1] || 'en';
+  const segments = window.location.pathname.split('/');
+  const langIdx = segments.indexOf(lang);
+  const prefix = langIdx > 1 ? segments.slice(0, langIdx).join('/') : '';
+  const resp = navPath ? await fetch(`${prefix}${trimPath(navPath)}.plain.html`) : null;
   if (!resp || !resp.ok) {
     section?.remove();
     return;
@@ -112,7 +118,7 @@ export default async function decorate(block) {
     return;
   }
   const root = toTree(rootLi);
-  const current = trimPath(window.location.pathname);
+  const current = trimPath(window.location.pathname.slice(prefix.length));
   let trail = trailTo(root, current);
   if (!trail.length) trail = [root];
 
@@ -133,7 +139,6 @@ export default async function decorate(block) {
   block.replaceChildren(menu);
 
   // breadcrumb spans both columns above the page
-  const lang = window.location.pathname.split('/')[1] || 'en';
   const crumbSection = document.createElement('div');
   crumbSection.className = 'section breadcrumb-container';
   crumbSection.dataset.sectionStatus = 'loaded';

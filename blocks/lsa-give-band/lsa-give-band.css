@@ -125,3 +125,31 @@
 .lsa-give-band.vertical .lsa-give-band-actions a.button:any-link {
   width: 154px;
 }
+
+/* Lite mode (page metadata `Mode: lite`): light band, navy text. */
+body.mode-lite .lsa-give-band:not(.vertical) {
+  --lsa-surface: var(--lsa-grey, #f6f6f6);
+
+  background-image: none;
+  color: var(--lsa-um-blue, #00274c);
+}
+
+body.mode-lite .lsa-give-band:not(.vertical) p {
+  color: var(--lsa-neutral-d1, #40454d);
+}
+
+body.mode-lite .lsa-give-band:not(.vertical) .lsa-give-band-tagline p,
+body.mode-lite .lsa-give-band:not(.vertical) .lsa-give-band-tagline :is(h2, h3, h4) {
+  color: var(--lsa-um-blue, #00274c);
+}
+
+body.mode-lite .lsa-give-band:not(.vertical) a.button.secondary:any-link {
+  --lsa-action: var(--lsa-um-blue, #00274c);
+
+  color: var(--lsa-um-blue, #00274c);
+}
+
+body.mode-lite .lsa-give-band:not(.vertical) a.button.secondary:any-link:hover {
+  background-color: var(--lsa-accent-l4, #effbff);
+  color: var(--lsa-um-blue, #00274c);
+}

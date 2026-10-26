@@ -129,8 +129,33 @@
           {
             "name": "Dark (Puma Black)",
             "value": "dark"
+          },
+          {
+            "name": "Lite (White header and footer)",
+            "value": "lite"
           }
         ]
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "nav",
+        "label": "Navigation document",
+        "description": "Header document for this page, e.g. /en/lsa-figma/nav (default: the language root's nav)."
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "footer",
+        "label": "Footer document",
+        "description": "Footer document for this page, e.g. /en/lsa-figma/footer."
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "section-nav",
+        "label": "Section navigation document",
+        "description": "Section menu + breadcrumb for interior pages, e.g. /en/lsa-figma/section-nav."
       },
       {
         "component": "text",
@@ -6703,6 +6728,35 @@
         "value": "",
         "label": "Text",
         "description": "Headline (linked), summary, and a button.",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "lsa-page-title",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "breadcrumb",
+        "value": "",
+        "label": "Breadcrumb",
+        "description": "A list of links: the first shows as the home icon, the last is the current page.",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "name": "title",
+        "value": "",
+        "label": "Title",
+        "description": "The page title (Heading 1).",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "name": "links",
+        "value": "",
+        "label": "Section pages",
+        "description": "Optional list of links shown in the title's dropdown.",
         "valueType": "string"
       }
     ]

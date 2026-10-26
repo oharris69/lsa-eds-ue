@@ -33,7 +33,7 @@
 
 /* ---------- photo: page-top image band ---------- */
 .lsa-hero.photo .lsa-hero-media {
-  height: clamp(240px, 51.4vw, 740px);
+  height: clamp(240px, 38.9vw, 560px);
 }
 
 /* ---------- split ---------- */

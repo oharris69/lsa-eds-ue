@@ -4,7 +4,8 @@
  * `lsa-ds` theme. header.js hands over to this module.
  *
  * The nav document (page metadata `nav`, e.g. /en/lsa-figma/nav) has 4 sections:
- *   1 brand        logo link
+ *   1 brand        logo link (for the dark bar), then optionally a second logo
+ *                  picture for light backgrounds (page metadata `Mode: lite`)
  *   2 menu         search link (href = search URL ending in an empty query
  *                  parameter, e.g. …?q=), main links (list), a label paragraph
  *                  ("Information for") and an audience list; a nested list (and
@@ -12,6 +13,8 @@
  *   3 social       links with :lsa-<network>: icons
  *   4 quick links  links (external ones get an arrow), a tiles list
  *                  (icon + label), and a feature (heading, text, picture)
+ *   5 search       optional suggestions shown while searching (Figma
+ *                  Dark-Nav-Search): headings, each followed by a list
  * Bar: [Menu]  logo  [Quick Links]. Menu opens a drawer on the left, Quick Links
  * a panel on the right; Escape, the backdrop and the toggle close them.
  */
@@ -122,7 +125,7 @@ export default async function decorate(block) {
   const fragment = await loadFragment(navPath);
   if (fragment) labelIconLinks(fragment);
   const sections = fragment ? [...fragment.querySelectorAll(':scope > .section')] : [];
-  const [brandSection, menuSection, socialSection, quickSection] = sections;
+  const [brandSection, menuSection, socialSection, quickSection, searchSection] = sections;
 
   block.textContent = '';
   const nav = el('nav', { id: 'nav', class: 'lsa-nav', 'aria-label': 'Main' });
@@ -140,6 +143,13 @@ export default async function decorate(block) {
   if (brandLink) {
     brandLink.classList.remove('button');
     brandLink.closest('.button-container')?.classList.remove('button-container');
+    // logo on dark (in the link) + optional logo on light (the next picture)
+    const [onDark, onLight] = brandSection.querySelectorAll('picture');
+    onDark?.classList.add('lsa-nav-logo-on-dark');
+    if (onLight) {
+      onLight.classList.add('lsa-nav-logo-on-light');
+      brandLink.append(onLight);
+    }
     brand.append(brandLink);
   }
   bar.append(menuToggle, brand, quickToggle);
@@ -188,6 +198,42 @@ export default async function decorate(block) {
   }
   drawer.append(drawerMain, drawerPanels);
 
+  // Search state (Figma Dark-Nav-Search): focusing the field swaps the menu for
+  // the suggestions, with a "Main Menu" link back.
+  const searchForm = drawerMain.querySelector('.lsa-nav-search');
+  if (searchForm && searchSection) {
+    const suggestions = el('div', { class: 'lsa-nav-suggestions' });
+    let group;
+    [...(searchSection.querySelector('.default-content-wrapper') || searchSection).children].forEach((child) => {
+      if (/^H\d$/.test(child.tagName) || !group) {
+        group = el('div', { class: 'lsa-nav-suggestion-group' });
+        suggestions.append(group);
+      }
+      if (/^H\d$/.test(child.tagName)) child.className = 'lsa-nav-label';
+      group.append(child);
+    });
+    const back = el('button', { type: 'button', class: 'lsa-nav-back' }, '<span>Main Menu</span>');
+    searchForm.before(back);
+    searchForm.after(suggestions);
+    const input = searchForm.querySelector('input[type="search"]');
+    const setSearching = (on) => {
+      drawer.classList.toggle('is-searching', on);
+      if (on) closePanels();
+    };
+    input.addEventListener('focus', () => setSearching(true));
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && drawer.classList.contains('is-searching')) {
+        e.stopPropagation();
+        setSearching(false);
+      }
+    });
+    back.addEventListener('click', () => {
+      setSearching(false);
+      input.value = '';
+      drawerMain.querySelector('.lsa-nav-list a')?.focus();
+    });
+  }
+
   // Quick links panel
   const quick = el('div', { class: 'lsa-nav-quick', id: 'lsa-nav-quick', hidden: '' });
   if (quickSection) {
@@ -224,7 +270,10 @@ export default async function decorate(block) {
     drawer.hidden = !menuOpen;
     quick.hidden = !quickOpen;
     backdrop.hidden = !(menuOpen || quickOpen);
-    if (!menuOpen) closePanels();
+    if (!menuOpen) {
+      closePanels();
+      drawer.classList.remove('is-searching');
+    }
     menuToggle.setAttribute('aria-expanded', String(menuOpen));
     quickToggle.setAttribute('aria-expanded', String(quickOpen));
     menuToggle.innerHTML = menuOpen ? `${CLOSE_ICON}<span>Close</span>` : `${MENU_ICON}<span>Menu</span>`;
