@@ -1,0 +1,34 @@
+{
+  "variantName": "lsa-hero",
+  "name": "LSA Hero",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-10-26T22:14:30.000Z",
+  "description": "LSA Design System hero: photo band with the title beside the intro and buttons (default, split); overlay = full-bleed photo or background video with copy on a dark gradient; band = accent band with a display headline, photo below; photo = image only.",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "hero",
+    "imagePattern": "full-bleed"
+  },
+  "contentPattern": {
+    "structure": "image-row then text-row (heading, intro, buttons)",
+    "buttonCount": 2,
+    "imageCount": 1
+  },
+  "variants": [
+    "overlay",
+    "band",
+    "photo"
+  ],
+  "usage": {
+    "pagesUsing": [
+      "en/lsa-figma/faculty-and-staff",
+      "en/lsa-figma/index",
+      "en/lsa-figma/lite-mode",
+      "en/lsa-figma/style-guide"
+    ],
+    "reuseCount": 4,
+    "lastUsed": "2026-10-26T22:14:30.000Z"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "variantName": "lsa-page-title",
+  "name": "LSA Page Title",
+  "baseBlock": "title-block",
+  "version": "1.0.0",
+  "created": "2026-10-26T22:14:30.000Z",
+  "description": "Breadcrumb (home icon … current page), page title and an optional chevron dropdown of the section’s pages.",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "page-title",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "breadcrumb-list row, title row, links-list row",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "usage": {
+    "pagesUsing": [
+      "en/lsa-figma/faculty-and-staff",
+      "en/lsa-figma/style-guide"
+    ],
+    "reuseCount": 2,
+    "lastUsed": "2026-10-26T22:14:30.000Z"
+  }
+}

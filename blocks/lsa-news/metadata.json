@@ -1,0 +1,27 @@
+{
+  "variantName": "lsa-news",
+  "name": "LSA News",
+  "baseBlock": "carousel",
+  "version": "1.0.0",
+  "created": "2026-10-26T22:14:30.000Z",
+  "description": "Featured stories carousel: one story at a time (photo, linked headline, summary, button on a dark panel) with a 01 / 03 counter and previous / next arrows.",
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "medium",
+    "purpose": "news",
+    "imagePattern": "background"
+  },
+  "contentPattern": {
+    "structure": "repeating rows: image | text (heading link, summary, button)",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "usage": {
+    "pagesUsing": [
+      "en/lsa-figma/index",
+      "en/lsa-figma/style-guide"
+    ],
+    "reuseCount": 2,
+    "lastUsed": "2026-10-26T22:14:30.000Z"
+  }
+}

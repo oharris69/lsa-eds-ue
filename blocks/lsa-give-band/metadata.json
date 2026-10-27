@@ -1,0 +1,30 @@
+{
+  "variantName": "lsa-give-band",
+  "name": "LSA Give Band",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-10-26T22:14:30.000Z",
+  "description": "“for what’s next / Look to Michigan” support band on UM Blue: tagline, text and two buttons (outline + filled); vertical = card for the feature grid.",
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "compact",
+    "purpose": "cta"
+  },
+  "contentPattern": {
+    "structure": "tagline-row, text-row, actions-row",
+    "buttonCount": 2,
+    "imageCount": 0
+  },
+  "variants": [
+    "vertical"
+  ],
+  "usage": {
+    "pagesUsing": [
+      "en/lsa-figma/index",
+      "en/lsa-figma/lite-mode",
+      "en/lsa-figma/style-guide"
+    ],
+    "reuseCount": 3,
+    "lastUsed": "2026-10-26T22:14:30.000Z"
+  }
+}

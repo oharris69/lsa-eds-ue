@@ -1,0 +1,38 @@
+{
+  "variantName": "columns",
+  "name": "Columns",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-10-26T22:14:30.000Z",
+  "description": "Side-by-side columns; media = copy (heading, text, button) beside a photo, as in the LSA Design System “Engaged Learning” row.",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "content"
+  },
+  "contentPattern": {
+    "structure": "one row, two cells: text | image",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "variants": [
+    "media"
+  ],
+  "usage": {
+    "pagesUsing": [
+      "en/lsa-figma/faculty-and-staff",
+      "en/lsa-figma/footer",
+      "en/lsa-figma/index",
+      "en/lsa-figma/lite-mode",
+      "en/lsa-figma/style-guide",
+      "en/about",
+      "en/figma-test",
+      "en/footer",
+      "en/index",
+      "en/prospective-students",
+      "en/prospective-students/undergraduate"
+    ],
+    "reuseCount": 11,
+    "lastUsed": "2026-10-26T22:14:30.000Z"
+  }
+}

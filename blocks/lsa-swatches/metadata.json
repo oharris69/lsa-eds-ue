@@ -1,0 +1,26 @@
+{
+  "variantName": "lsa-swatches",
+  "name": "LSA Colour Swatches",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-10-26T22:14:30.000Z",
+  "description": "Colour swatch grid for the style guide: one row per colour, name | hex value.",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "style-guide",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "repeating rows: name | hex",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "usage": {
+    "pagesUsing": [
+      "en/lsa-figma/style-guide"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-26T22:14:30.000Z"
+  }
+}
