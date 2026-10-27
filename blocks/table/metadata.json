@@ -1,0 +1,26 @@
+{
+  "variantName": "table",
+  "name": "Table",
+  "baseBlock": "table",
+  "version": "1.0.0",
+  "created": "2026-10-27T19:23:05.000Z",
+  "description": "Data table: the first row is the header, then one row per table row.",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "data",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "repeating rows of cells",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "usage": {
+    "pagesUsing": [
+      "en/academics/majors-minors"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-27T19:23:05.000Z"
+  }
+}

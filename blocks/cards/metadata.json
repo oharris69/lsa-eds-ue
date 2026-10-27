@@ -1,0 +1,40 @@
+{
+  "variantName": "cards",
+  "name": "Cards",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-10-27T19:23:05.000Z",
+  "description": "Card grid: image, text and a link per card. stats = stat tiles; stats-band = a band of large stats; events = event listing cards.",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "medium",
+    "purpose": "content-grid"
+  },
+  "contentPattern": {
+    "structure": "repeating rows: image | text (heading, body, link) | style",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "variants": [
+    "stats",
+    "stats-band",
+    "events"
+  ],
+  "usage": {
+    "pagesUsing": [
+      "en/about",
+      "en/departments/english/undergraduate",
+      "en/departments/psych/prospective-students/undergraduate",
+      "en/departments/rc",
+      "en/figma-test",
+      "en/index",
+      "en/prospective-students",
+      "en/prospective-students/graduate",
+      "en/prospective-students/student-stories",
+      "en/prospective-students/undergraduate",
+      "en/prospective-students/undergraduate/scholarships-financialaid-tuition"
+    ],
+    "reuseCount": 11,
+    "lastUsed": "2026-10-27T19:23:05.000Z"
+  }
+}

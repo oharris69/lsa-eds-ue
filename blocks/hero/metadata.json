@@ -1,0 +1,34 @@
+{
+  "variantName": "hero",
+  "name": "Hero",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-10-27T19:23:05.000Z",
+  "description": "Site hero: image or video with heading and text, plus layout, background-style and CTA settings rows. band = Figma-baseline title band.",
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "hero",
+    "imagePattern": "full-bleed"
+  },
+  "contentPattern": {
+    "structure": "asset row, text row, then settings rows (underline, layout, background, CTA)",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "variants": [
+    "band"
+  ],
+  "usage": {
+    "pagesUsing": [
+      "en/about",
+      "en/departments/rc",
+      "en/figma-test",
+      "en/index",
+      "en/prospective-students",
+      "en/prospective-students/undergraduate"
+    ],
+    "reuseCount": 6,
+    "lastUsed": "2026-10-27T19:23:05.000Z"
+  }
+}
