@@ -47,6 +47,7 @@ import path from 'path';
 import {
   LANG as DEFAULT_LANG, DEPARTMENTS, segmentsOf, sitePath, webPath,
 } from './doc-path.mjs'; // eslint-disable-line import/extensions
+import { docPath as fastlabDocPath } from './fastlab-paths.mjs'; // eslint-disable-line import/extensions
 
 const args = process.argv.slice(2);
 const arg = (name, fallback) => {
@@ -90,10 +91,21 @@ const figmaDocs = fs.existsSync(FIGMA_URLS)
   ? fs.readFileSync(FIGMA_URLS, 'utf8').split('\n').map((l) => l.trim()).filter(Boolean)
     .map((u) => `${LANG}/${new URL(u).pathname.replace(/^\//, '').replace(/\.html?$/, '')}`)
   : [];
+// FAST Lab pages (import-fastlab.js, from snapshots served locally): document
+// paths from fastlab-paths.mjs (/fastlab/staff-members/x → en/departments/fastlab/members/x).
+const FASTLAB_URLS = path.join(IMPORTER_DIR, 'urls-fastlab.txt');
+const fastlabDocs = fs.existsSync(FASTLAB_URLS)
+  ? fs.readFileSync(FASTLAB_URLS, 'utf8').split('\n').map((l) => l.trim()).filter(Boolean)
+    .map((u) => fastlabDocPath(new URL(u).pathname))
+    .filter(Boolean)
+    .map((d) => d.slice(1))
+  : [];
+// Documents whose internal links already use final paths (/en/…), not source paths.
+const directDocs = [...figmaDocs, ...fastlabDocs];
 const FRAGMENTS = new Set([`${LANG}/nav`, `${LANG}/footer`]);
 const wanted = new Set([
   ...sourceUrls.map((u) => docFor(new URL(u).pathname).slice(1)),
-  ...figmaDocs,
+  ...directDocs,
   ...FRAGMENTS,
 ]);
 const stale = [];
@@ -129,9 +141,10 @@ function resolveLinks(html, docPath) {
     if (href.startsWith('/media-da/')) return m;
     const rel = abs ? (abs[1] || '/') : href;
     const url = new URL(rel.replace(/&amp;/g, '&'), 'https://x.invalid');
-    // Figma-built pages link to documents by their final path (/en/lsa-figma/…).
+    // Figma-built and FAST Lab pages link to documents by their final path (/en/lsa-figma/…).
     const direct = url.pathname.replace(/\.html?$/, '').replace(/\/$/, '/index');
-    const target = figmaDocs.includes(docPath) && migrated.has(direct) ? direct : docFor(url.pathname);
+    const isDirect = directDocs.includes(docPath) && migrated.has(direct);
+    const target = isDirect ? direct : docFor(url.pathname);
     let out;
     if (migrated.has(target)) out = webPath(target) + url.hash;
     else if (isFragment) out = HOME;

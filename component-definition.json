@@ -873,6 +873,37 @@
           }
         },
         {
+          "title": "Lsa Cards",
+          "id": "lsa-cards",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Lsa Cards",
+                  "model": "lsa-cards",
+                  "filter": "lsa-cards"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Lsa Card",
+          "id": "lsa-card",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Lsa Card",
+                  "model": "lsa-card"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Lsa Give Band",
           "id": "lsa-give-band",
           "plugins": {

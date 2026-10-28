@@ -8,3 +8,5 @@ http://localhost:8093/lsa-figma/faculty-and-staff/technology-services.html
 http://localhost:8093/lsa-figma/section-nav.html
 http://localhost:8093/lsa-figma/lite-mode.html
 http://localhost:8093/lsa-figma/why-lsa.html
+http://localhost:8093/departments/fastlab/nav.html
+http://localhost:8093/departments/fastlab/footer.html

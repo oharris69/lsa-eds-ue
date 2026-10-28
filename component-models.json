@@ -6609,6 +6609,63 @@
     ]
   },
   {
+    "id": "lsa-cards",
+    "fields": [
+      {
+        "component": "select",
+        "name": "classes",
+        "value": "",
+        "label": "Layout",
+        "valueType": "string",
+        "options": [
+          {
+            "name": "Grid (image on top)",
+            "value": ""
+          },
+          {
+            "name": "List (thumbnail beside text)",
+            "value": "list"
+          },
+          {
+            "name": "People (portraits)",
+            "value": "people"
+          },
+          {
+            "name": "Profile (one person)",
+            "value": "profile"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "lsa-card",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Image alt text",
+        "value": ""
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "description": "Heading (link it to make the whole card clickable), details, optional button.",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "lsa-give-band",
     "fields": [
       {

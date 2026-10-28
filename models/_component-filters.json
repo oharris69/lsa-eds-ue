@@ -41,7 +41,8 @@
       "lsa-give-band",
       "lsa-news",
       "lsa-swatches",
-      "lsa-page-title"
+      "lsa-page-title",
+      "lsa-cards"
     ]
   },
   {
@@ -91,6 +92,12 @@
     "id": "lsa-swatches",
     "components": [
       "lsa-swatch"
+    ]
+  },
+  {
+    "id": "lsa-cards",
+    "components": [
+      "lsa-card"
     ]
   }
 ]

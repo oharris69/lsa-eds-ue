@@ -1,0 +1,198 @@
+/* LSA Design System cards — default grid, list, people, profile. */
+.lsa-cards > ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--lsa-space-32, 32px) var(--lsa-space-24, 24px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lsa-ds main .lsa-cards li.lsa-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  border: 1px solid var(--lsa-border-subtle, #c3d3e8);
+  border-top: 4px solid var(--lsa-action, #007cba);
+  background-color: var(--lsa-white, #fff);
+}
+
+.lsa-cards .lsa-card-media p,
+.lsa-cards .lsa-card-media picture {
+  margin: 0;
+}
+
+.lsa-cards .lsa-card-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.lsa-cards .lsa-card-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--lsa-space-8, 8px);
+  padding: var(--lsa-space-24, 24px);
+}
+
+.lsa-ds main .lsa-cards .lsa-card-body > * {
+  margin: 0;
+}
+
+.lsa-ds main .lsa-cards .lsa-card-body :is(h2, h3, h4) {
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: 0;
+}
+
+.lsa-ds main .lsa-cards .lsa-card-body :is(h2, h3, h4) a:any-link {
+  color: var(--lsa-text-heading, #111b23);
+  border: 0;
+}
+
+.lsa-ds main .lsa-cards .lsa-card-body :is(h2, h3, h4) a:any-link:hover {
+  color: var(--lsa-action, #007cba);
+  text-decoration: underline;
+}
+
+/* The heading link covers the whole card. */
+.lsa-cards li.is-linked :is(h2, h3, h4) a::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.lsa-ds main .lsa-cards li.is-linked :is(h2, h3, h4) a::before {
+  display: block;
+}
+
+.lsa-cards li.is-linked:hover {
+  border-color: var(--lsa-action, #007cba);
+  box-shadow: 0 8px 24px rgb(17 27 35 / 12%);
+}
+
+.lsa-ds main .lsa-cards .lsa-card-body p {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--lsa-text-secondary, #40454d);
+}
+
+.lsa-ds main .lsa-cards .lsa-card-body .button-container {
+  margin-top: auto;
+  padding-top: var(--lsa-space-8, 8px);
+}
+
+/* ---------- list: thumbnail beside the text ---------- */
+.lsa-cards.list > ul {
+  grid-template-columns: 1fr;
+  gap: var(--lsa-space-16, 16px);
+}
+
+.lsa-ds main .lsa-cards.list li.lsa-card {
+  flex-direction: row;
+  align-items: center;
+  border-top-width: 1px;
+  border-left: 4px solid var(--lsa-action, #007cba);
+}
+
+.lsa-cards.list .lsa-card-media {
+  flex: 0 0 200px;
+  align-self: stretch;
+  background-color: var(--lsa-grey, #f6f6f6);
+}
+
+.lsa-cards.list .lsa-card-media img {
+  height: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+}
+
+.lsa-ds main .lsa-cards.list .lsa-card-body :is(h2, h3, h4) {
+  font-size: 18px;
+  line-height: 24px;
+}
+
+/* ---------- people: portraits ---------- */
+.lsa-cards.people > ul {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.lsa-ds main .lsa-cards.people li.lsa-card {
+  border: 0;
+  border-top: 4px solid var(--lsa-maize, #ffcb05);
+  background-color: var(--lsa-grey, #f6f6f6);
+}
+
+.lsa-cards.people .lsa-card-media img {
+  aspect-ratio: 4 / 5;
+  object-position: center top;
+}
+
+.lsa-ds main .lsa-cards.people .lsa-card-body :is(h2, h3, h4) {
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.lsa-ds main .lsa-cards.people .lsa-card-body p {
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.lsa-ds main .lsa-cards.people .lsa-card-body p:first-of-type a:any-link {
+  position: relative;
+  z-index: 1;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- profile: one person, portrait beside the bio ---------- */
+.lsa-cards.profile > ul {
+  grid-template-columns: 1fr;
+}
+
+.lsa-ds main .lsa-cards.profile li.lsa-card {
+  border: 0;
+  background: none;
+}
+
+.lsa-cards.profile .lsa-card-body {
+  padding: var(--lsa-space-24, 24px) 0 0;
+}
+
+.lsa-ds main .lsa-cards.profile .lsa-card-body p {
+  font-size: 18px;
+  line-height: 27px;
+}
+
+.lsa-cards.profile .lsa-card-media img {
+  aspect-ratio: auto;
+  max-width: 320px;
+  border-top: 4px solid var(--lsa-maize, #ffcb05);
+}
+
+@media (width >= 900px) {
+  .lsa-ds main .lsa-cards.profile li.lsa-card {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: var(--lsa-space-48, 48px);
+    align-items: start;
+  }
+
+  .lsa-cards.profile .lsa-card-body {
+    padding-top: 0;
+  }
+}
+
+@media (width < 600px) {
+  .lsa-ds main .lsa-cards.list li.lsa-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lsa-cards.list .lsa-card-media {
+    flex-basis: auto;
+  }
+}
